@@ -4,7 +4,11 @@ Notes, configuration files and scripts created while learning Docker, Kubernetes
 
 ## Docker 
 
+## Docker Compose
+
 ## Kubernetes
+
+## Docker Swarm
 
 ## Jenkins
 
@@ -26,6 +30,8 @@ docker volume inspect jenkins-data
 sudo cat /var/lib/docker/volumes/jenkins-data/_data/secrets/initialAdminPassword 
 
 ```
+
+#### [Cluster - architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/)
 
 ## Gitlab
 
