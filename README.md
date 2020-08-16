@@ -19,8 +19,8 @@ docker network ls
 docker volume create jenkins-docker-certs\ndocker volume create jenkins-data
 docker volume ls
 
-docker container run \\n  --name jenkins-docker \\n  --rm \\n  --detach \\n  --privileged \\n  --network jenkins \\n  --network-alias docker \\n  --env DOCKER_TLS_CERTDIR=/certs \\n  --volume jenkins-docker-certs:/certs/client \\n  --volume jenkins-data:/var/jenkins_home \\n  --publish 2376:2376 \\n  docker:dind
-docker container run \\n  --name jenkins-blueocean \\n  --rm \\n  --detach \\n  --network jenkins \\n  --env DOCKER_HOST=tcp://docker:2376 \\n  --env DOCKER_CERT_PATH=/certs/client \\n  --env DOCKER_TLS_VERIFY=1 \\n  --publish 8080:8080 \\n  --publish 50000:50000 \\n  --volume jenkins-data:/var/jenkins_home \\n  --volume jenkins-docker-certs:/certs/client:ro \\n  jenkinsci/blueocean
+docker container run --name jenkins-docker --rm --detach --privileged --network jenkins --network-alias docker --env DOCKER_TLS_CERTDIR=/certs --volume jenkins-docker-certs:/certs/client --volume jenkins-data:/var/jenkins_home --publish 2376:2376 docker:dind
+docker container run --name jenkins-blueocean --rm --detach --network jenkins --env DOCKER_HOST=tcp://docker:2376 --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 --publish 8080:8080 --publish 50000:50000 --volume jenkins-data:/var/jenkins_home --volume jenkins-docker-certs:/certs/client:ro jenkinsci/blueocean
 
 docker volume inspect jenkins-data 
 sudo cat /var/lib/docker/volumes/jenkins-data/_data/secrets/initialAdminPassword 
