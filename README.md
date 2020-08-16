@@ -14,13 +14,14 @@ Notes, configuration files and scripts created while learning Docker, Kubernetes
 
 ### Installation
 
-#### [In Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker)
+#### [Using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker)
 
 ```bash
 docker network create jenkins
 docker network ls
 
-docker volume create jenkins-docker-certs\ndocker volume create jenkins-data
+docker volume create jenkins-docker-certs
+docker volume create jenkins-data
 docker volume ls
 
 docker container run --name jenkins-docker --rm --detach --privileged --network jenkins --network-alias docker --env DOCKER_TLS_CERTDIR=/certs --volume jenkins-docker-certs:/certs/client --volume jenkins-data:/var/jenkins_home --publish 2376:2376 docker:dind
@@ -31,9 +32,31 @@ sudo cat /var/lib/docker/volumes/jenkins-data/_data/secrets/initialAdminPassword
 
 ```
 
-#### [Cluster - architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/)
+### [Cluster - architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/)
 
 ## Gitlab
+
+### Installation
+
+#### [Using Docker](https://docs.gitlab.com/omnibus/docker/)
+
+```bash
+docker volume create gitlab-data
+docker volume create gitlab-config
+docker volume create gitlab-logs
+
+docker run --detach \
+  --hostname homelab \
+  --publish 443:443 --publish 80:80 --publish 22:22 \
+  --name gitlab \
+  --restart always \
+  --volume gitlab-config:/etc/gitlab \
+  --volume gitlab-logs:/var/log/gitlab \
+  --volume gitlab-data:/var/opt/gitlab \
+  gitlab/gitlab-ce:latest
+```
+
+### [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html)
 
 ## Ansible 
 
