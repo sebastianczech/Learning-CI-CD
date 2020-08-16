@@ -1,6 +1,6 @@
 docker run --detach \
   --hostname homelab \
-  --publish 443:443 --publish 80:80 --publish 22:22 \
+  --publish 443:443 --publish 80:80 --publish 2022:22 \
   --name gitlab \
   --restart always \
   --volume gitlab-config:/etc/gitlab \
