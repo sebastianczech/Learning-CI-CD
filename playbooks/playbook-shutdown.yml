@@ -1,0 +1,10 @@
+# https://www.rechberger.io/tutorial-install-docker-using-ansible-on-a-remote-server/
+---
+- name: Shutdown server
+  hosts: devops
+  tasks:
+  - name: Shutdown server 
+    shell: "shutdown -h now"
+    become: yes
+    async: 1
+    poll: 0
