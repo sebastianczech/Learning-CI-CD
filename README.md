@@ -17,11 +17,20 @@ grep devops /etc/hosts
 ssh-copy-id devops 
 ```
 
+On VM add user to ``sudo`` group without password:
+
+```bash
+sudo adduser seba sudo
+
+sudo visudo
+seba   ALL=(ALL) NOPASSWD:ALL
+```
+
 After basic configuration use playbooks to automatically provision VM:
 
 ```bash
 cd playbooks
-ansible-playbook -i hosts.yml playbook-zsh-screen.yml   
+./cicd.sh
 ```
 
 ## Docker 

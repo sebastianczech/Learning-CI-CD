@@ -1,0 +1,17 @@
+---
+- hosts: devops
+  tasks:
+    - name: Test connection with VM
+      ping:
+    - name: Check size of storage
+      shell: df -h
+      register: df_size
+    - name: Print size of storage
+      debug:
+        var: df_size.stdout_lines
+    - name: Get list of files in home directory
+      command: "ls -al ~"
+      register: dir_out
+    - name: Show list of files in home directory
+      debug: var={{item}}
+      with_items: dir_out.stdout_lines        
