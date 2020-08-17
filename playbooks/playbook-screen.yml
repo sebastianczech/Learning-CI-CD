@@ -1,0 +1,13 @@
+---
+- hosts: devops
+  tasks:  
+    - name: Install screen
+      package:
+        name: screen
+        state: present      
+      become: yes
+    - name: Copy file with screen settings
+      copy:
+        src: ../configurations/.screenrc
+        dest: ~/.screenrc
+        mode: '0600'
