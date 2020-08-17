@@ -35,13 +35,11 @@ cd playbooks
 
 ## Docker 
 
-### [Installation on Debian](https://docs.docker.com/engine/install/debian/)
-
-## Docker Compose
+For installing Docker I used great [tutorial](https://www.rechberger.io/tutorial-install-docker-using-ansible-on-a-remote-server/), which I modiifed to use [Docker on Debian](https://docs.docker.com/engine/install/debian/). Besides Docker, I installed Docker Compose and Ctop.
 
 ## Kubernetes
 
-### [K3s](https://k3s.io/)
+For learning there is a great Kubernetes - [K3s](https://k3s.io/).
 
 ## Docker Swarm
 
@@ -94,6 +92,10 @@ docker run --detach \
 ### [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html)
 
 ## Ansible 
+
+## Robot Framework
+
+## JFrog Artifactory 
 
 ## Terraform
 
