@@ -9,10 +9,28 @@
         name: zsh
         state: present      
       become: yes
-    - name: Copy file with ZSH settings
+    - name: Install curl
+      package:
+        name: curl
+        state: present      
+      become: yes
+    - name: Install git
+      package:
+        name: git
+        state: present      
+      become: yes      
+    - name: Install Oh My Zsh
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      ignore_errors: True
+    - name: Copy file with Zsh custom themes and plugins
+      copy:
+        src: ../configurations/custom
+        dest: ~/.oh-my-zsh/
+    - name: Copy file with Zsh settings
       copy:
         src: ../configurations/.zshrc
         dest: ~/.zshrc
-        owner: seba
-        group: seba
         mode: '0600'
+    - name: Change default shell to Zsh
+      shell: chsh -s /bin/zsh seba
+      become: yes

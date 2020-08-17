@@ -98,4 +98,4 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-export KUBECONFIG=/home/seba/.kube/config
+# export KUBECONFIG=/home/seba/.kube/config
