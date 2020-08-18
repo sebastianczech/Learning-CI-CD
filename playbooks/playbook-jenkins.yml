@@ -1,0 +1,54 @@
+---
+- name: Install Jenkins
+  hosts: devops
+  vars:
+    DOCKER_NETWORKS:
+      - jenkins
+    DOCKER_VOLUMES:
+      - jenkins-docker-certs
+      - jenkins-data
+  tasks:  
+  - name: Create a networks in Docker
+    docker_network:
+      name: "{{ item }}"
+    loop: "{{ DOCKER_NETWORKS }}"
+  - name: Create a volumes in Docker
+    docker_volume:
+      name: "{{ item }}"
+    loop: "{{ DOCKER_VOLUMES }}"
+  - name: Start Docker container for Docker in Docker
+    docker_container:
+      name: jenkins-docker
+      privileged: yes
+      image: docker:dind
+      hostname: devops
+      networks:
+        - name: jenkins
+          aliases: 
+            - docker
+      ports:
+        - "2376:2376"
+      env:
+        DOCKER_TLS_CERTDIR: "/certs "
+      volumes:
+        - jenkins-docker-certs:/certs/client
+        - jenkins-data:/var/jenkins_home  
+  - name: Start Docker container for Jenkins
+    docker_container:
+      name: jenkins-blueocean
+      image: jenkinsci/blueocean 
+      hostname: devops
+      networks:
+        - name: jenkins
+          aliases: 
+            - jenkins      
+      ports:
+        - "8080:8080"
+        - "50000:50000"
+      env:
+        DOCKER_HOST: "tcp://docker:2376"
+        DOCKER_CERT_PATH: "/certs/client"
+        DOCKER_TLS_VERIFY: "1"
+      volumes:
+        - jenkins-data:/var/jenkins_home
+        - jenkins-docker-certs:/certs/client

@@ -68,7 +68,7 @@ ZSH_THEME="sebastianczech"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git battery diskusage kube-ps1 kubectl)
+plugins=(git battery diskusage kube-ps1 kubectl docker)
 
 source $ZSH/oh-my-zsh.sh
 

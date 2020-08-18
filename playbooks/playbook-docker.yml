@@ -92,6 +92,12 @@
       mode: 0755
     become: yes
 
+  - name: Install Docker CLI autocompletion
+    get_url:
+      url: https://raw.githubusercontent.com/docker/compose/{{ DOCKER_COMPOSE_VERSION }}/contrib/completion/bash/docker-compose
+      dest: "/etc/bash_completion.d/docker-compose"
+    become: yes
+
   - name: Reboot server in order for changes to take place
     shell: "sleep 1 && reboot"
     become: yes
