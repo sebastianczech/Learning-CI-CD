@@ -8,6 +8,8 @@ Notes, configuration files and scripts created while learning Docker, Kubernetes
 
 [Diagram as a code](https://diagrams.mingrammer.com/)
 
+[Solution overview](diagrams/solution_overview.puml)
+
 ## Prepare VM for CI/CD learning
 
 [Download Debian non-free netinst version](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/10.5.0+nonfree/amd64/iso-cd/firmware-10.5.0-amd64-netinst.iso) and after creating VM in VirtualBox and installing Debian, on host add IP address of the machine and copy SSH keys to enable passwordless access:

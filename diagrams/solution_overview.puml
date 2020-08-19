@@ -1,0 +1,10 @@
+@startuml Basic Sample
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+Person(devops, "DevOps Engineer")
+System_Boundary(cicd, "CI/CD") {
+    Container(gitlab, "GitLab", "Git, WWW, database", "Source code version control platform")
+}
+
+Rel(devops, gitlab, "Manages", "HTTPS")
+@enduml
