@@ -1,0 +1,7 @@
+---
+- hosts: devops
+  tasks:  
+    - name: Install K3s
+      shell: curl -sfL https://get.k3s.io | sh -
+      ignore_errors: True
+    
