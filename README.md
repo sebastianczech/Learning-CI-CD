@@ -4,11 +4,7 @@ Notes, configuration files and scripts created while learning Docker, Kubernetes
 
 ## Overview
 
-[Solution proposal](https://app.lucidchart.com/documents/edit/bf943422-2c36-4820-9963-7439bd7eb89f)
-
-[Diagram as a code](https://diagrams.mingrammer.com/)
-
-[Solution overview](diagrams/solution_overview.puml)
+[Solution proposal](https://app.lucidchart.com/documents/edit/bf943422-2c36-4820-9963-7439bd7eb89f) contains key technologies used for creating CI/CD in home environment. Details of my solution are available on [solution overview](diagrams/solution_overview.puml). Alternative to use plantUML there is a [Diagram as a code](https://diagrams.mingrammer.com/).
 
 ## Prepare VM for CI/CD learning
 
@@ -41,6 +37,8 @@ cd playbooks
 
 For installing Docker I used great [tutorial](https://www.rechberger.io/tutorial-install-docker-using-ansible-on-a-remote-server/), which I modiifed to use [Docker on Debian](https://docs.docker.com/engine/install/debian/). Besides Docker, I installed Docker Compose and Ctop.
 
+Besides creating single images for containers, in developing environment there is very useful pattern - [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/), which allow you aterfacts build in 1 container to be used on another one.
+
 ## Kubernetes
 
 For learning there is a great Kubernetes - [K3s](https://k3s.io/).
@@ -51,7 +49,7 @@ For learning there is a great Kubernetes - [K3s](https://k3s.io/).
 
 ### Installation
 
-#### [Using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker)
+There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
 
 ```bash
 docker network create jenkins
@@ -69,13 +67,13 @@ sudo cat /var/lib/docker/volumes/jenkins-data/_data/secrets/initialAdminPassword
 
 ```
 
-### [Cluster - architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/)
+In bigger environments there is very useful pattern - [Cluster, which is great to architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/).
+
+Another important topic regardin Jenkins there is [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/).
 
 ## Gitlab
 
-### Installation
-
-#### [Using Docker](https://docs.gitlab.com/omnibus/docker/)
+There are many ways to install GitLab, but the simplest one is that [using Docker](https://docs.gitlab.com/omnibus/docker/). In this scenario we need to do following commands:
 
 ```bash
 docker volume create gitlab-data
@@ -92,8 +90,12 @@ docker run --detach \
   --volume gitlab-data:/var/opt/gitlab \
   gitlab/gitlab-ce:latest
 ```
+Another important topic is [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
 
-### [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html)
+## Other CI/CD
+
+* [GitHub Actions](https://github.com/features/actions)
+* [Circle CI](https://circleci.com/)
 
 ## Ansible 
 
@@ -110,3 +112,5 @@ docker run --detach \
 ## Pact
 
 ## KVM
+
+## Summary
