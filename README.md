@@ -69,7 +69,7 @@ sudo cat /var/lib/docker/volumes/jenkins-data/_data/secrets/initialAdminPassword
 
 In bigger environments there is very useful pattern - [Cluster, which is great to architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/).
 
-Another important topic regardin Jenkins there is [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/).
+Another important topic regardin Jenkins there is [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/) and [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds).
 
 ## Gitlab
 
@@ -98,6 +98,15 @@ Another important topic is [GitLab Container Registry](https://docs.gitlab.com/o
 * [Circle CI](https://circleci.com/)
 
 ## Ansible 
+
+For preparing each component of CI/CD environment, I created many playbooks. 
+
+Besides typical playbooks there are other important topics to learn:
+* [variables](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html)
+* [handlers](https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#handlers-running-operations-on-change)
+* [templates](https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html)
+* [developing modules](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html)
+* [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
 ## Robot Framework
 
