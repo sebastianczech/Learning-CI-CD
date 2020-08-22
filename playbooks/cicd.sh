@@ -4,5 +4,5 @@
 # ansible-playbook -i hosts.yml playbook-docker.yml
 # ansible-playbook -i hosts.yml playbook-gitlab.yml
 # ansible-playbook -i hosts.yml playbook-jenkins.yml
-ansible-playbook -i hosts.yml playbook-k3s.yml
+# ansible-playbook -i hosts.yml playbook-k3s.yml
 # ansible-playbook -i hosts.yml playbook-shutdown.yml

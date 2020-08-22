@@ -39,11 +39,17 @@ For installing Docker I used great [tutorial](https://www.rechberger.io/tutorial
 
 Besides creating single images for containers, in developing environment there is very useful pattern - [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/), which allow you aterfacts build in 1 container to be used on another one.
 
+## Docker Registry
+
+For storing Docker images you can use Docker Hub or [reploy a registry server](https://docs.docker.com/registry/deploying/).
+
+## Docker Compose
+
+## Docker Swarm
+
 ## Kubernetes
 
 For learning there is a great Kubernetes - [K3s](https://k3s.io/).
-
-## Docker Swarm
 
 ## Jenkins
 
@@ -69,7 +75,9 @@ sudo cat /var/lib/docker/volumes/jenkins-data/_data/secrets/initialAdminPassword
 
 In bigger environments there is very useful pattern - [Cluster, which is great to architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/).
 
-Another important topic regardin Jenkins there is [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/) and [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds).
+Another important topics:
+* [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/)
+* [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds).
 
 ## Gitlab
 
@@ -90,7 +98,9 @@ docker run --detach \
   --volume gitlab-data:/var/opt/gitlab \
   gitlab/gitlab-ce:latest
 ```
-Another important topic is [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
+
+Another important topics:
+* [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
 
 ## Other CI/CD
 

@@ -36,8 +36,8 @@
       image: gitlab/gitlab-ce:latest 
       hostname: devops
       ports:
-        - "443:443"
-        - "80:80"
+        - "9443:443"
+        - "9080:80"
         - "2022:22"
       volumes:
         - gitlab-config:/etc/gitlab
