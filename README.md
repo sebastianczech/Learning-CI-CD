@@ -134,3 +134,9 @@ Besides typical playbooks there are other important topics to learn:
 ## KVM
 
 ## Summary
+
+After finishing work we can stop all container using command:
+
+```bash
+docker stop $(docker ps -a -q)
+```

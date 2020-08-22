@@ -41,6 +41,7 @@
     docker_container:
       name: gitlab
       image: gitlab/gitlab-ce:latest 
+      restart_policy: always
       hostname: devops
       env: 
         GITLAB_OMNIBUS_CONFIG: |

@@ -22,6 +22,7 @@
       privileged: yes
       image: docker:dind
       hostname: devops
+      restart_policy: always      
       networks:
         - name: jenkins
           aliases: 
@@ -38,6 +39,7 @@
       name: jenkins-blueocean
       image: jenkinsci/blueocean 
       hostname: devops
+      restart_policy: always
       networks:
         - name: jenkins
           aliases: 
