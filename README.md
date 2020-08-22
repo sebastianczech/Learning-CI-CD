@@ -39,6 +39,8 @@ For installing Docker I used great [tutorial](https://www.rechberger.io/tutorial
 
 Besides creating single images for containers, in developing environment there is very useful pattern - [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/), which allow you aterfacts build in 1 container to be used on another one.
 
+While containerizing app, important topic is [improve performance e.g. for Spring](https://spring.io/guides/gs/spring-boot-docker/)
+
 ## Docker Registry
 
 For storing Docker images you can use Docker Hub or [reploy a registry server](https://docs.docker.com/registry/deploying/).
@@ -52,8 +54,6 @@ For storing Docker images you can use Docker Hub or [reploy a registry server](h
 For learning there is a great Kubernetes - [K3s](https://k3s.io/).
 
 ## Jenkins
-
-### Installation
 
 There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
 
@@ -77,7 +77,8 @@ In bigger environments there is very useful pattern - [Cluster, which is great t
 
 Another important topics:
 * [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/)
-* [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds).
+* [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds)
+* [Build a Java app with Maven](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
 
 ## Gitlab
 
