@@ -30,14 +30,28 @@
     docker_volume:
       name: "{{ item }}"
     loop: "{{ DOCKER_VOLUMES }}"
+  # - name: Change external_url in GitLab config file
+    # lineinfile: 
+      # path: /var/lib/docker/volumes/gitlab-config/_data/gitlab.rb
+      # regexp: "# external_url 'GENERATED_EXTERNAL_URL'"
+      # line: "external_url 'http://devops:9080'"
+      # backrefs: yes    
+    # become: yes
   - name: Start Docker container for GitLab
     docker_container:
       name: gitlab
       image: gitlab/gitlab-ce:latest 
       hostname: devops
+      env: 
+        GITLAB_OMNIBUS_CONFIG: |
+          external_url 'http://devops:9080'
+          nginx['redirect_http_to_https'] = false
+          gitlab_rails['gitlab_shell_ssh_port'] = 22
+        # GITLAB_OMNIBUS_CONFIG: "external_url 'http://devops:9080'"
+        # EXTERNAL_URL: "http://devops:9080"
       ports:
         - "9443:443"
-        - "9080:80"
+        - "9080:9080"
         - "2022:22"
       volumes:
         - gitlab-config:/etc/gitlab

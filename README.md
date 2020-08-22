@@ -90,7 +90,7 @@ docker volume create gitlab-logs
 
 docker run --detach \
   --hostname devops \
-  --publish 443:443 --publish 80:80 --publish 2022:22 \
+  --publish 9443:443 --publish 9080:80 --publish 2022:22 \
   --name gitlab \
   --restart always \
   --volume gitlab-config:/etc/gitlab \
@@ -100,6 +100,7 @@ docker run --detach \
 ```
 
 Another important topics:
+* [Configuring the external URL for GitLab](https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab)
 * [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
 
 ## Other CI/CD
