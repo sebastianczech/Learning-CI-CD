@@ -80,6 +80,26 @@ Another important topics:
 * [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds)
 * [Build a Java app with Maven](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
 
+Define new Pipeline from SCM e.g.:
+```
+http://192.168.0.18:9080/seba/simple-rest-api-java-spring
+```
+
+Create API token for user in Jenkins and configure build trigger for pipeline in Jenkins configured as web hook in GitLab:
+```
+http://admin:USER_TOKEN@192.168.0.18:8080/job/API-java/build?token=PIPELINE_TOKEN
+```
+
+To debug remote trigger for pipeline, you can use:
+```
+curl -u admin:USER_TOKEN "http://192.168.0.18:8080/job/API-java/build?token=PIPELINE_TOKEN"
+```
+
+If you have error *Url is blocked: Requests to the local network are not allowed*, then allow in GitLab in Admin Area settings:
+```
+http://192.168.0.18:9080/admin/application_settings/network
+```
+
 ## Gitlab
 
 There are many ways to install GitLab, but the simplest one is that [using Docker](https://docs.gitlab.com/omnibus/docker/). In this scenario we need to do following commands:
