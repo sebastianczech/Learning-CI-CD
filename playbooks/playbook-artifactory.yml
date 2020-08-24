@@ -1,0 +1,21 @@
+---
+- name: Install JFrog Artifactory
+  hosts: devops
+  vars:
+    DOCKER_VOLUMES:
+      - artifactory-data
+  tasks:  
+  - name: Create a volumes in Docker
+    docker_volume:
+      name: "{{ item }}"
+    loop: "{{ DOCKER_VOLUMES }}"
+  - name: Start Docker container for Artifactory
+    docker_container:
+      name: artifactory
+      image: docker.bintray.io/jfrog/artifactory-oss:latest
+      hostname: devops
+      ports:
+        - "8081:8081"
+        - "8082:8082"
+      volumes:
+        - artifactory-data:/var/opt/jfrog/artifactory

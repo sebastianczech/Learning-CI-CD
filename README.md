@@ -144,6 +144,12 @@ Besides typical playbooks there are other important topics to learn:
 
 ## JFrog Artifactory 
 
+[To install Artifactory, I used Docker](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation).
+
+## Sonatype Nexus
+
+[To install Nexus, I used Docker](https://hub.docker.com/r/sonatype/nexus3/).
+
 ## Terraform
 
 ## Vault

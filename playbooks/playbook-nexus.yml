@@ -1,0 +1,20 @@
+---
+- name: Install Sonatype Nexus
+  hosts: devops
+  vars:
+    DOCKER_VOLUMES:
+      - nexus-data
+  tasks:  
+  - name: Create a volumes in Docker
+    docker_volume:
+      name: "{{ item }}"
+    loop: "{{ DOCKER_VOLUMES }}"
+  - name: Start Docker container for Nexus
+    docker_container:
+      name: nexus
+      image: sonatype/nexus3
+      hostname: devops
+      ports:
+        - "8083:8081"
+      volumes:
+        - nexus-data:/nexus-data
