@@ -154,7 +154,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Sonatype Nexus
 
-[To install Nexus, I used Docker](https://hub.docker.com/r/sonatype/nexus3/).
+[To install Nexus, I used Docker](https://hub.docker.com/r/sonatype/nexus3/). After that I started to integrate it with Jenkins [using tutorial about publishing Maven artifacts to Nexus](https://dzone.com/articles/jenkins-publish-maven-artifacts-to-nexus-oss-using).
 
 ## Terraform
 
