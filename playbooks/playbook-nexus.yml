@@ -1,6 +1,6 @@
 ---
 - name: Install Sonatype Nexus
-  hosts: devops
+  hosts: homelab
   vars:
     DOCKER_VOLUMES:
       - nexus-data

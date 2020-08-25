@@ -1,0 +1,24 @@
+---
+- name: Install PIP and packages required by docker
+  hosts: homelab
+  vars:
+    DOCKER_PACKAGES:
+      - requests
+      - docker
+  tasks:  
+  - name: Download pip
+    get_url:
+      url: https://bootstrap.pypa.io/get-pip.py
+      dest: ~/get-pip.py
+      mode: 0755
+  - name: Install pip
+    shell: python get-pip.py
+    register: pip_install
+    become: yes
+  - name: Show pip installation
+    debug: var={{item}}
+    with_items: pip_install.stdout_lines            
+  - name: Install pip packages required for Docker
+    pip:
+      name: "{{ item }}"
+    loop: "{{ DOCKER_PACKAGES }}"

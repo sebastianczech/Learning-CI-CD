@@ -1,6 +1,6 @@
 ---
 - name: Install JFrog Artifactory
-  hosts: devops
+  hosts: homelab
   vars:
     DOCKER_VOLUMES:
       - artifactory-data
