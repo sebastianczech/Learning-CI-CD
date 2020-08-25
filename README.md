@@ -150,7 +150,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## JFrog Artifactory 
 
-[To install Artifactory, I used Docker](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation).
+[To install Artifactory, I used Docker](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation). To start working with Artifactory, it's good to read examples [Jenkins Pipeline - Working With Artifactory](https://github.com/jfrog/project-examples/tree/master/jenkins-examples/pipeline-examples).
 
 ## Sonatype Nexus
 
