@@ -142,6 +142,12 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Robot Framework
 
+[To install Robot Framework, I used Docker](https://hub.docker.com/r/robotframework/rfdocker)
+
+## SonarQube
+
+[To install SonarQube, I used Docker](https://docs.sonarqube.org/latest/setup/install-server/)
+
 ## JFrog Artifactory 
 
 [To install Artifactory, I used Docker](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation).
