@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git checkout stage master') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'http://git-server/user/repository.git']]])
+            }
+        }
+        stage('Show files in Jenkins workspace pulled from Git') {
+            steps {
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('Build Docker image with web app') {
+            steps {
+                step([$class: 'DockerBuilderPublisher', cleanImages: false, cleanupWithJenkinsJobDelete: false, cloud: 'docker', dockerFileDirectory: '.', pushCredentialsId: '', pushOnSuccess: false, tagsString: ''])
+            }
+        }
+        stage('Start all services (web app and server)') {
+            steps {
+                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: true])
+            }
+        }
+    }
+}
