@@ -45,13 +45,21 @@ While containerizing app, important topic is [improve performance e.g. for Sprin
 
 For storing Docker images you can use Docker Hub or [reploy a registry server](https://docs.docker.com/registry/deploying/).
 
+``TODO - build local registry``
+
 ## Docker Compose
 
+``TODO - compose web app with nginx server as proxy``
+
 ## Docker Swarm
+
+``TODO - deploy app in swarm``
 
 ## Kubernetes
 
 For learning there is a great Kubernetes - [K3s](https://k3s.io/).
+
+``TODO - deploy app in k8s``
 
 ## Jenkins
 
@@ -75,10 +83,14 @@ sudo cat /var/lib/docker/volumes/jenkins-data/_data/secrets/initialAdminPassword
 
 In bigger environments there is very useful pattern - [Cluster, which is great to architecting for scale](https://www.jenkins.io/doc/book/architecting-for-scale/).
 
+``TODO - build cluster with 2 jenkins servers``
+
 Another important topics:
 * [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/)
 * [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds)
 * [Build a Java app with Maven](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
+* [Pipeline syntax](https://www.jenkins.io/doc/book/pipeline/syntax/)
+* [Managing tools](https://www.jenkins.io/doc/book/managing/tools/)
 
 Define new Pipeline from SCM e.g.:
 ```
@@ -99,6 +111,10 @@ If you have error *Url is blocked: Requests to the local network are not allowed
 ```
 http://192.168.0.18:9080/admin/application_settings/network
 ```
+
+``TODO - on 1 jenkins install some tools``
+
+``TODO - try advanced pipelines and use plugins for IDE``
 
 ## Gitlab
 
@@ -123,11 +139,20 @@ docker run --detach \
 Another important topics:
 * [Configuring the external URL for GitLab](https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab)
 * [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
+* [GitLab pipelines](https://docs.gitlab.com/ee/ci/pipelines/)
+
+``TODO - build container registry``
+
+``TODO - build gitlab pipelines``
 
 ## Other CI/CD
 
 * [GitHub Actions](https://github.com/features/actions)
 * [Circle CI](https://circleci.com/)
+
+``TODO - compare more tools``
+
+``TODO - try team city``
 
 ## Ansible 
 
@@ -140,17 +165,27 @@ Besides typical playbooks there are other important topics to learn:
 * [developing modules](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html)
 * [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
+``TODO - build own module``
+
 ## Robot Framework
 
 [To install Robot Framework, I used Docker](https://hub.docker.com/r/robotframework/rfdocker)
+
+``TODO - build some e2e tests``
 
 ## SonarQube
 
 [To install SonarQube, I used Docker](https://docs.sonarqube.org/latest/setup/install-server/)
 
+``TODO - try to analyze code``
+
 ## JFrog Artifactory 
 
-[To install Artifactory, I used Docker](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation). To start working with Artifactory, it's good to read examples [Jenkins Pipeline - Working With Artifactory](https://github.com/jfrog/project-examples/tree/master/jenkins-examples/pipeline-examples).
+[To install Artifactory, I used Docker](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation). To start working with Artifactory, it's good to read examples [Jenkins Pipeline - Working With Artifactory](https://github.com/jfrog/project-examples/tree/master/jenkins-examples/pipeline-examples) and tutorials:
+* [Configuring Jenkins Artifactory Plug-in](https://www.jfrog.com/confluence/display/JFROG/Configuring+Jenkins+Artifactory+Plug-in)
+* [Working With Pipeline Jobs in Jenkins](https://www.jfrog.com/confluence/display/JFROG/Working+With+Pipeline+Jobs+in+Jenkins)
+
+``TODO - build jfrog pipelines``
 
 ## Sonatype Nexus
 
@@ -158,13 +193,23 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Terraform
 
+``TODO - try terraform``
+
 ## Vault
+
+``TODO - try vault``
 
 ## Consul
 
+``TODO - try service discovery``
+
 ## Pact
 
+``TODO - try contract testing with pact``
+
 ## KVM
+
+``TODO - try to run simple machine``
 
 ## Summary
 
