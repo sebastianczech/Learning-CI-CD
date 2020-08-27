@@ -176,7 +176,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## SonarQube
 
-[To install SonarQube, I used Docker](https://docs.sonarqube.org/latest/setup/install-server/)
+[To install SonarQube, I used Docker](https://docs.sonarqube.org/latest/setup/install-server/). To integrate it with Jenkins, [there is needed additional plugin](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-jenkins/).
 
 ``TODO - try to analyze code``
 
