@@ -89,6 +89,7 @@ Another important topics:
 * [Multibranch Pipeline](https://www.jenkins.io/doc/book/pipeline/multibranch/)
 * [Distributed Builds](https://wiki.jenkins.io/display/JENKINS/Distributed+builds)
 * [Build a Java app with Maven](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
+* [Build a Python app with PyInstaller](https://www.jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/)
 * [Pipeline syntax](https://www.jenkins.io/doc/book/pipeline/syntax/)
 * [Managing tools](https://www.jenkins.io/doc/book/managing/tools/)
 
