@@ -170,7 +170,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Robot Framework
 
-[To install Robot Framework, I used Docker](https://hub.docker.com/r/robotframework/rfdocker)
+[To install Robot Framework, I used Docker](https://hub.docker.com/r/robotframework/rfdocker). To integrate it with Jenkins, [there is needed additional plugin](https://plugins.jenkins.io/robot/).
 
 ``TODO - build some e2e tests``
 
