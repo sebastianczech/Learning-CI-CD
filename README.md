@@ -92,6 +92,8 @@ Another important topics:
 * [Build a Python app with PyInstaller](https://www.jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/)
 * [Pipeline syntax](https://www.jenkins.io/doc/book/pipeline/syntax/)
 * [Managing tools](https://www.jenkins.io/doc/book/managing/tools/)
+* [Input parameters](https://www.jenkins.io/doc/pipeline/steps/pipeline-input-step/)
+* [Build user](https://www.jenkins.io/doc/pipeline/steps/build-user-vars-plugin/)
 
 Define new Pipeline from SCM e.g.:
 ```
@@ -170,7 +172,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Robot Framework
 
-[To install Robot Framework, I used Docker](https://hub.docker.com/r/robotframework/rfdocker). To integrate it with Jenkins, [there is needed additional plugin](https://plugins.jenkins.io/robot/).
+[To install Robot Framework, I used Docker](https://hub.docker.com/r/robotframework/rfdocker). To integrate it with Jenkins, [there is needed additional plugin](https://plugins.jenkins.io/robot/). After tests are finished, [results should be published to Jenkins](https://www.jenkins.io/doc/pipeline/steps/robot/).
 
 ``TODO - build some e2e tests``
 
