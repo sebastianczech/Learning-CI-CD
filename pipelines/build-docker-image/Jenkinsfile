@@ -37,6 +37,9 @@ pipeline {
                         sh 'pwd'
                         sh 'ls -la'
                     }
+                    docker.withRegistry('http://192.168.0.18:5000/') {
+                        customImage.push('cicd')
+                    }
                 }
             }
         }
