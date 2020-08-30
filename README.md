@@ -118,6 +118,17 @@ http://192.168.0.18:9080/admin/application_settings/network
 
 ``TODO - try advanced pipelines and use plugins for IDE``
 
+To abort job, which cannot be stopped from UI, we can usi Manage *Jenkins -> Script Console*:
+
+```java
+Jenkins.instance.getItemByFullName("CI-CD-pipeline-analyze-code")
+  .getBuildByNumber(1)
+  .finish(
+          hudson.model.Result.ABORTED,
+          new java.io.IOException("Aborting build")
+  );
+```
+
 ## Gitlab
 
 There are many ways to install GitLab, but the simplest one is that [using Docker](https://docs.gitlab.com/omnibus/docker/). In this scenario we need to do following commands:
