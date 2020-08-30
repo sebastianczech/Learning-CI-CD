@@ -1,5 +1,9 @@
 pipeline {
-    agent none
+    agent {
+        node {
+            label 'homelab'
+        }
+    }
 
     stages {
         stage('Info') {
@@ -14,11 +18,6 @@ pipeline {
             }
         }
         stage('Acceptance tests') {
-            agent {
-                node {
-                    label 'homelab'
-                }
-            }
             steps {
                 echo 'Checkout code from GitLab...'
 
