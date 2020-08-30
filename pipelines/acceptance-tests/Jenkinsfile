@@ -36,6 +36,16 @@ pipeline {
                 sh 'robot --outputdir results atest/'
             }
             post {
+                failure {
+                    mail to: "sebaczech@gmail.com",
+                    subject: "CI/CD platform - failed pipeline: ${currentBuild.fullDisplayName}",
+                    body: "Something is wrong with ${env.BUILD_URL}"
+                }
+                success {
+                    mail to: "sebaczech@gmail.com",
+                    subject: "CI/CD platform - failed pipeline: ${currentBuild.fullDisplayName}",
+                    body: "Something is wrong with ${env.BUILD_URL}"
+                }
                 always {
                     step([
                         $class : 'RobotPublisher',
