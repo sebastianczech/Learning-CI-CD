@@ -55,6 +55,13 @@ docker push 192.168.0.18:5000/java-api
 
 To work it properly, is was using [insecure registry](https://docs.docker.com/registry/insecure/).
 
+To display all images you can use URLs:
+
+```
+http://192.168.0.18:5000/v2/_catalog
+http://192.168.0.18:5000/v2/api-java/tags/list
+```
+
 ## Docker Compose
 
 ``TODO - compose web app with nginx server as proxy``
