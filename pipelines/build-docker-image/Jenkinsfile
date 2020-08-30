@@ -34,7 +34,14 @@ pipeline {
         }        
         stage('Build Docker image') {
             steps {
-                def customImage = docker.build("api-java:${env.BUILD_ID}")
+                script {
+                    def customImage = docker.build("api-java:${env.BUILD_ID}")
+
+                    customImage.inside {
+                        sh 'pwd'
+                        sh 'ls -la'
+                    }
+                }
             }
         }
     }
