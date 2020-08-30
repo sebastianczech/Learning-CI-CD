@@ -50,7 +50,7 @@ docker image tag sebastian-czech/simple-rest-api-python-flask  192.168.0.18:5000
 docker push 192.168.0.18:5000/python-api
 
 docker image tag sebastian-czech/simple-rest-api-java-spring  192.168.0.18:5000/java-api
-java
+docker push 192.168.0.18:5000/java-api
 ```
 
 ``TODO - build local registry``

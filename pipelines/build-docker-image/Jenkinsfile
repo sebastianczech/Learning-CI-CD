@@ -43,6 +43,23 @@ pipeline {
                 }
             }
         }
+        stage('Start Docker Compose') {
+            steps {
+                echo 'Checkout code from GitLab...'
+
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], browser: [$class: 'GitLab', repoUrl: 'http://192.168.0.18:9080'], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4136d7ee-8c32-4f18-ad19-0db3d1d93df1', url: 'http://192.168.0.18:9080/seba/ci-cd.git']]])
+
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+
+                echo 'Start Docker Compose'
+            }
+        }
     }
 
     post {
