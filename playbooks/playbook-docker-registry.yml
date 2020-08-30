@@ -1,7 +1,7 @@
 # https://docs.docker.com/registry/deploying/
 ---
 - name: Install Docker Registry
-  hosts: devops
+  hosts: homelab
   
   tasks:
   - name: Start Docker Registry
@@ -12,3 +12,13 @@
       restart_policy: always    
       ports:
         - "5000:5000"
+  - name: Copy file with Docker daemon settings
+    copy:
+      src: ../configurations/daemon.json
+      dest: /etc/docker/daemon.json
+    become: yes
+  - name: Restart service Docker, in all cases
+    service:
+      name: docker
+      state: restarted
+    become: yes
