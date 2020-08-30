@@ -93,6 +93,7 @@ Another important topics:
 * [Input parameters](https://www.jenkins.io/doc/pipeline/steps/pipeline-input-step/)
 * [Build user](https://www.jenkins.io/doc/pipeline/steps/build-user-vars-plugin/)
 * [Mulit-configuration project](https://www.theserverside.com/video/How-to-use-the-Jenkins-multi-configuration-project)
+* [Using Docker with Pipeline](https://www.jenkins.io/doc/book/pipeline/docker/)
 
 Define new Pipeline from SCM e.g.:
 ```
@@ -182,7 +183,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## SonarQube
 
-[To install SonarQube, I used Docker](https://docs.sonarqube.org/latest/setup/install-server/). To integrate it with Jenkins, [there is needed additional plugin](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-jenkins/).
+[To install SonarQube, I used Docker](https://docs.sonarqube.org/latest/setup/install-server/). To integrate it with Jenkins, [there is needed additional plugin](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-jenkins/). For Sonar Quality Gate it's important to configure web hook in project settings e.g. ``jenkins	http://192.168.0.18:8080/sonarqube-webhook/``.
 
 ## JFrog Artifactory 
 
@@ -192,7 +193,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Sonatype Nexus
 
-[To install Nexus, I used Docker](https://hub.docker.com/r/sonatype/nexus3/). After that I started to integrate it with Jenkins [using tutorial about publishing Maven artifacts to Nexus](https://dzone.com/articles/jenkins-publish-maven-artifacts-to-nexus-oss-using). While talking about artifacts and version, it's worth to read [about Maven snapshot](https://stackoverflow.com/questions/5901378/what-exactly-is-a-maven-snapshot-and-why-do-we-need-it). For Sonar Quality Gate it's important to configure web hook in project settings e.g. ``jenkins	http://192.168.0.18:8080/sonarqube-webhook/``.
+[To install Nexus, I used Docker](https://hub.docker.com/r/sonatype/nexus3/). After that I started to integrate it with Jenkins [using tutorial about publishing Maven artifacts to Nexus](https://dzone.com/articles/jenkins-publish-maven-artifacts-to-nexus-oss-using). While talking about artifacts and version, it's worth to read [about Maven snapshot](https://stackoverflow.com/questions/5901378/what-exactly-is-a-maven-snapshot-and-why-do-we-need-it).
 
 ## Terraform
 
