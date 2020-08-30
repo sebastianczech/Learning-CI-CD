@@ -43,7 +43,15 @@ While containerizing app, important topic is [improve performance e.g. for Sprin
 
 ## Docker Registry
 
-For storing Docker images you can use Docker Hub or [reploy a registry server](https://docs.docker.com/registry/deploying/).
+For storing Docker images you can use Docker Hub or [reploy a registry server](https://docs.docker.com/registry/deploying/). After starting it use commands to store images in new registry:
+
+```bash
+docker image tag sebastian-czech/simple-rest-api-python-flask  192.168.0.18:5000/python-api
+docker push 192.168.0.18:5000/python-api
+
+docker image tag sebastian-czech/simple-rest-api-java-spring  192.168.0.18:5000/java-api
+java
+```
 
 ``TODO - build local registry``
 

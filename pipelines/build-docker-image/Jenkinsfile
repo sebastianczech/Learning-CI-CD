@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        node {
-            label 'homelab'
-        }
-    }
+    agent any
 
     stages {
         stage('Info') {

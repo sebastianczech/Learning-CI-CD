@@ -1,0 +1,14 @@
+# https://docs.docker.com/registry/deploying/
+---
+- name: Install Docker Registry
+  hosts: devops
+  
+  tasks:
+  - name: Start Docker Registry
+    docker_container:
+      name: registry
+      image: registry:2
+      hostname: devops
+      restart_policy: always    
+      ports:
+        - "5000:5000"
