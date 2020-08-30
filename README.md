@@ -53,7 +53,7 @@ docker image tag sebastian-czech/simple-rest-api-java-spring  192.168.0.18:5000/
 docker push 192.168.0.18:5000/java-api
 ```
 
-``TODO - build local registry``
+To work it properly, is was using [insecure registry](https://docs.docker.com/registry/insecure/).
 
 ## Docker Compose
 
