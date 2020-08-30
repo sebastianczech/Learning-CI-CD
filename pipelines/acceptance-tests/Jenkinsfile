@@ -17,7 +17,7 @@ pipeline {
                 sh 'ls -la'
             }
         }
-        stage('Acceptance tests') {
+        stage('Checkout') {
             steps {
                 echo 'Checkout code from GitLab...'
 
@@ -30,7 +30,10 @@ pipeline {
                 echo 'List of files: '
 
                 sh 'ls -la'
-
+            }
+        }
+        stage('Acceptance tests') {
+            steps {
                 echo 'Acceptance testing..'
 
                 sh 'robot --outputdir results atest/'

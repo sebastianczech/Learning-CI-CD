@@ -18,6 +18,21 @@ pipeline {
                 sh 'ls -la'
             }
         }
+        stage('Checkout') {
+            steps {
+                echo 'Checkout code from GitLab...'
+
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], browser: [$class: 'GitLab', repoUrl: 'http://192.168.0.18:9080'], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4136d7ee-8c32-4f18-ad19-0db3d1d93df1', url: 'http://192.168.0.18:9080/seba/simple-rest-api-java-spring.git']]])
+
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }        
         stage('Code analysis') {
             steps {
                 withSonarQubeEnv('SonarQube Server') {
@@ -36,6 +51,19 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            mail to: "sebaczech@gmail.com",
+            subject: "CI/CD platform - success pipeline - ${currentBuild.fullDisplayName}",
+            body: "Everything is ok with ${env.BUILD_URL}"
+        }
+        failure {
+            mail to: "sebaczech@gmail.com",
+            subject: "CI/CD platform - failed pipeline: ${currentBuild.fullDisplayName}",
+            body: "Something is wrong with ${env.BUILD_URL}"
         }
     }
 }
