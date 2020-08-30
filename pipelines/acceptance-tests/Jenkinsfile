@@ -1,0 +1,44 @@
+pipeline {
+    agent none
+
+    stages {
+        stage('Info') {
+            steps {
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('Acceptance tests') {
+            agent {
+                node {
+                    label 'homelab'
+                }
+            }
+            steps {
+                echo 'Acceptance testing..'
+
+                sh 'robot --outputdir results atest/'
+            }
+            post {
+                always {
+                    step([
+                        $class : 'RobotPublisher',
+                        outputPath : 'results',
+                        outputFileName : 'output.xml',
+                        reportFileName : 'report.html',
+                        logFileName : 'log.html',
+                        disableArchiveOutput : false,
+                        passThreshold : 100,
+                        unstableThreshold: 95.0,
+                        otherFiles : '',
+                    ])
+                }
+            }
+        }
+    }
+}

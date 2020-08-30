@@ -92,6 +92,7 @@ Another important topics:
 * [Managing tools](https://www.jenkins.io/doc/book/managing/tools/)
 * [Input parameters](https://www.jenkins.io/doc/pipeline/steps/pipeline-input-step/)
 * [Build user](https://www.jenkins.io/doc/pipeline/steps/build-user-vars-plugin/)
+* [Mulit-configuration project](https://www.theserverside.com/video/How-to-use-the-Jenkins-multi-configuration-project)
 
 Define new Pipeline from SCM e.g.:
 ```

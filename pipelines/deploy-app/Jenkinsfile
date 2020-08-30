@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git: checkout master branch') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '183a0945-a3e0-4f32-aca4-1d80b89720e0', url: 'http://login:haslo@192.168.1.1/app']]])
+
+                stash includes: '**', name: 'app'
+            }
+        }
+        stage('Stash: show files checkouted from git') {
+            steps {
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('Maven: show files installed in repository for app') {
+            steps {
+                sh 'ls -la /home/jenkins/.m2/repository/com/sebastianczech/app/*/'
+            }
+        }
+        stage('Build: compile and package') {
+            steps {
+                sh 'cd app && /opt/tools/maven/bin/mvn -s /home/jenkins/.m2/settings.xml clean install'
+            }
+        }
+        stage('Deploy: copy jar into application server and restart service') {
+            steps {
+                sh 'export ANSIBLE_CONFIG=/opt/tools/ansible/ansible.cfg && ansible-playbook -i /opt/tools/ansible/hosts.yml /opt/tools/ansible/playbook-app--deploy.yml'
+            }
+        }
+        stage('Run other jobs after deploying app') {
+            steps {
+                build job: 'run_other_jon_after_deploying_app'
+            }
+        }
+    }
+}

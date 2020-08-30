@@ -1,0 +1,41 @@
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.6.3-jdk-11'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
+
+    stages {
+        stage('Info') {
+            steps {
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('Code analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube Server') {
+                    // Optionally use a Maven environment you've configured already
+//                     withMaven(maven:'Maven 3.5') {
+                        sh 'mvn clean package sonar:sonar'
+//                     }
+                }
+            }
+        }
+        stage("Quality gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+    }
+}
