@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout: pull files from Git') {
+            steps {
+                echo 'Branch: ' + env.BRANCH_NAME
+
+                checkout scm
+            }
+        }
+        stage('Info: show files') {
+            steps {
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('Build: compile and test') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'stage') {
+                        echo 'There is dedicated pipeline for master and stage'
+                    } else {
+                        sh 'mvn -B -DskipTests clean package'
+                    }
+                }
+            }
+        }
+    }
+}
