@@ -1,0 +1,5 @@
+windowlist string "%{= dg}%02n %{-}%{+ dy} %t%=%f% "
+caption always "%{= bg}%3n %{= bY}%t%{= bR}%? @%u%?%? %h]%?%=%c "
+defscrollback 200000
+# # to avoid shrinking
+termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
