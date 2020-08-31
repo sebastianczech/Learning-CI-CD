@@ -47,21 +47,6 @@ pipeline {
                 }
             }
         }
-        stage('Build and Publish Docker image # 2') {
-            steps {
-                step([
-                    $class: 'DockerBuilderPublisher', 
-                    cleanImages: false, 
-                    cleanupWithJenkinsJobDelete: false, 
-                    cloud: '', 
-                    dockerFileDirectory: '', 
-                    fromRegistry: [], 
-                    pushCredentialsId: '', 
-                    pushOnSuccess: true, 
-                    tagsString: 'api-java2:${env.BUILD_ID}'
-                ])
-            }
-        }
         stage('Start Docker Compose') {
             steps {
                 echo 'Checkout code from GitLab...'

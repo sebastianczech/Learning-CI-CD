@@ -120,6 +120,7 @@ Another important topics:
 * [Build user](https://www.jenkins.io/doc/pipeline/steps/build-user-vars-plugin/)
 * [Mulit-configuration project](https://www.theserverside.com/video/How-to-use-the-Jenkins-multi-configuration-project)
 * [Using Docker with Pipeline](https://www.jenkins.io/doc/book/pipeline/docker/)
+* [Docker Pipeline plugin](https://docs.cloudbees.com/docs/admin-resources/latest/plugins/docker-workflow)
 
 Define new Pipeline from SCM e.g.:
 ```
