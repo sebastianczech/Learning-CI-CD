@@ -62,6 +62,13 @@ pipeline {
                 sh 'ls -la'
 
                 echo 'Start Docker Compose'
+
+                step([
+                    $class: 'DockerComposeBuilder', 
+                    dockerComposeFile: 'containers/nginx-proxy-java/docker-compose.yml', 
+                    option: [$class: 'StartAllServices'], 
+                    useCustomDockerComposeFile: true
+                ])
             }
         }
     }

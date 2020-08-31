@@ -64,7 +64,16 @@ http://192.168.0.18:5000/v2/api-java/tags/list
 
 ## Docker Compose
 
-``TODO - compose web app with nginx server as proxy``
+Start and stop server definde in compose file:
+
+```bash
+docker-compose up -d
+docker-compose start    
+docker-compose stop
+docker-compose start webapp    
+docker-compose stop webapp
+docker-compose down
+```
 
 ## Docker Swarm
 
