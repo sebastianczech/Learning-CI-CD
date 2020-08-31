@@ -64,7 +64,9 @@ http://192.168.0.18:5000/v2/api-java/tags/list
 
 ## Docker Compose
 
-Start and stop server definde in compose file:
+To start Docker Compose from pipeline I used [Docker Compose Build Step Plugin](https://www.jenkins.io/doc/pipeline/steps/docker-compose-build-step/).
+
+From CLI to start and stop server defined in compose file we should commands:
 
 ```bash
 docker-compose up -d

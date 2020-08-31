@@ -32,7 +32,7 @@ pipeline {
                 sh 'ls -la'
             }
         }        
-        stage('Build Docker image') {
+        stage('Build and Publish Docker image') {
             steps {
                 script {
                     def customImage = docker.build("api-java:${env.BUILD_ID}")
@@ -45,6 +45,21 @@ pipeline {
                         customImage.push('cicd')
                     }
                 }
+            }
+        }
+        stage('Build and Publish Docker image # 2') {
+            steps {
+                step([
+                    $class: 'DockerBuilderPublisher', 
+                    cleanImages: false, 
+                    cleanupWithJenkinsJobDelete: false, 
+                    cloud: '', 
+                    dockerFileDirectory: '', 
+                    fromRegistry: [], 
+                    pushCredentialsId: '', 
+                    pushOnSuccess: true, 
+                    tagsString: 'api-java2:${env.BUILD_ID}'
+                ])
             }
         }
         stage('Start Docker Compose') {
