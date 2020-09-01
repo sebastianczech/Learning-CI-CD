@@ -186,6 +186,8 @@ kubectl delete -f deployment.yml
 kubectl delete -f service.yml 
 ```
 
+``TODO - resolve insecure docker registry, integrate k8s with ansible, deploy app in k3s``
+
 ## Jenkins
 
 There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
@@ -340,6 +342,10 @@ Besides typical playbooks there are other important topics to learn:
 ## KVM
 
 ``TODO - try to run simple machine``
+
+## SSL/TLS, OCSP
+
+``TODO - working with certificates``
 
 ## Summary
 
