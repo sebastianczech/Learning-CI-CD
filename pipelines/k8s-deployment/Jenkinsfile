@@ -1,0 +1,39 @@
+pipeline {
+    agent {
+        node {
+            label 'homelab'
+        }
+    }
+
+    stages {
+        stage('Info') {
+            steps {
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('K8s list pods') {
+            steps {
+                sh 'ansible-playbook -i playbooks/hosts.yml playbooks/playbook-k8s.yml'
+            }
+        }
+    }
+
+    post {
+        success {
+            mail to: "sebaczech@gmail.com",
+            subject: "CI/CD platform - success pipeline - ${currentBuild.fullDisplayName}",
+            body: "Everything is ok with ${env.BUILD_URL}"
+        }
+        failure {
+            mail to: "sebaczech@gmail.com",
+            subject: "CI/CD platform - failed pipeline: ${currentBuild.fullDisplayName}",
+            body: "Something is wrong with ${env.BUILD_URL}"
+        }
+    }
+}
