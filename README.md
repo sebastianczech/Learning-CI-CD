@@ -168,6 +168,24 @@ kubectl apply -f deployment.yml
 kubectl apply -f service.yml
 ```
 
+For lab only I created [private registry for k3s](https://rancher.com/docs/k3s/latest/en/installation/private-registry/) in file ``/etc/rancher/k3s/registries.yaml``:
+
+```
+mirrors:
+  docker.io:
+    endpoint:
+      - "http://192.168.0.18:5000"
+```
+
+To check pod and restart deployment, we can use commands from [K8s Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/):
+
+```
+kubectl describe pods api-java-deployment-75bb8f97df-gfss4    
+
+kubectl delete -f deployment.yml
+kubectl delete -f service.yml 
+```
+
 ## Jenkins
 
 There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
