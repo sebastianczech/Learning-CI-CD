@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-java-deployment
+  labels:
+    role: api-java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: api-java
+  template:
+    metadata:
+      labels:
+        role: api-java
+    spec:
+      containers:
+      - name: api-java
+        image: 192.168.0.18:5000/api-java:cicd
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 48080

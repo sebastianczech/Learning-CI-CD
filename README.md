@@ -159,6 +159,15 @@ kube-system   job.batch/helm-install-traefik   1/1           36s        11d
 
 While preparing pipeline to deploy app in K8s, I used [blog post about CI/CD and K8s](https://www.magalix.com/blog/create-a-ci/cd-pipeline-with-kubernetes-and-jenkins) and [tutorial in which GKE was used](https://docs.bitnami.com/tutorials/create-ci-cd-pipeline-jenkins-gke/).
 
+To integrate Ansible with K8s I used [module k8s](https://docs.ansible.com/ansible/latest/modules/k8s_module.html) and [k8s_info](https://docs.ansible.com/ansible/latest/modules/k8s_info_module.html).
+
+For deployment and service from command line we can use commands:
+
+```bash
+kubectl apply -f deployment.yml
+kubectl apply -f service.yml
+```
+
 ## Jenkins
 
 There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
