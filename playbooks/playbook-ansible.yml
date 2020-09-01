@@ -1,0 +1,15 @@
+---
+- name: Install packages for Ansible
+  hosts: devops
+  vars:
+    PIP_PACKAGES:
+      - ansible
+      - kubernetes
+      - openshift
+      - jmespath
+  tasks:  
+  - name: Install pip packages for Ansible
+    pip:
+      name: "{{ item }}"
+    loop: "{{ PIP_PACKAGES }}"
+    become: yes

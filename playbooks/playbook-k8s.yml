@@ -1,0 +1,11 @@
+---
+- hosts: devops
+  tasks:  
+    - name: Get a list of all pods from any namespace
+      k8s_info:
+        kind: Pod
+      register: pod_list
+    - name: Show list of pods
+      debug:
+        var: item
+      loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
