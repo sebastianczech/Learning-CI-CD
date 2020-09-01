@@ -83,9 +83,81 @@ docker-compose down
 
 ## Kubernetes
 
-For learning there is a great Kubernetes - [K3s](https://k3s.io/).
+For learning there is a great Kubernetes - [K3s](https://k3s.io/). To use [``kubectl``](https://rancher.com/learning-paths/how-to-manage-kubernetes-with-kubectl/) I used following commands to configure it:
 
-``TODO - deploy app in k8s``
+```bash
+# mkdir /home/seba/.kube
+# cp /etc/rancher/k3s/k3s.yaml /home/seba/.kube/config
+# chown -R seba:seba /home/seba/.kube
+$ export KUBECONFIG=/home/seba/.kube/config
+```
+
+Using following commands we can check default configuration:
+
+```bash
+➜  ~ kubectl get pods --all-namespaces 
+NAMESPACE     NAME                                     READY   STATUS      RESTARTS   AGE
+kube-system   helm-install-traefik-r46s6               0/1     Completed   0          11d
+kube-system   metrics-server-7566d596c8-mx6bk          1/1     Running     22         11d
+kube-system   local-path-provisioner-6d59f47c7-t8266   1/1     Running     42         11d
+kube-system   svclb-traefik-vtcb6                      2/2     Running     44         11d
+kube-system   coredns-8655855d6-nppnc                  1/1     Running     24         11d
+kube-system   traefik-758cd5fc85-vhgzb                 1/1     Running     33         11d
+
+➜  ~ kubectl cluster-info 
+Kubernetes master is running at https://127.0.0.1:6443
+CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+➜  ~ kubectl get nodes -o wide
+NAME     STATUS   ROLES    AGE   VERSION        INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                       KERNEL-VERSION    CONTAINER-RUNTIME
+devops   Ready    master   11d   v1.18.6+k3s1   192.168.0.18   <none>        Debian GNU/Linux 10 (buster)   4.19.0-10-amd64   containerd://1.3.3-k3s2
+
+➜  ~ kubectl get namespaces   
+NAME              STATUS   AGE
+default           Active   11d
+kube-system       Active   11d
+kube-public       Active   11d
+kube-node-lease   Active   11d
+
+➜  ~ kubectl get all --all-namespaces                                                                                      
+NAMESPACE     NAME                                         READY   STATUS      RESTARTS   AGE
+kube-system   pod/helm-install-traefik-r46s6               0/1     Completed   0          11d
+kube-system   pod/metrics-server-7566d596c8-mx6bk          1/1     Running     22         11d
+kube-system   pod/local-path-provisioner-6d59f47c7-t8266   1/1     Running     42         11d
+kube-system   pod/svclb-traefik-vtcb6                      2/2     Running     44         11d
+kube-system   pod/coredns-8655855d6-nppnc                  1/1     Running     24         11d
+kube-system   pod/traefik-758cd5fc85-vhgzb                 1/1     Running     33         11d
+
+NAMESPACE     NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
+default       service/kubernetes           ClusterIP      10.43.0.1       <none>         443/TCP                      11d
+kube-system   service/kube-dns             ClusterIP      10.43.0.10      <none>         53/UDP,53/TCP,9153/TCP       11d
+kube-system   service/metrics-server       ClusterIP      10.43.163.21    <none>         443/TCP                      11d
+kube-system   service/traefik-prometheus   ClusterIP      10.43.177.118   <none>         9100/TCP                     11d
+kube-system   service/traefik              LoadBalancer   10.43.101.73    192.168.0.18   80:31584/TCP,443:32753/TCP   11d
+
+NAMESPACE     NAME                           DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+kube-system   daemonset.apps/svclb-traefik   1         1         1       1            1           <none>          11d
+
+NAMESPACE     NAME                                     READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system   deployment.apps/metrics-server           1/1     1            1           11d
+kube-system   deployment.apps/local-path-provisioner   1/1     1            1           11d
+kube-system   deployment.apps/coredns                  1/1     1            1           11d
+kube-system   deployment.apps/traefik                  1/1     1            1           11d
+
+NAMESPACE     NAME                                               DESIRED   CURRENT   READY   AGE
+kube-system   replicaset.apps/metrics-server-7566d596c8          1         1         1       11d
+kube-system   replicaset.apps/local-path-provisioner-6d59f47c7   1         1         1       11d
+kube-system   replicaset.apps/coredns-8655855d6                  1         1         1       11d
+kube-system   replicaset.apps/traefik-758cd5fc85                 1         1         1       11d
+
+NAMESPACE     NAME                             COMPLETIONS   DURATION   AGE
+kube-system   job.batch/helm-install-traefik   1/1           36s        11d
+```
+
+While preparing pipeline to deploy app in K8s, I used [blog post about CI/CD and K8s](https://www.magalix.com/blog/create-a-ci/cd-pipeline-with-kubernetes-and-jenkins) and [tutorial in which GKE was used](https://docs.bitnami.com/tutorials/create-ci-cd-pipeline-jenkins-gke/).
 
 ## Jenkins
 
