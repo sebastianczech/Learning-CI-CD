@@ -2,7 +2,7 @@ version: '3'
 services:
   webapp:
     # build: .
-    image: 192.168.0.18:5000/api-java:cicd
+    image: 192.168.0.27/api-java:cicd
     container_name: web-app
     # ports:
     #  - "58080:48080"
