@@ -11,7 +11,7 @@
       hostname: devops
       restart_policy: always    
       ports:
-        - "5000:443"
+        - "443:443"
       env:
         REGISTRY_HTTP_ADDR: "0.0.0.0:443"
         REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/domain.crt"
@@ -28,15 +28,15 @@
       path: /etc/docker/certs.d/
       state: directory    
     become: yes
-  - name: Creates directory 192.168.0.18:5000
+  - name: Creates directory 192.168.0.27
     file:
-      path: /etc/docker/certs.d/192.168.0.18:5000
+      path: /etc/docker/certs.d/192.168.0.27
       state: directory    
     become: yes  
   - name: Copy file with cert
     copy:
       src: /home/seba/certs/domain.crt
-      dest: /etc/docker/certs.d/192.168.0.18:5000/ca.crt
+      dest: /etc/docker/certs.d/192.168.0.27/ca.crt
       remote_src: yes
     become: yes      
   - name: Restart service Docker, in all cases

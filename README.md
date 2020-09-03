@@ -53,7 +53,7 @@ docker image tag sebastian-czech/simple-rest-api-java-spring  192.168.0.18:5000/
 docker push 192.168.0.18:5000/java-api
 ```
 
-To work it properly, is was using [insecure registry](https://docs.docker.com/registry/insecure/).
+To work it properly, is was using [insecure registry](https://docs.docker.com/registry/insecure/) and then [with self-signed certificate](https://hackernoon.com/create-a-private-local-docker-registry-5c79ce912620).
 
 To display all images you can use URLs:
 
@@ -188,7 +188,7 @@ kubectl delete -f service.yml
 kubectl delete -f .
 ```
 
-``TODO - resolve insecure docker registry, integrate k8s with ansible, deploy app in k3s``
+``TODO - copy ca cert to 2 machine, check deployment, integrate k8s with ansible, deploy app in k3s``
 
 ## Jenkins
 
@@ -351,15 +351,15 @@ Creating own certificate:
 
 ```bash
 sudo vi /etc/ssl/openssl.cnf  
-# add the end
-subjectAltName=IP:192.168.0.18
+# in the section [ v3_ca ]
+subjectAltName=IP:192.168.0.27
 
 mkdir -p certs
 
 openssl req \
   -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key \
   -x509 -days 365 -out certs/domain.crt
-# CN = 192.168.0.18
+# CN = 192.168.0.27
 ```
 ``TODO - working with certificates (OCSP)``
 
