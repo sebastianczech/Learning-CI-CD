@@ -166,6 +166,7 @@ For deployment and service from command line we can use commands:
 ```bash
 kubectl apply -f deployment.yml
 kubectl apply -f service.yml
+kubectl apply -f .
 ```
 
 For lab only I created [private registry for k3s](https://rancher.com/docs/k3s/latest/en/installation/private-registry/) in file ``/etc/rancher/k3s/registries.yaml``:
@@ -184,6 +185,7 @@ kubectl describe pods api-java-deployment-75bb8f97df-gfss4
 
 kubectl delete -f deployment.yml
 kubectl delete -f service.yml 
+kubectl delete -f .
 ```
 
 ``TODO - resolve insecure docker registry, integrate k8s with ansible, deploy app in k3s``
@@ -345,7 +347,21 @@ Besides typical playbooks there are other important topics to learn:
 
 ## SSL/TLS, OCSP
 
-``TODO - working with certificates``
+Creating own certificate:
+
+```bash
+sudo vi /etc/ssl/openssl.cnf  
+# add the end
+subjectAltName=IP:192.168.0.18
+
+mkdir -p certs
+
+openssl req \
+  -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key \
+  -x509 -days 365 -out certs/domain.crt
+# CN = 192.168.0.18
+```
+``TODO - working with certificates (OCSP)``
 
 ## Summary
 

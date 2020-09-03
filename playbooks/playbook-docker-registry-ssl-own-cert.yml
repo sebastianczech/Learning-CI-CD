@@ -1,0 +1,46 @@
+# https://docs.docker.com/registry/deploying/
+---
+- name: Install Docker Registry
+  hosts: homelab
+  
+  tasks:
+  - name: Start Docker Registry
+    docker_container:
+      name: registry
+      image: registry:2
+      hostname: devops
+      restart_policy: always    
+      ports:
+        - "5000:443"
+      env:
+        REGISTRY_HTTP_ADDR: "0.0.0.0:443"
+        REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/domain.crt"
+        REGISTRY_HTTP_TLS_KEY: "/certs/domain.key"
+      volumes:
+        - /home/seba/certs:/certs
+  - name: Copy file with Docker daemon settings
+    copy:
+      src: ../configurations/daemon.json
+      dest: /etc/docker/daemon.json
+    become: yes
+  - name: Creates directory certs.d
+    file:
+      path: /etc/docker/certs.d/
+      state: directory    
+    become: yes
+  - name: Creates directory 192.168.0.18:5000
+    file:
+      path: /etc/docker/certs.d/192.168.0.18:5000
+      state: directory    
+    become: yes  
+  - name: Copy file with cert
+    copy:
+      src: /home/seba/certs/domain.crt
+      dest: /etc/docker/certs.d/192.168.0.18:5000/ca.crt
+      remote_src: yes
+    become: yes      
+  - name: Restart service Docker, in all cases
+    service:
+      name: docker
+      state: restarted
+    become: yes
