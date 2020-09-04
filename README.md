@@ -369,6 +369,11 @@ Besides typical playbooks there are other important topics to learn:
 
 ## SSL/TLS, OCSP
 
+Resources about SSL/TLS and certificates:
+* [OpenSSL Cookbook](https://www.feistyduck.com/books/openssl-cookbook/)
+* [openssl s_client](https://www.feistyduck.com/library/openssl-cookbook/online/ch-testing-with-openssl.html)
+* [certbot](https://certbot.eff.org/)
+
 Creating own certificate:
 
 ```bash
