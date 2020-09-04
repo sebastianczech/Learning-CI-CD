@@ -8,6 +8,6 @@ spec:
     role: api-java
   ports:
     - protocol: TCP
-      port: 32080
+      port: 48080
       targetPort: 48080
-      nodePort: 38080
+      nodePort: 32080
