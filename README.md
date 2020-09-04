@@ -122,7 +122,7 @@ kube-system       Active   11d
 kube-public       Active   11d
 kube-node-lease   Active   11d
 
-➜  ~ kubectl get all --all-namespaces                                                                                      
+➜  ~ kubectl get all --all-namespaces 
 NAMESPACE     NAME                                         READY   STATUS      RESTARTS   AGE
 kube-system   pod/helm-install-traefik-r46s6               0/1     Completed   0          11d
 kube-system   pod/metrics-server-7566d596c8-mx6bk          1/1     Running     22         11d

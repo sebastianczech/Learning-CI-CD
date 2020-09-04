@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: api-java
-        image: 192.168.0.18:5000/api-java:cicd
+        image: 192.168.0.27/api-java:cicd
         imagePullPolicy: Always
         ports:
         - containerPort: 48080
