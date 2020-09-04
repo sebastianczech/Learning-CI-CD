@@ -190,6 +190,26 @@ kubectl delete -f .
 
 While integrating with Kubernetes, [problem with managing certficates need to resolved](https://kubernetes.io/docs/concepts/cluster-administration/certificates/).
 
+While creating deployment and service, I used [tutorial about exposing external IP](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/).
+
+To access IP from outside, I have changed iptables:
+
+```bash
+sudo iptables -L  
+
+sudo iptables-save > /home/seba/iptables-20200904                
+sudo iptables-legacy-save > /home/seba/iptables-legacy-20200904  
+
+sudo iptables -F                                                 
+sudo iptables -X                                                 
+sudo iptables -P INPUT ACCEPT                                    
+sudo iptables -P OUTPUT ACCEPT                                   
+sudo iptables -P FORWARD ACCEPT                
+
+sudo iptables-restore < /home/seba/iptables-20200904 
+sudo iptables-legacy-restore < /home/seba/iptables-legacy-20200904  
+```
+
 ``TODO - integrate k8s with ansible, deploy app in k3s``
 
 ## Jenkins
