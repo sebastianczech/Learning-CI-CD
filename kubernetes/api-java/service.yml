@@ -7,7 +7,6 @@ spec:
     role: api-java
   ports:
     - protocol: TCP
-      port: 32020
+      port: 32080
       targetPort: 48080
-      nodePort: 32080
-  type: NodePort
+  type: LoadBalancer

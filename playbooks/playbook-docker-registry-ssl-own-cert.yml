@@ -38,7 +38,37 @@
       src: /home/seba/certs/domain.crt
       dest: /etc/docker/certs.d/192.168.0.27/ca.crt
       remote_src: yes
-    become: yes      
+    become: yes     
+  - name: Copy file with cert to remote machine
+    command: "scp /home/seba/certs/domain.crt devops:/tmp/ca-192.168.0.27.crt"
+    register: scp_out
+  - name: Show scp results
+    debug: var={{item}}
+    with_items: scp_out.stdout_lines  
+  - name: Create dir on remote machine
+    command: "ssh devops sudo mkdir -p /etc/docker/certs.d/192.168.0.27"
+    register: mkdir_out
+  - name: Show mkdir results
+    debug: var={{item}}
+    with_items: mkdir_out.stdout_lines       
+  - name: Move file with cert to remote machine
+    command: "ssh devops sudo mv /tmp/ca-192.168.0.27.crt /etc/docker/certs.d/192.168.0.27/ca.crt"
+    register: mv_out
+  - name: Show mv results
+    debug: var={{item}}
+    with_items: mv_out.stdout_lines     
+  - name: Copy file with cert on remote machine
+    command: "ssh devops sudo cp /etc/docker/certs.d/192.168.0.27/ca.crt /usr/local/share/ca-certificates/kubernetes.crt"
+    register: cp_out
+  - name: Show cp results
+    debug: var={{item}}
+    with_items: cp_out.stdout_lines     
+  - name: Update certificates on remote machine
+    command: "ssh devops sudo update-ca-certificates"
+    register: update_ca_out
+  - name: Show update results
+    debug: var={{item}}
+    with_items: update_ca_out.stdout_lines     
   - name: Restart service Docker, in all cases
     service:
       name: docker

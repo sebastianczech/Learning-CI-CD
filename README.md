@@ -188,7 +188,9 @@ kubectl delete -f service.yml
 kubectl delete -f .
 ```
 
-``TODO - copy ca cert to 2 machine, check deployment, integrate k8s with ansible, deploy app in k3s``
+While integrating with Kubernetes, [problem with managing certficates need to resolved](https://kubernetes.io/docs/concepts/cluster-administration/certificates/).
+
+``TODO - integrate k8s with ansible, deploy app in k3s``
 
 ## Jenkins
 
@@ -360,7 +362,10 @@ openssl req \
   -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key \
   -x509 -days 365 -out certs/domain.crt
 # CN = 192.168.0.27
+
+openssl x509  -noout -text -in certs/domain.crt 
 ```
+
 ``TODO - working with certificates (OCSP)``
 
 ## Summary
