@@ -9,4 +9,3 @@ spec:
     - protocol: TCP
       port: 32080
       targetPort: 48080
-  type: LoadBalancer
