@@ -373,6 +373,8 @@ Resources about SSL/TLS and certificates:
 * [OpenSSL Cookbook](https://www.feistyduck.com/books/openssl-cookbook/)
 * [openssl s_client](https://www.feistyduck.com/library/openssl-cookbook/online/ch-testing-with-openssl.html)
 * [certbot](https://certbot.eff.org/)
+* [KeyStore Explorer](https://keystore-explorer.org/)
+* [Keystore vs. Truststore](https://www.educative.io/edpresso/keystore-vs-truststore)
 
 Creating own certificate:
 
