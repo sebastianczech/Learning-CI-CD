@@ -210,9 +210,7 @@ sudo iptables-restore < /home/seba/iptables-20200904
 sudo iptables-legacy-restore < /home/seba/iptables-legacy-20200904  
 ```
 
-[How useful is Ansible in a Cloud-Native Kubernetes Environment?](https://www.ansible.com/blog/how-useful-is-ansible-in-a-cloud-native-kubernetes-environment)
-
-``TODO - integrate k8s with ansible, deploy app in k3s``
+After that I found great article, which gives me more ideas what to do with Kubernetes and Ansible: [How useful is Ansible in a Cloud-Native Kubernetes Environment?](https://www.ansible.com/blog/how-useful-is-ansible-in-a-cloud-native-kubernetes-environment).
 
 ## Jenkins
 
