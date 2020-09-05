@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-java-deployment
+  namespace: default
   labels:
     role: api-java
 spec:
