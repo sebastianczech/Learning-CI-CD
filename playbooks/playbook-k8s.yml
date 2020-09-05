@@ -12,9 +12,9 @@
     - name: Create a service object by reading the definition from a file
       k8s:
         state: present
-        src: ../kubernetes/api-java/service-loadbalancer.yml
+        src: kubernetes/api-java/service-loadbalancer.yml
     - name: Create a deployment object by reading the definition from a file
       k8s:
         state: present
-        src: ../kubernetes/api-java/deployment.yml
+        src: kubernetes/api-java/deployment.yml
         
