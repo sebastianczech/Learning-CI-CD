@@ -12,9 +12,9 @@
     - name: Create a service object by reading the definition from a file
       k8s:
         state: present
-        definition: "{{ lookup('file', 'kubernetes/api-java/service-loadbalancer.yml') }}"
+        definition: "{{ lookup('file', '../kubernetes/api-java/service-loadbalancer.yml') }}"
     - name: Create a deployment object by reading the definition from a file
       k8s:
         state: present
-        definition: "{{ lookup('file', 'kubernetes/api-java/deployment.yml') }}"
+        definition: "{{ lookup('file', '../kubernetes/api-java/deployment.yml') }}"
         
