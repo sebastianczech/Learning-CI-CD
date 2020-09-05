@@ -17,7 +17,7 @@ pipeline {
                 sh 'ls -la'
             }
         }
-        stage('K8s list pods') {
+        stage('K8s deploy app') {
             steps {
                 sh 'ansible-playbook -i playbooks/hosts.yml playbooks/playbook-k8s.yml'
             }
