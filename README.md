@@ -105,7 +105,7 @@ docker service create \
 docker service rm api-java
 ```
 
-``TODO - deploy app in swarm``
+While creating pipeline to deploy on Docker Swarm using Ansible, I used module [docker_swarm_service](https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html).
 
 ## Kubernetes
 
