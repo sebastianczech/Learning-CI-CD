@@ -1,0 +1,17 @@
+---
+- hosts: homelab
+  tasks:  
+    - name: Create service
+      docker_swarm_service:
+        name: api-java
+        image: 192.168.0.27/api-java:cicd
+        publish:
+          published_port: 36080
+          target_port: 48080
+    - name: Get info about service
+      docker_swarm_service_info:
+        name: api-java
+      register: result
+    - name: Show info about service
+      debug:
+        var: result
