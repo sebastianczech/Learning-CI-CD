@@ -79,6 +79,32 @@ docker-compose down
 
 ## Docker Swarm
 
+[Tutorial about creating swarm and deploy service](https://docs.docker.com/engine/swarm/swarm-tutoria):
+
+```bash
+docker info 
+docker swarm init --advertise-addr 192.168.0.27
+
+docker swarm join-token worker
+docker swarm join --token SWMTKN-1-3hnvuy1bwvcrq398b616t1waaapzh0vgwvaxt048nktjb98470-3x2ejgu5jqjbtojib8t1i702y 192.168.0.27:2377
+
+docker node ls
+
+docker service create --replicas 1 --name helloworld alpine ping docker.com
+docker service ls
+docker service inspect --pretty helloworld
+docker service ps helloworld
+docker service scale helloworld=2
+docker service rm helloworld
+
+docker service create \
+  --name api-java \
+  --publish published=36080,target=48080 \
+  --replicas 2 \
+  192.168.0.27/api-java:cicd
+docker service rm api-java
+```
+
 ``TODO - deploy app in swarm``
 
 ## Kubernetes
@@ -211,6 +237,18 @@ sudo iptables-legacy-restore < /home/seba/iptables-legacy-20200904
 ```
 
 After that I found great article, which gives me more ideas what to do with Kubernetes and Ansible: [How useful is Ansible in a Cloud-Native Kubernetes Environment?](https://www.ansible.com/blog/how-useful-is-ansible-in-a-cloud-native-kubernetes-environment).
+
+``TODO - fix issue with iptables``
+
+``TODO - check stateful set``
+
+``TODO - check persistent volume``
+
+``TODO - check config map``
+
+``TODO - check secrets``
+
+``TODO - check policies and network``
 
 ## Jenkins
 
