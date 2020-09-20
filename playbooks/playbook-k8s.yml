@@ -38,4 +38,12 @@
       command: "/usr/sbin/netfilter-persistent reload"
       register: netfilter_reload
       become: yes                             
-            
+    - name: Install nftables
+      package:
+        name: nftables
+        state: present      
+      become: yes        
+    - name: Enable nftables
+      command: "systemctl enable nftables.service"
+      register: nftables_enable
+      become: yes               
