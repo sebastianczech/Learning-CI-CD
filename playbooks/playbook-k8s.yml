@@ -17,4 +17,12 @@
       k8s:
         state: present
         definition: "{{ lookup('file', '../kubernetes/api-java/deployment.yml') }}"
-        
+    - name: Allow iptables forward
+      command: "iptables -P FORWARD ACCEPT"
+      register: iptables_forward
+      become: yes        
+    - name: Install iptables-persistent
+      package:
+        name: iptables-persistent
+        state: present      
+      become: yes        

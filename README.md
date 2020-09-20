@@ -218,22 +218,19 @@ While integrating with Kubernetes, [problem with managing certficates need to re
 
 While creating deployment and service, I used [tutorial about exposing external IP](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/).
 
-To access IP from outside, I have changed iptables:
+To access IP from outside,[ I have changed iptables using Oracle documentation](https://docs.oracle.com/en/operating-systems/oracle-linux/kubernetes/kube_admin_config_iptables.html):
 
 ```bash
-sudo iptables -L  
+sudo iptables -L -v -n    
+sudo iptables-legacy -L -v -n      
 
 sudo iptables-save > /home/seba/iptables-20200904                
 sudo iptables-legacy-save > /home/seba/iptables-legacy-20200904  
 
+sudo iptables -P FORWARD ACCEPT                
+# or 
 sudo iptables -F                                                 
 sudo iptables -X                                                 
-sudo iptables -P INPUT ACCEPT                                    
-sudo iptables -P OUTPUT ACCEPT                                   
-sudo iptables -P FORWARD ACCEPT                
-
-sudo iptables-restore < /home/seba/iptables-20200904 
-sudo iptables-legacy-restore < /home/seba/iptables-legacy-20200904  
 ```
 
 After that I found great article, which gives me more ideas what to do with Kubernetes and Ansible: [How useful is Ansible in a Cloud-Native Kubernetes Environment?](https://www.ansible.com/blog/how-useful-is-ansible-in-a-cloud-native-kubernetes-environment).
