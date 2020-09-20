@@ -28,9 +28,14 @@
       become: yes        
     - name: Enable netfilter persistent
       command: "systemctl enable netfilter-persistent"
-      register: netfilter_persistent
+      register: netfilter_enable
       become: yes                       
-    - name: Save netfilter
+    - name: Save netfilter persistent
       command: "/usr/sbin/netfilter-persistent save"
       register: netfilter_save
       become: yes                             
+    - name: Reload netfilter persistent
+      command: "/usr/sbin/netfilter-persistent reload"
+      register: netfilter_reload
+      become: yes                             
+            
