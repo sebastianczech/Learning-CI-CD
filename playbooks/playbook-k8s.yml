@@ -17,12 +17,16 @@
       k8s:
         state: present
         definition: "{{ lookup('file', '../kubernetes/api-java/deployment.yml') }}"
-    - name: Allow iptables forward
-      command: "iptables -P FORWARD ACCEPT"
-      register: iptables_forward
-      become: yes        
     - name: Install iptables-persistent
       package:
         name: iptables-persistent
         state: present      
       become: yes        
+    - name: Allow iptables forward
+      command: "iptables -P FORWARD ACCEPT"
+      register: iptables_forward
+      become: yes        
+    - name: Enable netfilter persistent
+      command: "systemctl enable netfilter-persistent"
+      register: netfilter_persistent
+      become: yes                       
