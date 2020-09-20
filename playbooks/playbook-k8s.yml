@@ -30,3 +30,7 @@
       command: "systemctl enable netfilter-persistent"
       register: netfilter_persistent
       become: yes                       
+    - name: Save netfilter
+      command: "/usr/sbin/netfilter-persistent save"
+      register: netfilter_save
+      become: yes                             
