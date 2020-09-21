@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+        node {
+            label 'homelab'
+        }
+    }
+
+    tools {
+        maven 'tool-apache-maven-3.6.3' 
+    }
+
+    stages {
+        stage('Info') {
+            steps {
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
+
+    post {
+        success {
+            mail to: "sebaczech@gmail.com",
+            subject: "CI/CD platform - success pipeline - ${currentBuild.fullDisplayName}",
+            body: "Everything is ok with ${env.BUILD_URL}"
+        }
+        failure {
+            mail to: "sebaczech@gmail.com",
+            subject: "CI/CD platform - failed pipeline: ${currentBuild.fullDisplayName}",
+            body: "Something is wrong with ${env.BUILD_URL}"
+        }
+    }
+}
