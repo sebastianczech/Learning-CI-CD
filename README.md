@@ -300,9 +300,31 @@ If you have error *Url is blocked: Requests to the local network are not allowed
 http://192.168.0.18:9080/admin/application_settings/network
 ```
 
-``TODO - on 1 jenkins install some tools``
+Sometimes there is no need to use Docker, but [global tools defined in Jenkins](https://www.jenkins.io/doc/book/pipeline/syntax/#tools).
 
-``TODO - try advanced pipelines and use plugins for IDE``
+While developing pipelines, I used [Jenkins Pipeline Linter Connector](https://marketplace.visualstudio.com/items?itemName=janjoerke.jenkins-pipeline-linter-connector), for which we need to use linter described in [pipeline development tools](https://www.jenkins.io/doc/book/pipeline/development/).
+
+To use linter from command line, use:
+
+```bash
+export JENKINS_URL=devops:8080                                        
+curl -Lv http://$JENKINS_URL/login 2>&1 | grep -i 'x-ssh-endpoint'  
+< X-SSH-Endpoint: devops:7788  
+ssh -l admin -p 7788 devops help 
+
+export JENKINS_SSHD_PORT=7788
+export JENKINS_HOSTNAME=devops
+export JENKINS_USER=admin
+ssh -l $JENKINS_USER -p $JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile
+
+export JENKINS_URL=http://admin:***@devops:8080/ 
+JENKINS_CRUMB=`curl "$JENKINS_URL/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"`
+curl -X POST -H $JENKINS_CRUMB -F "jenkinsfile=<Jenkinsfile" $JENKINS_URL/pipeline-model-converter/validate
+```
+
+In Visual Studio Code besides user and password I configured:
+* Crumb URL: ```http://devops:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)```
+* Linter URL: ```http://devops:8080/pipeline-model-converter/validate```
 
 To abort job, which cannot be stopped from UI, we can usi Manage *Jenkins -> Script Console*:
 
