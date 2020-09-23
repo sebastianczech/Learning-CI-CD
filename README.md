@@ -462,15 +462,12 @@ man ciphers
 ### Trust Store
 
 ```bash
-https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins↩
-/certdata.txt
+https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
 https://raw.github.com/bagder/curl/master/lib/mk-ca-bundle.pl
 
 https://github.com/agl/extract-nss-root-certs
-wget https://raw.github.com/agl/extract-nss-root-certs/master/convert_mozilla↩
-_certdata.go
-wget https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw↩
-/builtins/certdata.txt --output-document certdata.txt
+wget https://raw.github.com/agl/extract-nss-root-certs/master/convert_mozilla_certdata.go
+wget https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt --output-document certdata.txt
 go run convert_mozilla_certdata.go > ca-certificates
 ```
 
@@ -479,6 +476,27 @@ go run convert_mozilla_certdata.go > ca-certificates
 1. Generate a strong private key,
 2. Create a Certificate Signing Request (CSR) and send it to a CA,
 3. Install the CA-provided certificate in your web server.
+
+### Key generation
+
+```bash
+openssl genrsa -aes128 -out fd.key 2048
+openssl rsa -text -in fd.key
+openssl rsa -in fd.key -pubout -out fd-public.key
+```
+
+## cURL
+
+* [SSL Certificate Verification](https://curl.haxx.se/docs/sslcerts.html)
+* [How to curl an endpoint protected by mutual tls (mtls)](https://downey.io/notes/dev/curl-using-mutual-tls/)
+* [Using Mutual TLS on the Client Side with Curl](https://smallstep.com/hello-mtls/doc/client/curl)
+  
+```bash
+curl --cacert ca.crt \
+     --key client.key \
+     --cert client.crt \
+     https://domain.com
+```
 
 ## OCSP (Online Certificate Status Protocol)
 
