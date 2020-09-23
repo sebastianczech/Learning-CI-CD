@@ -448,6 +448,38 @@ openssl req \
 openssl x509  -noout -text -in certs/domain.crt 
 ```
 
+Command use while learning from book [OpenSSL Cookbook](https://www.feistyduck.com/library/openssl-cookbook/online/ch-openssl.html):
+
+### Getting started
+
+```bash
+openssl version
+openssl version -a
+openssl help
+man ciphers
+```
+
+### Trust Store
+
+```bash
+https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins↩
+/certdata.txt
+https://raw.github.com/bagder/curl/master/lib/mk-ca-bundle.pl
+
+https://github.com/agl/extract-nss-root-certs
+wget https://raw.github.com/agl/extract-nss-root-certs/master/convert_mozilla↩
+_certdata.go
+wget https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw↩
+/builtins/certdata.txt --output-document certdata.txt
+go run convert_mozilla_certdata.go > ca-certificates
+```
+
+### Key and Certificate Management
+
+1. Generate a strong private key,
+2. Create a Certificate Signing Request (CSR) and send it to a CA,
+3. Install the CA-provided certificate in your web server.
+
 ## OCSP (Online Certificate Status Protocol)
 
 Resources about OCSP:
