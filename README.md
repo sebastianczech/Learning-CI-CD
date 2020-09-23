@@ -422,7 +422,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ``TODO - try to run simple machine``
 
-## SSL/TLS, OCSP
+## SSL/TLS
 
 Resources about SSL/TLS and certificates:
 * [OpenSSL Cookbook](https://www.feistyduck.com/books/openssl-cookbook/)
@@ -448,7 +448,34 @@ openssl req \
 openssl x509  -noout -text -in certs/domain.crt 
 ```
 
-``TODO - working with certificates (OCSP)``
+## OCSP (Online Certificate Status Protocol)
+
+Resources about OCSP:
+* [What Is Online Certificate Status Protocol (OCSP) and Tutorial with Examples?](https://www.poftut.com/what-is-online-certificate-status-protocol-ocsp-and-tutorial-with-examples/)
+* [Understanding Online Certificate Status Protocol and Certificate Revocation Lists](https://www.juniper.net/documentation/en_US/junos/topics/concept/certificate-ocsp-understanding.html)
+* [OCSP Stapling](https://www.keycdn.com/support/ocsp-stapling)
+* [OpenSSL OCSP](https://www.openssl.org/docs/man1.1.0/man1/ocsp.html)
+* [OCSP Validation with OpenSSL](https://akshayranganath.github.io/OCSP-Validation-With-Openssl/)
+* [Create your own OCSP server](https://medium.com/@bhashineen/create-your-own-ocsp-server-ffb212df8e63)
+
+Testing OCSP with OpenSSL:
+
+```bash
+# Step 1: Get the server certificate
+openssl s_client -connect www.akamai.com:443 < /dev/null 2>&1 |  sed -n '/-----BEGIN/,/-----END/p' > certificate.pem
+
+# Step 2: Get the intermediate certificate
+openssl s_client -showcerts -connect www.akamai.com:443 < /dev/null 2>&1 |  sed -n '/-----BEGIN/,/-----END/p'
+openssl s_client -showcerts -connect www.akamai.com:443 < /dev/null 2>&1 |  sed -n '/-----BEGIN/,/-----END/p' > chain.pem        
+
+# Step 3: Get the OCSP responder for server certificate
+openssl x509 -noout -ocsp_uri -in certificate.pem 
+openssl x509 -text -noout -in certificate.pem 
+
+# Step 4: Make the OCSP request
+openssl ocsp -issuer chain.pem -cert certificate.pem -text -url http://ocsp.digicert.com
+openssl ocsp -issuer chain.pem -cert certificate.pem -text -url http://ocsp2.globalsign.com/cloudsslsha2g3 -header "HOST" "ocsp2.globalsign.com"
+```
 
 ## Summary
 
