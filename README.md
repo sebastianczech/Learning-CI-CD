@@ -586,6 +586,12 @@ openssl ciphers -v 'ALL:COMPLEMENTOFALL'
 openssl speed rc4 aes rsa ecdh sha
 ```
 
+### Connecting to SSL Services
+
+```
+openssl s_client -connect www.google.com:443
+```
+
 ## cURL
 
 * [SSL Certificate Verification](https://curl.haxx.se/docs/sslcerts.html)
