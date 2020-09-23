@@ -461,10 +461,14 @@ man ciphers
 
 ### Trust Store
 
+Perl:
 ```bash
 https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
 https://raw.github.com/bagder/curl/master/lib/mk-ca-bundle.pl
+```
 
+Go:
+```bash
 https://github.com/agl/extract-nss-root-certs
 wget https://raw.github.com/agl/extract-nss-root-certs/master/convert_mozilla_certdata.go
 wget https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt --output-document certdata.txt
@@ -483,6 +487,49 @@ go run convert_mozilla_certdata.go > ca-certificates
 openssl genrsa -aes128 -out fd.key 2048
 openssl rsa -text -in fd.key
 openssl rsa -in fd.key -pubout -out fd-public.key
+```
+
+### Creating Certificate Signing Requests
+
+```bash
+openssl req -new -key fd.key -out fd.csr
+openssl req -text -in fd.csr -noout
+```
+
+### Creating Certificate Signing Requests from existing certificate
+
+```
+openssl x509 -x509toreq -in fd.crt -out fd.csr -signkey fd.key
+```
+
+### Unattended CSR Generation
+
+```bash
+more fd.cnf
+
+[req]
+prompt = no
+distinguished_name = dn
+req_extensions = ext
+input_password = PASSPHRASE
+
+[dn]
+CN = www.feistyduck.com
+emailAddress = webmaster@feistyduck.com
+O = Feisty Duck Ltd
+L = London
+C = GB
+
+[ext]
+subjectAltName = DNS:www.feistyduck.com,DNS:feistyduck.com
+
+openssl req -new -config fd.cnf -key fd.key -out fd.csr
+```
+
+### Signing Your Own Certificates
+
+```bash
+openssl x509 -req -days 365 -in fd.csr -signkey fd.key -out fd.crt
 ```
 
 ## cURL
