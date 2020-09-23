@@ -532,6 +532,60 @@ openssl req -new -config fd.cnf -key fd.key -out fd.csr
 openssl x509 -req -days 365 -in fd.csr -signkey fd.key -out fd.crt
 ```
 
+### Creating Certificates Valid for Multiple Hostnames
+
+```bash
+more fd.ext
+
+subjectAltName = DNS:*.feistyduck.com, DNS:feistyduck.com
+
+openssl x509 -req -days 365 \
+-in fd.csr -signkey fd.key -out fd.crt \
+-extfile fd.ext
+```
+
+### Examining Certificates
+
+```bash
+openssl x509 -text -in fd.crt -noout
+```
+
+### PEM and DER Conversion
+
+```bash
+openssl x509 -inform PEM -in fd.pem -outform DER -out fd.der
+openssl x509 -inform DER -in fd.der -outform PEM -out fd.pem
+```
+
+### PKCS#12 (PFX) Conversion
+
+```bash
+openssl pkcs12 -export \
+    -name "My Certificate" \
+    -out fd.p12 \
+    -inkey fd.key \
+    -in fd.crt \
+    -certfile fd-chain.crt
+
+openssl pkcs12 -in fd.p12 -out fd.pem -nodes
+
+openssl pkcs12 -in fd.p12 -nocerts -out fd.key -nodes
+openssl pkcs12 -in fd.p12 -nokeys -clcerts -out fd.crt
+openssl pkcs12 -in fd.p12 -nokeys -cacerts -out fd-chain.crt
+```
+
+### Obtaining the List of Supported Suites
+
+```bash
+openssl ciphers -v 'ALL:COMPLEMENTOFALL'
+```
+
+### Performance
+
+```bash
+openssl speed rc4 aes rsa ecdh sha
+```
+
 ## cURL
 
 * [SSL Certificate Verification](https://curl.haxx.se/docs/sslcerts.html)
