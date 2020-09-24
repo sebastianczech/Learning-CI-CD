@@ -359,12 +359,15 @@ docker run --detach \
 
 Another important topics:
 * [Configuring the external URL for GitLab](https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab)
-* [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
+* [Getting started with GitLab CI/CD](https://gitlab.com/help/ci/quick_start/README)
 * [GitLab pipelines](https://docs.gitlab.com/ee/ci/pipelines/)
+* [GitLab Package Registry](https://gitlab.com/help/user/packages/package_registry/index)
+* [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
+* [GitLab Runner](https://docs.gitlab.com/runner/install/)
 
 ``TODO - build container registry``
 
-``TODO - build gitlab pipelines``
+``TODO - create runner``
 
 ## Other CI/CD
 
@@ -405,18 +408,6 @@ Besides typical playbooks there are other important topics to learn:
 ## Terraform
 
 ``TODO - try terraform``
-
-## Vault
-
-``TODO - try vault``
-
-## Consul
-
-``TODO - try service discovery``
-
-## Pact
-
-``TODO - try contract testing with pact``
 
 ## KVM
 
