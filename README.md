@@ -426,6 +426,22 @@ Besides typical playbooks there are other important topics to learn:
 
 ```bash
 terraform login  
+
+more example.tf 
+
+terraform {
+  backend "remote" {
+    organization = "sebastianczech"
+
+    workspaces {
+      name = "Learning-Terraform"
+    }
+  }
+}
+
+terraform init 
+terraform plan
+terraform apply 
 ```
 
 ## KVM
