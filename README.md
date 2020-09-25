@@ -362,12 +362,23 @@ Another important topics:
 * [Getting started with GitLab CI/CD](https://gitlab.com/help/ci/quick_start/README)
 * [GitLab pipelines](https://docs.gitlab.com/ee/ci/pipelines/)
 * [GitLab Package Registry](https://gitlab.com/help/user/packages/package_registry/index)
+* [Building Docker images with GitLab CI/CD](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html)
 * [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
 * [GitLab Runner](https://docs.gitlab.com/runner/install/)
 
-``TODO - build container registry``
+Using container registry from command line:
 
-``TODO - create runner``
+```bash
+docker login registry.gitlab.com
+docker build -t registry.gitlab.com/sebastianczech/simple-rest-api-java-spring .
+docker image tag 192.168.0.27/api-java:cicd registry.gitlab.com/sebastianczech/simple-rest-api-java-spring
+docker push registry.gitlab.com/sebastianczech/simple-rest-api-java-spring
+docker logout
+```
+
+``TODO - build self-hosted container registry and push images from CI/CD to registry``
+
+``TODO - create self-hosted runner and connect with self-hosted gitlab``
 
 ## Other CI/CD
 
@@ -407,7 +418,7 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Terraform
 
-``TODO - try terraform``
+``TODO - try terraform with heroku``
 
 ## KVM
 
