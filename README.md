@@ -418,7 +418,15 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Terraform
 
-``TODO - try terraform with heroku``
+* [Get started with Terraform Cloud](https://app.terraform.io/app/getting-started/intro)
+* [Introduction to Infrastructure as Code with Terraform](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code)
+* [Get Started - Terraform Cloud](https://learn.hashicorp.com/collections/terraform/cloud-get-started)
+* [Workspaces](https://www.terraform.io/docs/cloud/workspaces/index.html)
+* [Workflows](https://www.terraform.io/docs/cloud/run/ui.html)
+
+```bash
+terraform login  
+```
 
 ## KVM
 
@@ -432,6 +440,8 @@ Resources about SSL/TLS and certificates:
 * [certbot](https://certbot.eff.org/)
 * [KeyStore Explorer](https://keystore-explorer.org/)
 * [Keystore vs. Truststore](https://www.educative.io/edpresso/keystore-vs-truststore)
+* [Let's Encrypt](https://letsencrypt.org/)
+* [Certbot](https://certbot.eff.org/)
 
 Creating own certificate:
 
@@ -494,6 +504,7 @@ openssl rsa -in fd.key -pubout -out fd-public.key
 ### Creating Certificate Signing Requests
 
 ```bash
+# openssl req -new -keyform PEM -key fd.key -outform PEM -out fd.csr -sha256 -batch -subcj "..."
 openssl req -new -key fd.key -out fd.csr
 openssl req -text -in fd.csr -noout
 ```
@@ -562,6 +573,15 @@ openssl x509 -inform DER -in fd.der -outform PEM -out fd.pem
 ### PKCS#12 (PFX) Conversion
 
 ```bash
+# openssl pkcs12 -export \
+#    -name "My Certificate" \
+#    -out fd.p12 \
+#    -inkey fd.key \
+#    -in fd.crt \
+#    -chain
+#    -caname root
+#    -CAfile ca.crt
+
 openssl pkcs12 -export \
     -name "My Certificate" \
     -out fd.p12 \
