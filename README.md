@@ -449,39 +449,13 @@ terraform apply -var-file="terraform.tfvars"
 
 ## KVM
 
-### Check status of *libvirtd*
+### Install packages on Debian and check status of *libvirtd*
 
 ```
+sudo apt install qemu qemu-kvm qemu-system qemu-utils
+sudo apt install libvirt-clients libvirt-daemon-system virtinst virt-top
+
 systemctl status libvirtd
-```
-
-### List all VMs
-
-```
-virsh -c qemu:///system list
-virsh list  --all
-```
-
-### Operations on VM - start, shutdown, suspend, resume
-
-```
-virsh shutdown debian10
-virsh start debian10
-
-virsh suspend debian10
-virsh resume debian10
-```
-
-### Info about VM
-
-```
-virsh dominfo debian10
-```
-
-### Connect to console
-
-```
-virsh console debian10
 ```
 
 ### List networks
@@ -497,7 +471,69 @@ virsh net-start default
 virsh net-autostart default
 ```
 
-``TODO - try to run simple machine``
+### Prepare directories
+
+```
+sudo mkdir -pv /kvm/{disk,iso}
+```
+
+### List all VMs
+
+```
+virsh -c qemu:///system list
+virsh list  --all
+```
+
+### Create new VM
+
+```
+virt-install \
+ --name debian10 \
+ --description "Debian10" \
+ --os-type=linux \
+ --os-variant=debian10 \
+ --ram=1024 \
+ --vcpus=1 \
+ --disk path=/kvm/disk/debian10.img,device=disk,bus=virtio,size=10,format=qcow2 \
+ --graphics none \
+ --console pty,target_type=serial \
+ --location '/kvm/iso/debian-firmware-10.5.0-amd64-netinst.iso' \
+ --extra-args 'console=ttyS0,115200n8 serial' \
+ --network network:default \
+ --force --debug 
+```
+
+### Edit config file
+
+```
+ls -l /etc/libvirt/qemu/debian10.xml
+virsh edit debian10
+```
+
+### Operations on VM - start, shutdown, suspend, resume
+
+```
+virsh shutdown debian10
+virsh start debian10
+virsh reboot debian10
+
+virsh suspend debian10
+virsh resume debian10
+```
+
+### Info about VM
+
+```
+virsh dominfo debian10
+virsh vncdisplay debian10
+virt-top
+```
+
+### Connect to console
+
+```
+virsh console debian10
+```
 
 ## SSL/TLS
 
