@@ -442,9 +442,60 @@ terraform {
 terraform init 
 terraform plan
 terraform apply 
+terraform apply -var-file="terraform.tfvars"                      
 ```
 
+``TODO - try terraform with heroku``
+
 ## KVM
+
+### Check status of *libvirtd*
+
+```
+systemctl status libvirtd
+```
+
+### List all VMs
+
+```
+virsh -c qemu:///system list
+virsh list  --all
+```
+
+### Operations on VM - start, shutdown, suspend, resume
+
+```
+virsh shutdown debian10
+virsh start debian10
+
+virsh suspend debian10
+virsh resume debian10
+```
+
+### Info about VM
+
+```
+virsh dominfo debian10
+```
+
+### Connect to console
+
+```
+virsh console debian10
+```
+
+### List networks
+
+```
+virsh net-list --all
+```
+
+### Start network
+
+```
+virsh net-start default
+virsh net-autostart default
+```
 
 ``TODO - try to run simple machine``
 
