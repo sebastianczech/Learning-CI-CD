@@ -376,10 +376,6 @@ docker push registry.gitlab.com/sebastianczech/simple-rest-api-java-spring
 docker logout
 ```
 
-``TODO - build self-hosted container registry and push images from CI/CD to registry``
-
-``TODO - create self-hosted runner and connect with self-hosted gitlab``
-
 ## Other CI/CD
 
 * [GitHub Actions](https://github.com/features/actions)
