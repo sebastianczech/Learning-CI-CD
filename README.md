@@ -423,6 +423,10 @@ Besides typical playbooks there are other important topics to learn:
 * [Get Started - Terraform Cloud](https://learn.hashicorp.com/collections/terraform/cloud-get-started)
 * [Workspaces](https://www.terraform.io/docs/cloud/workspaces/index.html)
 * [Workflows](https://www.terraform.io/docs/cloud/run/ui.html)
+* [Terraform Cloud](https://app.terraform.io/app)
+* [Using Terraform with Heroku](https://devcenter.heroku.com/articles/using-terraform-with-heroku)
+* [Terraform Provider Heroku](https://github.com/heroku/terraform-provider-heroku)
+* [Terraform Registry - Heroku Provider](https://registry.terraform.io/providers/heroku/heroku/latest/docs)
 
 ```bash
 terraform login  
@@ -444,8 +448,6 @@ terraform plan
 terraform apply 
 terraform apply -var-file="terraform.tfvars"                      
 ```
-
-``TODO - try terraform with heroku``
 
 ## KVM
 
