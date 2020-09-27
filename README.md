@@ -366,6 +366,11 @@ Another important topics:
 * [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
 * [GitLab Runner](https://docs.gitlab.com/runner/install/)
 
+Register GitLab runner installed using Docker:
+```bash
+docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+```
+
 Using container registry from command line:
 
 ```bash

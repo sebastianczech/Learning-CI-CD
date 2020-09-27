@@ -1,0 +1,19 @@
+---
+- name: Install GitLab Runner
+  hosts: homelab
+  vars:
+    DOCKER_VOLUMES:
+      - gitlab-runner-config
+  tasks:  
+  - name: Create a volumes in Docker
+    docker_volume:
+      name: "{{ item }}"
+    loop: "{{ DOCKER_VOLUMES }}"
+  - name: Start Docker container for GitLab Runner
+    docker_container:
+      name: gitlab-runner
+      image: gitlab/gitlab-runner:latest
+      restart_policy: always
+      hostname: homelab
+      volumes:
+        - gitlab-runner-config:/etc/gitlab-runner
