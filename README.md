@@ -337,6 +337,22 @@ Jenkins.instance.getItemByFullName("CI-CD-pipeline-analyze-code")
   );
 ```
 
+### Jenskins on Kubernetes
+
+* [Code - Jenkins on Kubernetes](https://github.com/lukefernandez/jenkins-on-kubernetes/tree/main/code-snippets)
+* [Jenkins on Kubernetes: From Zero to Hero](https://medium.com/slalom-build/jenkins-on-kubernetes-4d8c3d9f2ece)
+* [Kubernetes provider for Terraform (alpha)](https://github.com/hashicorp/terraform-provider-kubernetes-alpha)
+* [Jenkins Configuration as Code](https://www.jenkins.io/projects/jcasc/)
+* [Zero-downtime Deployment in Kubernetes with Jenkins](https://kubernetes.io/blog/2018/04/30/zero-downtime-deployment-kubernetes-jenkins/)
+* [Jenkisn plugin - Kubernetes](https://plugins.jenkins.io/kubernetes/)
+* [Jenkins plugin - OpenId Connect Auth](https://plugins.jenkins.io/oic-auth/)
+* [Jenkins plugin - OpenId](https://plugins.jenkins.io/openid/)
+* [Jenkins plugin - Simple theme](https://plugins.jenkins.io/simple-theme-plugin/)
+* [Extending with Shared Libraries](https://www.jenkins.io/doc/book/pipeline/shared-libraries/)
+* [Parallelism and Distributed Builds with Jenkins](https://www.cloudbees.com/blog/parallelism-and-distributed-builds-jenkins)
+* [Parallel stages with Declarative Pipeline](https://www.jenkins.io/blog/2017/09/25/declarative-1/)
+* [Parallel syntax](https://www.jenkins.io/doc/book/pipeline/syntax/#parallel)
+
 ## Gitlab
 
 There are many ways to install GitLab, but the simplest one is that [using Docker](https://docs.gitlab.com/omnibus/docker/). In this scenario we need to do following commands:
