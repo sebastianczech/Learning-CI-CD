@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  name: api-java-ingress
+spec:
+  rules:
+  - host: api-java.192.168.0.18.nip.io
+    http:
+      paths:
+      - backend:
+          serviceName: api-java-service
+          servicePort: 32080
+        path: /
