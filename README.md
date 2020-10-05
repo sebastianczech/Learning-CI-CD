@@ -243,7 +243,11 @@ After that I found great article, which gives me more ideas what to do with Kube
 
 ``TODO - check secrets``
 
+``TODO - check ingress``
+
 ``TODO - check policies and network``
+
+``TODO - check Helm``
 
 ## Jenkins
 
