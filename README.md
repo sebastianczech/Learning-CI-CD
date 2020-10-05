@@ -109,6 +109,8 @@ While creating pipeline to deploy on Docker Swarm using Ansible, I used module [
 
 ## Kubernetes
 
+[Many examples of useful commands on my Gist](https://gist.github.com/sebastianczech/d3dc1852b93d993c20d12ad56c79bc51)
+
 For learning there is a great Kubernetes - [K3s](https://k3s.io/). To use [``kubectl``](https://rancher.com/learning-paths/how-to-manage-kubernetes-with-kubectl/) I used following commands to configure it:
 
 ```bash
@@ -121,7 +123,9 @@ $ export KUBECONFIG=/home/seba/.kube/config
 Using following commands we can check default configuration:
 
 ```bash
-➜  ~ kubectl get pods --all-namespaces 
+kubectl api-resources
+
+kubectl get pods --all-namespaces 
 NAMESPACE     NAME                                     READY   STATUS      RESTARTS   AGE
 kube-system   helm-install-traefik-r46s6               0/1     Completed   0          11d
 kube-system   metrics-server-7566d596c8-mx6bk          1/1     Running     22         11d
@@ -130,25 +134,25 @@ kube-system   svclb-traefik-vtcb6                      2/2     Running     44   
 kube-system   coredns-8655855d6-nppnc                  1/1     Running     24         11d
 kube-system   traefik-758cd5fc85-vhgzb                 1/1     Running     33         11d
 
-➜  ~ kubectl cluster-info 
+kubectl cluster-info 
 Kubernetes master is running at https://127.0.0.1:6443
 CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 Metrics-server is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
 
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 
-➜  ~ kubectl get nodes -o wide
+kubectl get nodes -o wide
 NAME     STATUS   ROLES    AGE   VERSION        INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                       KERNEL-VERSION    CONTAINER-RUNTIME
 devops   Ready    master   11d   v1.18.6+k3s1   192.168.0.18   <none>        Debian GNU/Linux 10 (buster)   4.19.0-10-amd64   containerd://1.3.3-k3s2
 
-➜  ~ kubectl get namespaces   
+kubectl get namespaces   
 NAME              STATUS   AGE
 default           Active   11d
 kube-system       Active   11d
 kube-public       Active   11d
 kube-node-lease   Active   11d
 
-➜  ~ kubectl get all --all-namespaces 
+kubectl get all --all-namespaces 
 NAMESPACE     NAME                                         READY   STATUS      RESTARTS   AGE
 kube-system   pod/helm-install-traefik-r46s6               0/1     Completed   0          11d
 kube-system   pod/metrics-server-7566d596c8-mx6bk          1/1     Running     22         11d
@@ -235,9 +239,13 @@ sudo iptables -X
 
 After that I found great article, which gives me more ideas what to do with Kubernetes and Ansible: [How useful is Ansible in a Cloud-Native Kubernetes Environment?](https://www.ansible.com/blog/how-useful-is-ansible-in-a-cloud-native-kubernetes-environment).
 
-``TODO - check stateful set``
+Manually scale deployment:
 
-``TODO - check persistent volume``
+```bash
+kubectl scale deployment --replicas=2 api-java-deployment
+```
+
+Using config maps:
 
 ```
 kubectl create configmap api-java-config --from-file=application.properties
@@ -246,6 +254,8 @@ kubectl get configmaps
 kubectl get configmaps api-java-config
 kubectl get configmaps api-java-config -o yaml
 ```
+
+Using secrets:
 
 ```bash
 echo -n 'secret123' | base64  
@@ -256,15 +266,23 @@ kubectl get secrets
 kubectl get secret api-java-password -o jsonpath='{.data.password}' | base64 --decode 
 ```
 
+Creating simple Ingress:
+
 ```bash
 kubectl apply -f ingress.yml  
 kubectl get ing --all-namespaces   
 kubectl delete -f ingress.yml
 ```
 
+After that simple Java API can be access via http://api-java.192.168.0.18.nip.io/.
+
 ``TODO - check Traefik``
 
 ``TODO - check policies and network``
+
+``TODO - check stateful set``
+
+``TODO - check persistent volume``
 
 ``TODO - check Helm``
 
