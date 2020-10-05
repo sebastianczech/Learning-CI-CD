@@ -239,11 +239,30 @@ After that I found great article, which gives me more ideas what to do with Kube
 
 ``TODO - check persistent volume``
 
-``TODO - check config map``
+```
+kubectl create configmap api-java-config --from-file=application.properties
+kubectl describe configmaps api-java-config 
+kubectl get configmaps 
+kubectl get configmaps api-java-config
+kubectl get configmaps api-java-config -o yaml
+```
 
-``TODO - check secrets``
+```bash
+echo -n 'secret123' | base64  
 
-``TODO - check ingress``
+kubectl apply -f secret.yaml  
+kubectl describe secret api-java-password   
+kubectl get secrets   
+kubectl get secret api-java-password -o jsonpath='{.data.password}' | base64 --decode 
+```
+
+```bash
+kubectl apply -f ingress.yml  
+kubectl get ing --all-namespaces   
+kubectl delete -f ingress.yml
+```
+
+``TODO - check Traefik``
 
 ``TODO - check policies and network``
 
