@@ -276,15 +276,14 @@ kubectl delete -f ingress.yml
 
 After that simple Java API can be access via http://api-java.192.168.0.18.nip.io/.
 
-``TODO - check Traefik``
+To configure Traefik with dashboard I used [Deploying Traefik as Ingress Controller for Your Kubernetes Cluster](https://medium.com/kubernetes-tutorials/deploying-traefik-as-ingress-controller-for-your-kubernetes-cluster-b03a0672ae0c) and [K3S: Traefik Dashboard activation](https://forums.rancher.com/t/k3s-traefik-dashboard-activation/17142):
 
-``TODO - check policies and network``
-
-``TODO - check stateful set``
-
-``TODO - check persistent volume``
-
-``TODO - check Helm``
+```bash
+kubectl create -f traefik-webui-svc.yaml
+kubectl describe svc traefik-web-ui --namespace=kube-system
+kubectl create -f traefik-ingress.yaml
+kubectl get ing --namespace=kube-system   
+```
 
 ## Jenkins
 
