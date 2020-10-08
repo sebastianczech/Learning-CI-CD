@@ -297,6 +297,26 @@ sudo vi /var/lib/rancher/k3s/server/manifests/traefik.yaml
 sudo kubectl apply -f /var/lib/rancher/k3s/server/manifests/traefik.yaml 
 ```
 
+After that Traefik dashboard can be access via http://dashboard-traefik.192.168.0.18.traefik.me/dashboard/.
+
+Detailed information about Traefik can be found on [Connecting Users to Applications with Kubernetes Ingress Controllers](https://traefik.io/blog/connecting-users-to-applications-with-kubernetes-ingress-controllers/), [13 Key Considerations When Selecting an Ingress Controller for Kubernetes](https://traefik.io/blog/13-key-considerations-when-selecting-an-ingress-controller-for-kubernetes-d3e5d98ed8b7/) and [Ingress Controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/#additional-controllers).
+
+Info about wildcard DNS:
+* [nip.io](https://nip.io/)
+* [traefik.me](http://traefik.me/)
+
+Another important topic is [Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) explained in [Kubernetes Operators Explained](https://blog.container-solutions.com/kubernetes-operators-explained). 
+
+Next topic after that is [Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
+
+### Service Mesh vs. Ingress Controller vs. API gateway
+
+|  | **Service Mesh** | **Ingress Controller** | **API gateway** |
+|-|-|-|-|
+| Definition | [dedicated infrastructure layer for facilitating service-to-service communications between microservices, often using a sidecar proxy](https://en.wikipedia.org/wiki/Service_mesh) | [an API object that manages external access to the services in a cluster, typically HTTP](https://kubernetes.io/docs/concepts/services-networking/ingress/) | [takes all API calls from clients, then routes them to the appropriate microservice with request routing, composition, and protocol translation](https://www.nginx.com/learn/api-gateway/) |
+| Example of product | [Istio](https://istio.io/) | [Traefik](https://containo.us/traefik/), [Envoy](https://www.envoyproxy.io/) | [KrakenD](https://www.krakend.io/), [Kong](https://konghq.com/kong/) |
+| Key points | decorator, circuit breaker, traffic management, security, observability (tracing, metrics and logging ) | edge router, reverse proxy, auto service discovery, routing, load balancing, security, observability | business logic, monitoring, security, cache, throttling, aggregation, manipulation, proxy, filtering, QoS, decoding |
+
 ## Jenkins
 
 There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
