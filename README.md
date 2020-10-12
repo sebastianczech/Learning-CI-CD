@@ -475,6 +475,13 @@ docker logout
 * [TeamCity](https://www.jetbrains.com/teamcity/)
 * [Circle CI](https://circleci.com/)
 * [Travis CI](https://travis-ci.org/)
+* [Buddy](https://buddy.works/)
+* [GoCD](https://www.gocd.org/)
+* [Bamboo](https://www.atlassian.com/software/bamboo)
+* [CodeShip](https://codeship.com/)
+* [Buildbot](https://buildbot.net/)
+* [Nevercode](https://nevercode.io/)
+* [Concourse CI](https://concourse-ci.org/)
 
 ## Ansible 
 
