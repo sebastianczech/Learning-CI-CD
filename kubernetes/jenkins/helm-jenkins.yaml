@@ -1,0 +1,7 @@
+master:
+  JCasC:
+    configScripts:
+      welcome-message: |
+        jenkins:
+          systemMessage: CI/CD server on K3s
+

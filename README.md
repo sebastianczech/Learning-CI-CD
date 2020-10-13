@@ -409,6 +409,49 @@ Jenkins.instance.getItemByFullName("CI-CD-pipeline-analyze-code")
   );
 ```
 
+### Jenskins and Helm
+
+Using [Jenkins Helm Chart](https://github.com/jenkinsci/helm-charts) to install Jenkins:
+
+```bash
+brew install helm
+helm repo list
+
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+helm search repo stable
+
+helm repo add jenkins https://charts.jenkins.io
+helm search repo jenkins
+
+helm show values jenkins/jenkins
+helm install jenkins/jenkins -f kubernetes/jenkins/helm-jenkins.yaml --generate-name
+
+NAME: jenkins-1602621398
+LAST DEPLOYED: Tue Oct 13 22:36:41 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get your 'admin' user password by running:
+  printf $(kubectl get secret --namespace default jenkins-1602621398 -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+2. Get the Jenkins URL to visit by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/component=jenkins-master" -l "app.kubernetes.io/instance=jenkins-1602621398" -o jsonpath="{.items[0].metadata.name}")
+  echo http://127.0.0.1:8080
+  kubectl --namespace default port-forward $POD_NAME 28080:8080
+
+3. Login with the password from step 1 and the username: admin
+
+4. Use Jenkins Configuration as Code by specifying configScripts in your values.yaml file, see documentation: http:///configuration-as-code and examples: https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
+
+For more information on running Jenkins on Kubernetes, visit:
+https://cloud.google.com/solutions/jenkins-on-container-engine
+For more information about Jenkins Configuration as Code, visit:
+https://jenkins.io/projects/jcasc/
+
+helm list  
+helm uninstall jenkins-1602621398           
+```
+
 ### Jenskins on Kubernetes
 
 * [Code - Jenkins on Kubernetes](https://github.com/lukefernandez/jenkins-on-kubernetes/tree/main/code-snippets)
