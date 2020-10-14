@@ -409,7 +409,12 @@ Jenkins.instance.getItemByFullName("CI-CD-pipeline-analyze-code")
   );
 ```
 
-### Jenskins and Helm
+### Jenkins and security
+
+* [Java Keytool](http://tutorials.jenkov.com/java-cryptography/keytool.html)
+* [Add GitHub SSL Certificate to Jenkins Keystore](https://gist.github.com/shanedroid/20ab6f1b50ac9a2d8713c570c165e598)
+
+### Jenkins and Helm
 
 Using [Jenkins Helm Chart](https://github.com/jenkinsci/helm-charts) to install Jenkins:
 
