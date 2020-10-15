@@ -414,6 +414,12 @@ Jenkins.instance.getItemByFullName("CI-CD-pipeline-analyze-code")
 * [Java Keytool](http://tutorials.jenkov.com/java-cryptography/keytool.html)
 * [Add GitHub SSL Certificate to Jenkins Keystore](https://gist.github.com/shanedroid/20ab6f1b50ac9a2d8713c570c165e598)
 
+```bash
+keytool -genkeypair -keyalg RSA -alias self_singed -keypass test -keystore test.keystore.p12 -storepass test
+keytool -importkeystore -scrkeystore test.keystore.p12 -destkeystore test2.keystore.p12 -deststoretype pkcs12
+keytool -list -keystore /etc/pki/java/cacerts -storepass changeit
+```
+
 ### Jenkins and Helm
 
 Using [Jenkins Helm Chart](https://github.com/jenkinsci/helm-charts) to install Jenkins:
@@ -861,6 +867,13 @@ openssl speed rc4 aes rsa ecdh sha
 
 ```
 openssl s_client -connect www.google.com:443
+openssl s_client -connect www.google.com:443 -servername www.google.com -CAfile self_signed.crt
+```
+
+### SSL server
+
+```bash
+openssl s_server -key public.pem -cert cert.crt -accept 8025 -wwww
 ```
 
 ## cURL
