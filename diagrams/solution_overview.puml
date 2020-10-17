@@ -2,9 +2,35 @@
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
 
 Person(devops, "DevOps Engineer")
+Person(developer, "Software Engineer")
+
 System_Boundary(cicd, "CI/CD") {
     Container(gitlab, "GitLab", "Git, WWW, database", "Source code version control platform")
+    Container(jenkins, "Jenkins", "Pipelines", "CI/CD platform")
+    Container(repo_nexus, "Nexus Repository", "Software component management")
+    Container(repo_jfrog, "JFrog Artifactory", "Repository manager")
+    Container(test_sonar, "SonarQube", "Code quality and security")
+    Container(test_robot, "Robot Framework", "Acceptance testing")
+    Container(ansible, "Ansible", "Application deployment and configuration management")
+    Container(docker_registry, "Docker Registry", "Docker images repository")
 }
 
+System_Ext(dev_machine, "IDE", "e.g. IntelliJ IDEA, PyCharm")
+System_Ext(k3s, "K3s", "Lightweight Kubernetes")
+System_Ext(docker_compose, "Docker Compose", "Tool for running multi-container application")
+
+Rel(developer, dev_machine, "Develops code")
 Rel(devops, gitlab, "Manages", "HTTPS")
+
+Rel(dev_machine, gitlab, "Commits / pushes", "Git (HTTPS)")
+Rel(gitlab, jenkins, "Notifies", "HTTPS")
+Rel(jenkins, repo_nexus, "Store built packages", "HTTPS")
+Rel(jenkins, repo_jfrog, "Store built packages", "HTTPS")
+Rel(jenkins, test_robot, "Acceptance tests", "HTTPS")
+Rel(jenkins, test_sonar, "Code quality and security tests", "HTTPS")
+Rel(jenkins, ansible, "Deploy application", "HTTPS")
+Rel(jenkins, docker_registry, "Store built images", "HTTPS")
+Rel(ansible, k3s, "Deploy on Kubernetes", "SSH")
+Rel(ansible, docker_compose, "Deployn on Docker Compose", "SSH")
+
 @enduml
