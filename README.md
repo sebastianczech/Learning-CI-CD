@@ -422,6 +422,12 @@ keytool -importkeystore -scrkeystore test.keystore.p12 -destkeystore test2.keyst
 keytool -list -keystore /etc/pki/java/cacerts -storepass changeit
 ```
 
+### Jenkins and high availability
+
+* [A Jenkins Master, with a Jenkins Master, with a ...](https://endocode.com/blog/2018/08/17/jenkins-high-availability-setup/)
+* [Architecting for Scale](https://www.jenkins.io/doc/book/scaling/architecting-for-scale/)
+* [How to configure Jenkins with High Availability?](https://www.opcito.com/blogs/how-to-configure-jenkins-with-high-availability/)
+
 ### Jenkins and Helm
 
 Using [Jenkins Helm Chart](https://github.com/jenkinsci/helm-charts) to install Jenkins:
