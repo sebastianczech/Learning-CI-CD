@@ -1,16 +1,16 @@
 # Learning CI/CD
 
-Notes, configuration files and scripts created while learning Docker, Kubernetes, Jenkins, Gitlab, Ansible, Terraform and KVM.
+Repository contains notes, configuration files and scripts created while learning Docker, Kubernetes, Jenkins, Gitlab, Ansible, Terraform and KVM.
 
 ## Overview
 
-[Solution proposal](https://app.lucidchart.com/documents/edit/bf943422-2c36-4820-9963-7439bd7eb89f) contains key technologies used for creating CI/CD in home environment. Details of my solution are available on [solution overview](diagrams/solution_overview.puml). Alternative to use plantUML there is a [Diagram as a code](https://diagrams.mingrammer.com/).
+[Solution proposal](https://app.lucidchart.com/documents/edit/bf943422-2c36-4820-9963-7439bd7eb89f) contains key technologies used for creating CI/CD in home environment. Details of my solution are available on [solution overview](diagrams/solution_overview.puml), which I presented below. It was created using plantUML, but there are also alternatives such as a [diagram as a code](https://diagrams.mingrammer.com/).
 
 ![solution_overview](diagrams/solution_overview.png "Solution overview")
 
 ## Prepare VM for CI/CD learning
 
-[Download Debian non-free netinst version](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/10.5.0+nonfree/amd64/iso-cd/firmware-10.5.0-amd64-netinst.iso) and after creating VM in VirtualBox and installing Debian, on host add IP address of the machine and copy SSH keys to enable passwordless access:
+At the beginning to prepare VM for learning [downloaded Debian non-free netinst version](https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/10.5.0+nonfree/amd64/iso-cd/firmware-10.5.0-amd64-netinst.iso) and after creating VM in VirtualBox and installing Debian, on host add IP address of the machine and copy SSH keys to enable passwordless access:
 
 ```bash
 grep devops /etc/hosts
@@ -37,7 +37,7 @@ cd playbooks
 
 ## Docker 
 
-For installing Docker I used great [tutorial](https://www.rechberger.io/tutorial-install-docker-using-ansible-on-a-remote-server/), which I modiifed to use [Docker on Debian](https://docs.docker.com/engine/install/debian/). Besides Docker, I installed Docker Compose and Ctop.
+For installing Docker I used great [tutorial](https://www.rechberger.io/tutorial-install-docker-using-ansible-on-a-remote-server/), which I modiifed to use [Docker on Debian](https://docs.docker.com/engine/install/debian/). Besides Docker, I installed ``Docker Compose`` and ``Ctop``.
 
 Besides creating single images for containers, in developing environment there is very useful pattern - [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/), which allow you aterfacts build in 1 container to be used on another one.
 
@@ -45,7 +45,7 @@ While containerizing app, important topic is [improve performance e.g. for Sprin
 
 ## Docker Registry
 
-For storing Docker images you can use Docker Hub or [reploy a registry server](https://docs.docker.com/registry/deploying/). After starting it use commands to store images in new registry:
+For storing Docker images you can use Docker Hub or [deploy a registry server](https://docs.docker.com/registry/deploying/). After starting it use commands to store images in new registry:
 
 ```bash
 docker image tag sebastian-czech/simple-rest-api-python-flask  192.168.0.18:5000/python-api
@@ -55,7 +55,7 @@ docker image tag sebastian-czech/simple-rest-api-java-spring  192.168.0.18:5000/
 docker push 192.168.0.18:5000/java-api
 ```
 
-To work it properly, is was using [insecure registry](https://docs.docker.com/registry/insecure/) and then [with self-signed certificate](https://hackernoon.com/create-a-private-local-docker-registry-5c79ce912620).
+At first I was using [insecure registry](https://docs.docker.com/registry/insecure/) and then [with self-signed certificate](https://hackernoon.com/create-a-private-local-docker-registry-5c79ce912620).
 
 To display all images you can use URLs:
 
@@ -81,7 +81,7 @@ docker-compose down
 
 ## Docker Swarm
 
-[Tutorial about creating swarm and deploy service](https://docs.docker.com/engine/swarm/swarm-tutoria):
+To start with Docker Swarm there is a [tutorial about creating swarm and deploy service](https://docs.docker.com/engine/swarm/swarm-tutoria). In my solution I used following commands:
 
 ```bash
 docker info 
@@ -111,7 +111,7 @@ While creating pipeline to deploy on Docker Swarm using Ansible, I used module [
 
 ## Kubernetes
 
-[Many examples of useful commands on my Gist](https://gist.github.com/sebastianczech/d3dc1852b93d993c20d12ad56c79bc51)
+While learning Kubernets some time ago, I have created gist with [many examples of useful commands](https://gist.github.com/sebastianczech/d3dc1852b93d993c20d12ad56c79bc51).
 
 For learning there is a great Kubernetes - [K3s](https://k3s.io/). To use [``kubectl``](https://rancher.com/learning-paths/how-to-manage-kubernetes-with-kubectl/) I used following commands to configure it:
 
@@ -241,13 +241,13 @@ sudo iptables -X
 
 After that I found great article, which gives me more ideas what to do with Kubernetes and Ansible: [How useful is Ansible in a Cloud-Native Kubernetes Environment?](https://www.ansible.com/blog/how-useful-is-ansible-in-a-cloud-native-kubernetes-environment).
 
-Manually scale deployment:
+Using following commands you can nanually scale deployment:
 
 ```bash
 kubectl scale deployment --replicas=2 api-java-deployment
 ```
 
-Using config maps:
+Using following commands you can use config maps:
 
 ```
 kubectl create configmap api-java-config --from-file=application.properties
@@ -257,7 +257,7 @@ kubectl get configmaps api-java-config
 kubectl get configmaps api-java-config -o yaml
 ```
 
-Using secrets:
+Using following commands you can use secrets:
 
 ```bash
 echo -n 'secret123' | base64  
@@ -268,7 +268,7 @@ kubectl get secrets
 kubectl get secret api-java-password -o jsonpath='{.data.password}' | base64 --decode 
 ```
 
-Creating simple Ingress:
+Using following commands you can use creatie simple Ingress:
 
 ```bash
 kubectl apply -f ingress.yml  
@@ -303,13 +303,15 @@ After that Traefik dashboard can be access via http://dashboard-traefik.192.168.
 
 Detailed information about Traefik can be found on [Connecting Users to Applications with Kubernetes Ingress Controllers](https://traefik.io/blog/connecting-users-to-applications-with-kubernetes-ingress-controllers/), [13 Key Considerations When Selecting an Ingress Controller for Kubernetes](https://traefik.io/blog/13-key-considerations-when-selecting-an-ingress-controller-for-kubernetes-d3e5d98ed8b7/) and [Ingress Controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/#additional-controllers).
 
-Info about wildcard DNS:
+With that subject there is connected point about wildcard DNS:
 * [nip.io](https://nip.io/)
 * [traefik.me](http://traefik.me/)
 
 Another important topic is [Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) explained in [Kubernetes Operators Explained](https://blog.container-solutions.com/kubernetes-operators-explained). 
 
 Next topic after that is [Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
+
+At the end I have created comparission between service mesh, ingress controller and API gateway.
 
 ### Service Mesh vs. Ingress Controller vs. API gateway
 
@@ -354,12 +356,12 @@ Another important topics:
 * [Using Docker with Pipeline](https://www.jenkins.io/doc/book/pipeline/docker/)
 * [Docker Pipeline plugin](https://docs.cloudbees.com/docs/admin-resources/latest/plugins/docker-workflow)
 
-Define new Pipeline from SCM e.g.:
+After installing Jenkins define new Pipeline from SCM e.g.:
 ```
 http://192.168.0.18:9080/seba/simple-rest-api-java-spring
 ```
 
-Create API token for user in Jenkins and configure build trigger for pipeline in Jenkins configured as web hook in GitLab:
+Then create API token for user in Jenkins and configure build trigger for pipeline in Jenkins configured as web hook in GitLab:
 ```
 http://admin:USER_TOKEN@192.168.0.18:8080/job/API-java/build?token=PIPELINE_TOKEN
 ```
@@ -413,8 +415,12 @@ Jenkins.instance.getItemByFullName("CI-CD-pipeline-analyze-code")
 
 ### Jenkins and security
 
+Articles connected with Jenkins and certificates:
+
 * [Java Keytool](http://tutorials.jenkov.com/java-cryptography/keytool.html)
 * [Add GitHub SSL Certificate to Jenkins Keystore](https://gist.github.com/shanedroid/20ab6f1b50ac9a2d8713c570c165e598)
+
+Example of use ``keytool``:
 
 ```bash
 keytool -genkeypair -keyalg RSA -alias self_singed -keypass test -keystore test.keystore.p12 -storepass test
@@ -423,6 +429,8 @@ keytool -list -keystore /etc/pki/java/cacerts -storepass changeit
 ```
 
 ### Jenkins and high availability
+
+Articles about HA in Jenkins:
 
 * [A Jenkins Master, with a Jenkins Master, with a ...](https://endocode.com/blog/2018/08/17/jenkins-high-availability-setup/)
 * [Architecting for Scale](https://www.jenkins.io/doc/book/scaling/architecting-for-scale/)
@@ -473,6 +481,8 @@ helm uninstall jenkins-1602621398
 
 ### Jenskins on Kubernetes
 
+Articles about K8s and Jenkins:
+
 * [Code - Jenkins on Kubernetes](https://github.com/lukefernandez/jenkins-on-kubernetes/tree/main/code-snippets)
 * [Jenkins on Kubernetes: From Zero to Hero](https://medium.com/slalom-build/jenkins-on-kubernetes-4d8c3d9f2ece)
 * [Kubernetes provider for Terraform (alpha)](https://github.com/hashicorp/terraform-provider-kubernetes-alpha)
@@ -516,12 +526,12 @@ Another important topics:
 * [GitLab Container Registry](https://docs.gitlab.com/omnibus/architecture/registry/README.html) for storing Docker images.
 * [GitLab Runner](https://docs.gitlab.com/runner/install/)
 
-Register GitLab runner installed using Docker:
+To register GitLab runner installed using Docker use following comman:
 ```bash
 docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
 ```
 
-Using container registry from command line:
+To use container registry from command line use followin commands:
 
 ```bash
 docker login registry.gitlab.com
@@ -576,6 +586,8 @@ Besides typical playbooks there are other important topics to learn:
 
 ## Terraform
 
+Interesting articles to start with Terraform:
+
 * [Get started with Terraform Cloud](https://app.terraform.io/app/getting-started/intro)
 * [Introduction to Infrastructure as Code with Terraform](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code)
 * [Get Started - Terraform Cloud](https://learn.hashicorp.com/collections/terraform/cloud-get-started)
@@ -585,6 +597,8 @@ Besides typical playbooks there are other important topics to learn:
 * [Using Terraform with Heroku](https://devcenter.heroku.com/articles/using-terraform-with-heroku)
 * [Terraform Provider Heroku](https://github.com/heroku/terraform-provider-heroku)
 * [Terraform Registry - Heroku Provider](https://registry.terraform.io/providers/heroku/heroku/latest/docs)
+
+Example of using Terraform:
 
 ```bash
 terraform login  
@@ -698,6 +712,7 @@ virsh console debian10
 ## SSL/TLS
 
 Resources about SSL/TLS and certificates:
+
 * [OpenSSL Cookbook](https://www.feistyduck.com/books/openssl-cookbook/)
 * [openssl s_client](https://www.feistyduck.com/library/openssl-cookbook/online/ch-testing-with-openssl.html)
 * [certbot](https://certbot.eff.org/)
@@ -706,7 +721,7 @@ Resources about SSL/TLS and certificates:
 * [Let's Encrypt](https://letsencrypt.org/)
 * [Certbot](https://certbot.eff.org/)
 
-Creating own certificate:
+Use following commands to create own certificate:
 
 ```bash
 sudo vi /etc/ssl/openssl.cnf  
@@ -723,9 +738,11 @@ openssl req \
 openssl x509  -noout -text -in certs/domain.crt 
 ```
 
+### OpenSSL Cookbook
+
 Command use while learning from book [OpenSSL Cookbook](https://www.feistyduck.com/library/openssl-cookbook/online/ch-openssl.html):
 
-### Getting started
+#### Getting started
 
 ```bash
 openssl version
@@ -734,7 +751,7 @@ openssl help
 man ciphers
 ```
 
-### Trust Store
+#### Trust Store
 
 Perl:
 ```bash
@@ -750,13 +767,13 @@ wget https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/b
 go run convert_mozilla_certdata.go > ca-certificates
 ```
 
-### Key and Certificate Management
+#### Key and Certificate Management
 
 1. Generate a strong private key,
 2. Create a Certificate Signing Request (CSR) and send it to a CA,
 3. Install the CA-provided certificate in your web server.
 
-### Key generation
+#### Key generation
 
 ```bash
 openssl genrsa -aes128 -out fd.key 2048
@@ -764,7 +781,7 @@ openssl rsa -text -in fd.key
 openssl rsa -in fd.key -pubout -out fd-public.key
 ```
 
-### Creating Certificate Signing Requests
+#### Creating Certificate Signing Requests
 
 ```bash
 # openssl req -new -keyform PEM -key fd.key -outform PEM -out fd.csr -sha256 -batch -subcj "..."
@@ -772,13 +789,13 @@ openssl req -new -key fd.key -out fd.csr
 openssl req -text -in fd.csr -noout
 ```
 
-### Creating Certificate Signing Requests from existing certificate
+#### Creating Certificate Signing Requests from existing certificate
 
 ```
 openssl x509 -x509toreq -in fd.crt -out fd.csr -signkey fd.key
 ```
 
-### Unattended CSR Generation
+#### Unattended CSR Generation
 
 ```bash
 more fd.cnf
@@ -802,13 +819,13 @@ subjectAltName = DNS:www.feistyduck.com,DNS:feistyduck.com
 openssl req -new -config fd.cnf -key fd.key -out fd.csr
 ```
 
-### Signing Your Own Certificates
+#### Signing Your Own Certificates
 
 ```bash
 openssl x509 -req -days 365 -in fd.csr -signkey fd.key -out fd.crt
 ```
 
-### Creating Certificates Valid for Multiple Hostnames
+#### Creating Certificates Valid for Multiple Hostnames
 
 ```bash
 more fd.ext
@@ -820,20 +837,20 @@ openssl x509 -req -days 365 \
 -extfile fd.ext
 ```
 
-### Examining Certificates
+#### Examining Certificates
 
 ```bash
 openssl x509 -text -in fd.crt -noout
 ```
 
-### PEM and DER Conversion
+#### PEM and DER Conversion
 
 ```bash
 openssl x509 -inform PEM -in fd.pem -outform DER -out fd.der
 openssl x509 -inform DER -in fd.der -outform PEM -out fd.pem
 ```
 
-### PKCS#12 (PFX) Conversion
+#### PKCS#12 (PFX) Conversion
 
 ```bash
 # openssl pkcs12 -export \
@@ -859,26 +876,26 @@ openssl pkcs12 -in fd.p12 -nokeys -clcerts -out fd.crt
 openssl pkcs12 -in fd.p12 -nokeys -cacerts -out fd-chain.crt
 ```
 
-### Obtaining the List of Supported Suites
+#### Obtaining the List of Supported Suites
 
 ```bash
 openssl ciphers -v 'ALL:COMPLEMENTOFALL'
 ```
 
-### Performance
+#### Performance
 
 ```bash
 openssl speed rc4 aes rsa ecdh sha
 ```
 
-### Connecting to SSL Services
+#### Connecting to SSL Services
 
 ```
 openssl s_client -connect www.google.com:443
 openssl s_client -connect www.google.com:443 -servername www.google.com -CAfile self_signed.crt
 ```
 
-### SSL server
+#### SSL server
 
 ```bash
 openssl s_server -key public.pem -cert cert.crt -accept 8025 -wwww
@@ -886,10 +903,14 @@ openssl s_server -key public.pem -cert cert.crt -accept 8025 -wwww
 
 ## cURL
 
+Articles:
+
 * [SSL Certificate Verification](https://curl.haxx.se/docs/sslcerts.html)
 * [How to curl an endpoint protected by mutual tls (mtls)](https://downey.io/notes/dev/curl-using-mutual-tls/)
 * [Using Mutual TLS on the Client Side with Curl](https://smallstep.com/hello-mtls/doc/client/curl)
   
+Examples of using:
+
 ```bash
 curl --cacert ca.crt \
      --key client.key \
