@@ -483,6 +483,7 @@ helm uninstall jenkins-1602621398
 
 Articles about K8s and Jenkins:
 
+* [How to build CI/CD pipelines on Kubernetes](https://cloudowski.com/articles/how-to-build-cicd-pipelines-on-kubernetes-copy/)
 * [Code - Jenkins on Kubernetes](https://github.com/lukefernandez/jenkins-on-kubernetes/tree/main/code-snippets)
 * [Jenkins on Kubernetes: From Zero to Hero](https://medium.com/slalom-build/jenkins-on-kubernetes-4d8c3d9f2ece)
 * [Kubernetes provider for Terraform (alpha)](https://github.com/hashicorp/terraform-provider-kubernetes-alpha)
