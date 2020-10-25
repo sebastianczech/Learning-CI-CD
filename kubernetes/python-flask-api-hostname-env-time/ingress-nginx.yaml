@@ -1,0 +1,16 @@
+  apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    name: python-flask-api-hostname-env-time-ingress
+    namespace: python
+  spec:
+    rules:
+      - host: python.api.157.230.77.145.nip.io
+        http:
+          paths:
+            - backend:
+                serviceName: python-flask-api-hostname-env-time-cluster-ip
+                servicePort: 4000
+              path: /
