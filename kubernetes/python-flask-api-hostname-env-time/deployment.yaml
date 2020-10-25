@@ -25,3 +25,10 @@ spec:
             port: 5000
           initialDelaySeconds: 10
           periodSeconds: 3
+        env:
+        - name: PYTHON_HOSTNAME_ENV_VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: python-flask-api-hostname-env-time-config
+              key: PYTHON_HOSTNAME_ENV_VERSION
+          
