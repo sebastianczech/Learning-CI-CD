@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-flask-api-hostname-env-time
+  labels:
+    app: python-flask-api-hostname-env-time
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: python-flask-api-hostname-env-time
+  template:
+    metadata:
+      labels:
+        app: python-flask-api-hostname-env-time
+    spec:
+      containers:
+      - name: python-flask-api-hostname-env-time
+        image: sebaczech/python-flask-api-hostname-env-time:1.0
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 3
