@@ -115,6 +115,8 @@ While creating pipeline to deploy on Docker Swarm using Ansible, I used module [
 
 While learning Kubernets some time ago, I have created gist with [many examples of useful commands](https://gist.github.com/sebastianczech/d3dc1852b93d993c20d12ad56c79bc51).
 
+In another my repository [DevOps-Engineer](https://github.com/sebastianczech/DevOps-Engineer) I have included many commands for K8s.
+
 For learning there is a great Kubernetes - [K3s](https://k3s.io/). To use [``kubectl``](https://rancher.com/learning-paths/how-to-manage-kubernetes-with-kubectl/) I used following commands to configure it:
 
 ```bash
