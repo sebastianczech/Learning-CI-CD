@@ -37,6 +37,8 @@ cd playbooks
 
 ## Docker 
 
+While learning Docker some time ago, I have created gist with [many examples of useful commands](https://gist.github.com/sebastianczech/cc8f873b37b4fe286962af74ad79a294).
+
 For installing Docker I used great [tutorial](https://www.rechberger.io/tutorial-install-docker-using-ansible-on-a-remote-server/), which I modiifed to use [Docker on Debian](https://docs.docker.com/engine/install/debian/). Besides Docker, I installed ``Docker Compose`` and ``Ctop``.
 
 Besides creating single images for containers, in developing environment there is very useful pattern - [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/), which allow you aterfacts build in 1 container to be used on another one.
