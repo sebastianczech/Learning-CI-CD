@@ -1,0 +1,16 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: api-app
+spec:
+  containers:
+    - name: api-frontend
+      image: busybox
+      volumeMounts:
+      - mountPath: "/data"
+        name: api-data
+  volumes:
+    - name: api-data
+      persistentVolumeClaim:
+        claimName: api-pvc

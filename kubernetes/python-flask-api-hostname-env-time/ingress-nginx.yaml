@@ -7,7 +7,7 @@
     namespace: python
   spec:
     rules:
-      - host: python.api.157.230.77.145.nip.io
+      - host: python.api.157.230.79.242.nip.io
         http:
           paths:
             - backend:
