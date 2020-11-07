@@ -438,6 +438,7 @@ Articles about HA in Jenkins:
 
 * [A Jenkins Master, with a Jenkins Master, with a ...](https://endocode.com/blog/2018/08/17/jenkins-high-availability-setup/)
 * [Architecting for Scale](https://www.jenkins.io/doc/book/scaling/architecting-for-scale/)
+* [Architecting for Manageability](https://www.jenkins.io/doc/book/scaling/architecting-for-manageability/)
 * [How to configure Jenkins with High Availability?](https://www.opcito.com/blogs/how-to-configure-jenkins-with-high-availability/)
 
 ### Jenkins and Helm
@@ -627,7 +628,16 @@ terraform apply
 terraform apply -var-file="terraform.tfvars"                      
 ```
 
+### Terraform provider for libvirt
+
+* [Terraform provider for libvirt](https://github.com/dmacvicar/terraform-provider-libvirt)
+* [How To Provision VMs on KVM with Terraform](https://computingforgeeks.com/how-to-provision-vms-on-kvm-with-terraform/)
+* [How to use Terraform to create a small-scale Cloud Infrastructure](https://medium.com/terraform-how-to-create-a-smale-scale-cloud/instructions-on-how-to-use-terraform-to-create-a-small-scale-cloud-infrastructure-8c14cb8603a3)
+* [Provision Infrastructure with Packer](https://learn.hashicorp.com/tutorials/terraform/packer)
+
 ## KVM
+
+* [Wirtualizacja QEMU/KVM (libvirt) na Debian Linux](https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/)
 
 ### Install packages on Debian and check status of *libvirtd*
 
@@ -680,7 +690,11 @@ virt-install \
  --location '/kvm/iso/debian-firmware-10.5.0-amd64-netinst.iso' \
  --extra-args 'console=ttyS0,115200n8 serial' \
  --network network:default \
+ --graphics spice,listen=127.0.0.1 \
  --force --debug 
+
+remote-viewer spice://127.0.0.1:5900
+remote-viewer vnc://127.0.0.1:5900
 ```
 
 ### Edit config file
@@ -713,6 +727,13 @@ virt-top
 
 ```
 virsh console debian10
+```
+
+### Delete VM
+
+```
+virsh destroy debian10
+virsh undefine debian10
 ```
 
 ## SSL/TLS

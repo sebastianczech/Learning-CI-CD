@@ -37,7 +37,7 @@
   - name: Start Docker container for Jenkins
     docker_container:
       name: jenkins-blueocean
-      image: jenkinsci/blueocean 
+      image: jenkinsci/blueocean:1.24.3
       hostname: devops
       restart_policy: always
       networks:
