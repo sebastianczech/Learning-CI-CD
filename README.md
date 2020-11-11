@@ -639,7 +639,238 @@ terraform apply -var-file="terraform.tfvars"
 * [Terraform provider for libvirt](https://github.com/dmacvicar/terraform-provider-libvirt)
 * [How To Provision VMs on KVM with Terraform](https://computingforgeeks.com/how-to-provision-vms-on-kvm-with-terraform/)
 * [How to use Terraform to create a small-scale Cloud Infrastructure](https://medium.com/terraform-how-to-create-a-smale-scale-cloud/instructions-on-how-to-use-terraform-to-create-a-small-scale-cloud-infrastructure-8c14cb8603a3)
+
+## Packer
+
 * [Provision Infrastructure with Packer](https://learn.hashicorp.com/tutorials/terraform/packer)
+* [Packer QEMU Builder](https://www.packer.io/docs/builders/qemu)
+* [Ubuntu Automatic Installation Prev](https://help.ubuntu.com/lts/installation-guide/powerpc/ch04s05.html)
+
+```
+ssh -Y homelab   
+xauth list $DISPLAY
+echo $DSIPLAY
+
+sudo su - 
+xauth add homelab/unix:10  MIT-MAGIC-COOKIE-1  d6c4b66d7e77a9b88011ae46afdec2a8
+export DISPLAY=localhost:10.0
+
+PACKER_LOG=1 packer build image.json
+```
+
+```
+cat image.json
+{
+
+    "variables": {
+        "ssh_user": "root",
+        "ssh_pass": "admin"
+    },
+
+    "builders": [
+
+        {
+            "type": "qemu",
+            "accelerator": "kvm",
+            "vm_name": "trusty64",
+            "disk_size": 50000,
+            "output_directory": "output",
+
+            "headless": true,
+
+            "iso_url": "http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso",
+            "iso_checksum": "sha1:b9d741bc774113769c55d64186ba292a35bed3ec",
+
+            "ssh_username": "{{user `ssh_user`}}",
+            "ssh_password": "{{user `ssh_pass`}}",
+            "ssh_wait_timeout": "60m",
+
+            "http_directory": "./",
+
+            "boot_command": [
+                "<esc><wait>",
+                "linux ",
+                "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/preseed.cfg ",
+                "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+                "hostname={{.Name}} ",
+                "fb=false debconf/frontend=noninteractive ",
+                "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+                "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+                "initrd=initrd.gz --",
+                "<enter>"
+            ],
+
+            "shutdown_command": "echo '{{user `ssh_pass`}}' | sudo -S shutdown -P now"
+        }
+
+    ],
+
+    "provisioners": [
+
+        {
+            "type": "shell",
+            "inline": "apt-get -y upgrade && apt-get -y dist-upgrade"
+        },
+
+        {
+            "type": "shell",
+            "inline": " apt-get -y autoremove && apt-get -y clean && apt-get -y autoclean"
+        }
+
+    ]
+
+}
+```
+
+```
+cat preseed.cfg
+
+## Localization
+########################################
+
+# Preseeding only locale sets language, country and locale.
+d-i debian-installer/locale string en_US
+
+# Keyboard selection.
+# Disable automatic (interactive) keymap detection.
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/layoutcode string us
+
+
+## Networking
+########################################
+
+# netcfg will choose an interface that has link if possible. This makes it
+# skip displaying a list if there is more than one interface.
+d-i netcfg/choose_interface select auto
+
+# Disable that annoying WEP key dialog.
+d-i netcfg/wireless_wep string
+
+
+## User accounts
+########################################
+
+# Enable the root user account
+d-i passwd/root-login boolean true
+
+# Set the root user password
+d-i passwd/root-password password T@c0_Bu3n0
+d-i passwd/root-password-again password T@c0_Bu3n0
+
+# Skip creation of normal user account
+d-i passwd/make-user boolean false
+
+# Allow weak password
+#d-i user-setup/allow-password-weak boolean true
+
+
+## Clock and time zone
+########################################
+
+# Controls whether or not the hardware clock is set to UTC.
+d-i clock-setup/utc boolean true
+
+# You may set this to any valid setting for $TZ; see the contents of
+# /usr/share/zoneinfo/ for valid values.
+d-i time/zone string UTC
+
+# Controls whether to use NTP to set the clock during the install
+d-i clock-setup/ntp boolean true
+
+
+## Partitioning
+########################################
+
+# Alternatively, you may specify a disk to partition. If the system has only
+# one disk the installer will default to using that, but otherwise the device
+# name must be given in traditional, non-devfs format (so e.g. /dev/hda or
+# /dev/sda, and not e.g. /dev/discs/disc0/disc).
+# For example, to use the first SCSI/SATA hard disk:
+#d-i partman-auto/disk string /dev/sda
+# In addition, you'll need to specify the method to use.
+# The presently available methods are:
+# - regular: use the usual partition types for your architecture
+# - lvm:     use LVM to partition the disk
+# - crypto:  use LVM within an encrypted partition
+d-i partman-auto/method string regular
+
+# If the system has free space you can choose to only partition that space.
+# This is only honoured if partman-auto/method (below) is not set.
+# Alternatives: custom, some_device, some_device_crypto, some_device_lvm.
+d-i partman-auto/init_automatically_partition select biggest_free
+
+# If you just want to change the default filesystem from ext3 to something
+# else, you can do that without providing a full recipe.
+d-i partman/default_filesystem string ext4
+
+# The full recipe format is documented in the file partman-auto-recipe.txt
+# included in the 'debian-installer' package or available from D-I source
+# repository. This also documents how to specify settings such as file
+# system labels, volume group names and which physical devices to include
+# in a volume group.
+
+# This makes partman automatically partition without confirmation, provided
+# that you told it what to do using one of the methods above.
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+
+## Mirror settings
+########################################
+
+# If you select ftp, the mirror/country string does not need to be set.
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+
+
+## Update policy
+########################################
+
+# Policy for applying updates. May be "none" (no automatic updates),
+# "unattended-upgrades" (install security updates automatically), or
+# "landscape" (manage system with Landscape).
+d-i pkgsel/update-policy select none
+
+
+## Language support
+########################################
+
+# Don't download language support
+d-i pkgsel/install-language-support boolean false
+
+
+## Package selection
+########################################
+
+tasksel tasksel/first multiselect standard, ubuntu-server, openssh-server
+
+# Individual additional packages to install
+d-i pkgsel/include string ntp
+
+
+## Boot loader installation
+########################################
+
+# This is fairly safe to set, it makes grub install automatically to the MBR
+# if no other operating system is detected on the machine.
+d-i grub-installer/only_debian boolean true
+
+# This one makes grub-installer install to the MBR if it also finds some other
+# OS, which is less safe as it might not be able to boot that other OS.
+d-i grub-installer/with_other_os boolean true
+
+
+## Finishing up the installation
+########################################
+
+# Avoid that last message about the install being complete.
+d-i finish-install/reboot_in_progress note
+```
 
 ## KVM
 
@@ -753,6 +984,13 @@ virsh console debian10
 ```
 virsh destroy debian10
 virsh undefine debian10
+```
+
+## X forwarding
+
+```
+ssh -X homelab    
+ssh -Y homelab    
 ```
 
 ### Virt builder
