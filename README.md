@@ -499,6 +499,12 @@ Articles about K8s and Jenkins:
 * [Jenkins plugin - OpenId](https://plugins.jenkins.io/openid/)
 * [Jenkins plugin - Simple theme](https://plugins.jenkins.io/simple-theme-plugin/)
 * [Extending with Shared Libraries](https://www.jenkins.io/doc/book/pipeline/shared-libraries/)
+
+### Jenkisn and performance optimization
+
+* [Coding continuous delivery — performance optimization for the jenkins pipeline](https://cloudogu.com/en/blog/continuous_delivery_2)
+* [Scaling Pipelines](https://www.jenkins.io/doc/book/pipeline/scaling-pipeline/)
+* [Parallelizing Jenkins Pipelines](https://engineering.medallia.com/blog/posts/parallelizing-jenkins-pipelines/)
 * [Parallelism and Distributed Builds with Jenkins](https://www.cloudbees.com/blog/parallelism-and-distributed-builds-jenkins)
 * [Parallel stages with Declarative Pipeline](https://www.jenkins.io/blog/2017/09/25/declarative-1/)
 * [Parallel syntax](https://www.jenkins.io/doc/book/pipeline/syntax/#parallel)
@@ -638,6 +644,10 @@ terraform apply -var-file="terraform.tfvars"
 ## KVM
 
 * [Wirtualizacja QEMU/KVM (libvirt) na Debian Linux](https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/)
+* [How to install KVM server on Debian Linux 9 Headless Server](https://www.cyberciti.biz/faq/install-kvm-server-debian-linux-9-headless-server/)
+* [Correct way to move KVM VM](https://serverfault.com/questions/434064/correct-way-to-move-kvm-vm)
+* [Live KVM migration with virsh](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/virtualization_administration_guide/sect-virtualization-kvm_live_migration-live_kvm_migration_with_virsh)
+* [How to configure management access to libvirt through SSH](https://wiki.libvirt.org/page/SSHSetup)
 
 ### Install packages on Debian and check status of *libvirtd*
 
@@ -670,8 +680,12 @@ sudo mkdir -pv /kvm/{disk,iso}
 ### List all VMs
 
 ```
-virsh -c qemu:///system list
 virsh list  --all
+
+virsh -c qemu:///system list
+
+sudo usermod -G libvirt -a seba        
+virsh -c qemu+ssh://seba@homelab/system list
 ```
 
 ### Create new VM
@@ -695,6 +709,11 @@ virt-install \
 
 remote-viewer spice://127.0.0.1:5900
 remote-viewer vnc://127.0.0.1:5900
+
+virsh dumpxml debian10 | grep vnc
+virsh vncdisplay debian10
+
+ssh user@hostname -L 5901:127.0.0.1:5901
 ```
 
 ### Edit config file
@@ -734,6 +753,51 @@ virsh console debian10
 ```
 virsh destroy debian10
 virsh undefine debian10
+```
+
+### Virt builder
+
+```
+sudo apt install libguestfs-tools  
+
+virt-builder --list
+
+sudo virt-builder debian-10 \
+--size=10G \
+--format qcow2 -o /var/lib/libvirt/images/debian10.qcow2 \
+--hostname debian10 \
+--network \
+--timezone Europe/Warsaw
+
+sudo virt-install --import --name debian10 \
+--ram 1024 \
+--vcpu 1 \
+--disk path=/var/lib/libvirt/images/debian10.qcow2,format=qcow2 \
+--os-variant debian10 \
+--network network:default \
+--noautoconsole
+
+virsh console debian10
+
+# dpkg-reconfigure openssh-server
+# useradd -r -m -d /home/seba -s /bin/bash seba
+# passwd seba
+# systemctl enable ssh
+### [ Disable root user login when using ssh ] ###
+# echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
+# systemctl restart ssh
+# ip a s
+```
+
+### Move VM
+
+```
+scp /var/lib/libvirt/images/VMNAME seba@hostname:/var/lib/libvirt/images/
+virsh dumpxml VMNAME > domxml.xml 
+virsh net-dumpxml NETNAME > netxml.xml
+scp domxml.xml seba@hostname:/home/seba/
+virsh net-define netxml.xml && virsh net-start NETNAME & virsh net-autostart NETNAME
+virsh define domxml.xml
 ```
 
 ## SSL/TLS
