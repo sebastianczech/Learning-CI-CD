@@ -645,6 +645,9 @@ terraform apply -var-file="terraform.tfvars"
 * [Provision Infrastructure with Packer](https://learn.hashicorp.com/tutorials/terraform/packer)
 * [Packer QEMU Builder](https://www.packer.io/docs/builders/qemu)
 * [Ubuntu Automatic Installation Prev](https://help.ubuntu.com/lts/installation-guide/powerpc/ch04s05.html)
+* [Debian image for QEMU](https://github.com/multani/packer-qemu-debian)
+
+### Ubuntu 
 
 ```
 ssh -Y homelab   
@@ -870,6 +873,61 @@ d-i grub-installer/with_other_os boolean true
 
 # Avoid that last message about the install being complete.
 d-i finish-install/reboot_in_progress note
+```
+
+### Debian
+
+```
+cat packer.json
+{
+  "min_packer_version": "1.3.3",
+  "variables": {
+    "qemu_output_dir": "qemu-images",
+    "qemu_output_name": "my-build.qcow2",
+    "qemu_source_checksum_url": "https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/SHA256SUMS",
+    "qemu_source_iso": "https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/debian-10.0.0-1.qcow2",
+    "qemu_ssh_password": "debian",
+    "qemu_ssh_username": "debian"
+  },
+
+  "builders": [
+    {
+      "type": "qemu",
+      "iso_url": "{{ user `qemu_source_iso` }}",
+      "iso_checksum_url": "{{ user `qemu_source_checksum_url` }}",
+      "iso_checksum_type": "sha256",
+
+      "disk_image": true,
+      "accelerator": "kvm",
+      "boot_wait": "1s",
+      "format": "qcow2",
+      "use_backing_file": true,
+
+      "disk_size": 8000,
+
+      "headless": true,
+      "shutdown_command": "echo '{{ user `qemu_ssh_password` }}'  | sudo -S /sbin/shutdown -hP now",
+
+      "ssh_host_port_max": 2229,
+      "ssh_host_port_min": 2222,
+      "ssh_password": "{{ user `qemu_ssh_password` }}",
+      "ssh_username": "{{ user `qemu_ssh_username` }}",
+      "ssh_wait_timeout": "1000s",
+
+      "output_directory": "{{ user `qemu_output_dir` }}",
+      "vm_name": "{{ user `qemu_output_name` }}"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo '  *** Running my favorite provisioner'"
+      ]
+    }
+  ]
+}
 ```
 
 ## KVM
