@@ -878,6 +878,8 @@ d-i finish-install/reboot_in_progress note
 ### Debian
 
 ```
+packer build -timestamp-ui packer.json
+
 cat packer.json
 {
   "min_packer_version": "1.3.3",
