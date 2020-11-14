@@ -1153,6 +1153,17 @@ sudo resize2fs /dev/vda1
 sudo xfs_growfs /
 ```
 
+### Add RAM or CPU to VM
+
+```
+sudo virsh dominfo debian10  
+sudo virsh edit debian10 
+# ...
+<memory unit='KiB'>1548576</memory>
+# ...
+<vcpu placement='static'>1</vcpu>
+```
+
 ### Create snaphost and restore
 
 ## SSL/TLS
