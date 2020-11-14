@@ -1166,6 +1166,17 @@ sudo virsh edit debian10
 
 ### Create snaphost and restore
 
+```
+sudo virsh snapshot-list --domain debian10  
+sudo virsh snapshot-list --domain debian10 
+sudo virsh snapshot-create-as --domain debian10 \
+--name "20201141651" \
+--description "Snapshot before upgrading"
+sudo virsh shutdown debian10 
+sudo virsh snapshot-revert --domain debian10 --snapshotname 20201141651 --running
+virsh snapshot-delete --domain debian10 --snapshotname 20201141651
+```
+
 ## SSL/TLS
 
 Resources about SSL/TLS and certificates:
