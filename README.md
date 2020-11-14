@@ -1077,14 +1077,24 @@ sudo virt-install --import --name debian10 \
 
 virsh console debian10
 
-# dpkg-reconfigure openssh-server
-# useradd -r -m -d /home/seba -s /bin/bash seba
-# passwd seba
-# systemctl enable ssh
+dpkg-reconfigure openssh-server
+useradd -r -m -d /home/seba -s /bin/bash seba
+passwd seba
+systemctl enable ssh
+
 ### [ Disable root user login when using ssh ] ###
-# echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
-# systemctl restart ssh
-# ip a s
+echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
+systemctl restart ssh
+
+cat /etc/network/interfaces
+# ...
+auto enp1s0
+allow-hotplug enp1s0
+iface enp1s0 inet dhcp
+
+ip a s
+
+sudo virsh net-dhcp-leases default
 ```
 
 ### Move VM
@@ -1097,6 +1107,10 @@ scp domxml.xml seba@hostname:/home/seba/
 virsh net-define netxml.xml && virsh net-start NETNAME & virsh net-autostart NETNAME
 virsh define domxml.xml
 ```
+
+### Resize disk
+
+### Create snaphost and restore
 
 ## SSL/TLS
 
