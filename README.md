@@ -1082,6 +1082,11 @@ useradd -r -m -d /home/seba -s /bin/bash seba
 passwd seba
 systemctl enable ssh
 
+usermod -aG sudo seba
+sudoedit /etc/sudoers
+# ...
+seba    ALL=(ALL) NOPASSWD:ALL
+
 ### [ Disable root user login when using ssh ] ###
 echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
 systemctl restart ssh
@@ -1109,6 +1114,44 @@ virsh define domxml.xml
 ```
 
 ### Resize disk
+
+```
+sudo virsh shutdown debian10     
+sudo virsh list --all    
+sudo virsh domblklist debian10       
+sudo virsh dumpxml debian10 | grep 'disk type' -A 5
+sudo qemu-img info /var/lib/libvirt/images/debian10.qcow2         
+
+sudo virsh snapshot-list debian10
+sudo virsh snapshot-delete --domain debian10 --snapshotname snapshot1
+
+sudo qemu-img resize /var/lib/libvirt/images/debian10.qcow2 +5G
+
+sudo virsh start debian10
+sudo virsh blockresize debian10 /var/lib/libvirt/images/debian10.qcow2 15G  
+sudo fdisk -l /var/lib/libvirt/images/debian10.qcow2
+
+lsblk
+sudo apt -y install cloud-guest-utils
+sudo growpart /dev/vda 1
+
+# if LVM
+sudo pvresize /dev/vda1
+sudo pvs
+sudo vgs
+sudo lvextend -l +100%FREE /dev/name-of-volume-group/root
+df -hT | grep mapper
+## ext4
+sudo resize2fs /dev/name-of-volume-group/root
+## xfs
+sudo xfs_growfs /
+
+# if no LVM
+## ext4
+sudo resize2fs /dev/vda1
+## xfs
+sudo xfs_growfs /
+```
 
 ### Create snaphost and restore
 
