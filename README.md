@@ -640,16 +640,10 @@ terraform apply -var-file="terraform.tfvars"
 * [How To Provision VMs on KVM with Terraform](https://computingforgeeks.com/how-to-provision-vms-on-kvm-with-terraform/)
 * [How to use Terraform to create a small-scale Cloud Infrastructure](https://medium.com/terraform-how-to-create-a-smale-scale-cloud/instructions-on-how-to-use-terraform-to-create-a-small-scale-cloud-infrastructure-8c14cb8603a3)
 
-## Packer
-
-* [Provision Infrastructure with Packer](https://learn.hashicorp.com/tutorials/terraform/packer)
-* [Packer QEMU Builder](https://www.packer.io/docs/builders/qemu)
-* [Ubuntu Automatic Installation Prev](https://help.ubuntu.com/lts/installation-guide/powerpc/ch04s05.html)
-* [Debian image for QEMU](https://github.com/multani/packer-qemu-debian)
-
-### Ubuntu 
+## X11 forwarding
 
 ```
+ssh -X homelab
 ssh -Y homelab   
 xauth list $DISPLAY
 echo $DSIPLAY
@@ -657,11 +651,20 @@ echo $DSIPLAY
 sudo su - 
 xauth add homelab/unix:10  MIT-MAGIC-COOKIE-1  d6c4b66d7e77a9b88011ae46afdec2a8
 export DISPLAY=localhost:10.0
+```
 
+## Packer
+
+* [Provision Infrastructure with Packer](https://learn.hashicorp.com/tutorials/terraform/packer)
+* [Packer QEMU Builder](https://www.packer.io/docs/builders/qemu)
+* [Ubuntu Automatic Installation Prev](https://help.ubuntu.com/lts/installation-guide/powerpc/ch04s05.html)
+* [Debian image for QEMU](https://github.com/multani/packer-qemu-debian)
+
+
+### Ubuntu 
+
+```
 PACKER_LOG=1 packer build image.json
-```
-
-```
 cat image.json
 {
 
@@ -878,6 +881,7 @@ d-i finish-install/reboot_in_progress note
 ### Debian
 
 ```
+packer validate packer.json
 packer build -timestamp-ui packer.json
 
 cat packer.json
