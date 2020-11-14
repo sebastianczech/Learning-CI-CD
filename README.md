@@ -657,283 +657,122 @@ export DISPLAY=localhost:10.0
 
 * [Provision Infrastructure with Packer](https://learn.hashicorp.com/tutorials/terraform/packer)
 * [Packer QEMU Builder](https://www.packer.io/docs/builders/qemu)
-* [Ubuntu Automatic Installation Prev](https://help.ubuntu.com/lts/installation-guide/powerpc/ch04s05.html)
-* [Debian image for QEMU](https://github.com/multani/packer-qemu-debian)
-
-
-### Ubuntu 
-
-```
-PACKER_LOG=1 packer build image.json
-cat image.json
-{
-
-    "variables": {
-        "ssh_user": "root",
-        "ssh_pass": "admin"
-    },
-
-    "builders": [
-
-        {
-            "type": "qemu",
-            "accelerator": "kvm",
-            "vm_name": "trusty64",
-            "disk_size": 50000,
-            "output_directory": "output",
-
-            "headless": true,
-
-            "iso_url": "http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso",
-            "iso_checksum": "sha1:b9d741bc774113769c55d64186ba292a35bed3ec",
-
-            "ssh_username": "{{user `ssh_user`}}",
-            "ssh_password": "{{user `ssh_pass`}}",
-            "ssh_wait_timeout": "60m",
-
-            "http_directory": "./",
-
-            "boot_command": [
-                "<esc><wait>",
-                "linux ",
-                "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/preseed.cfg ",
-                "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-                "hostname={{.Name}} ",
-                "fb=false debconf/frontend=noninteractive ",
-                "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
-                "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
-                "initrd=initrd.gz --",
-                "<enter>"
-            ],
-
-            "shutdown_command": "echo '{{user `ssh_pass`}}' | sudo -S shutdown -P now"
-        }
-
-    ],
-
-    "provisioners": [
-
-        {
-            "type": "shell",
-            "inline": "apt-get -y upgrade && apt-get -y dist-upgrade"
-        },
-
-        {
-            "type": "shell",
-            "inline": " apt-get -y autoremove && apt-get -y clean && apt-get -y autoclean"
-        }
-
-    ]
-
-}
-```
-
-```
-cat preseed.cfg
-
-## Localization
-########################################
-
-# Preseeding only locale sets language, country and locale.
-d-i debian-installer/locale string en_US
-
-# Keyboard selection.
-# Disable automatic (interactive) keymap detection.
-d-i console-setup/ask_detect boolean false
-d-i keyboard-configuration/layoutcode string us
-
-
-## Networking
-########################################
-
-# netcfg will choose an interface that has link if possible. This makes it
-# skip displaying a list if there is more than one interface.
-d-i netcfg/choose_interface select auto
-
-# Disable that annoying WEP key dialog.
-d-i netcfg/wireless_wep string
-
-
-## User accounts
-########################################
-
-# Enable the root user account
-d-i passwd/root-login boolean true
-
-# Set the root user password
-d-i passwd/root-password password T@c0_Bu3n0
-d-i passwd/root-password-again password T@c0_Bu3n0
-
-# Skip creation of normal user account
-d-i passwd/make-user boolean false
-
-# Allow weak password
-#d-i user-setup/allow-password-weak boolean true
-
-
-## Clock and time zone
-########################################
-
-# Controls whether or not the hardware clock is set to UTC.
-d-i clock-setup/utc boolean true
-
-# You may set this to any valid setting for $TZ; see the contents of
-# /usr/share/zoneinfo/ for valid values.
-d-i time/zone string UTC
-
-# Controls whether to use NTP to set the clock during the install
-d-i clock-setup/ntp boolean true
-
-
-## Partitioning
-########################################
-
-# Alternatively, you may specify a disk to partition. If the system has only
-# one disk the installer will default to using that, but otherwise the device
-# name must be given in traditional, non-devfs format (so e.g. /dev/hda or
-# /dev/sda, and not e.g. /dev/discs/disc0/disc).
-# For example, to use the first SCSI/SATA hard disk:
-#d-i partman-auto/disk string /dev/sda
-# In addition, you'll need to specify the method to use.
-# The presently available methods are:
-# - regular: use the usual partition types for your architecture
-# - lvm:     use LVM to partition the disk
-# - crypto:  use LVM within an encrypted partition
-d-i partman-auto/method string regular
-
-# If the system has free space you can choose to only partition that space.
-# This is only honoured if partman-auto/method (below) is not set.
-# Alternatives: custom, some_device, some_device_crypto, some_device_lvm.
-d-i partman-auto/init_automatically_partition select biggest_free
-
-# If you just want to change the default filesystem from ext3 to something
-# else, you can do that without providing a full recipe.
-d-i partman/default_filesystem string ext4
-
-# The full recipe format is documented in the file partman-auto-recipe.txt
-# included in the 'debian-installer' package or available from D-I source
-# repository. This also documents how to specify settings such as file
-# system labels, volume group names and which physical devices to include
-# in a volume group.
-
-# This makes partman automatically partition without confirmation, provided
-# that you told it what to do using one of the methods above.
-d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman/choose_partition select finish
-d-i partman/confirm boolean true
-d-i partman/confirm_nooverwrite boolean true
-
-
-## Mirror settings
-########################################
-
-# If you select ftp, the mirror/country string does not need to be set.
-d-i mirror/country string manual
-d-i mirror/http/hostname string archive.ubuntu.com
-d-i mirror/http/directory string /ubuntu
-d-i mirror/http/proxy string
-
-
-## Update policy
-########################################
-
-# Policy for applying updates. May be "none" (no automatic updates),
-# "unattended-upgrades" (install security updates automatically), or
-# "landscape" (manage system with Landscape).
-d-i pkgsel/update-policy select none
-
-
-## Language support
-########################################
-
-# Don't download language support
-d-i pkgsel/install-language-support boolean false
-
-
-## Package selection
-########################################
-
-tasksel tasksel/first multiselect standard, ubuntu-server, openssh-server
-
-# Individual additional packages to install
-d-i pkgsel/include string ntp
-
-
-## Boot loader installation
-########################################
-
-# This is fairly safe to set, it makes grub install automatically to the MBR
-# if no other operating system is detected on the machine.
-d-i grub-installer/only_debian boolean true
-
-# This one makes grub-installer install to the MBR if it also finds some other
-# OS, which is less safe as it might not be able to boot that other OS.
-d-i grub-installer/with_other_os boolean true
-
-
-## Finishing up the installation
-########################################
-
-# Avoid that last message about the install being complete.
-d-i finish-install/reboot_in_progress note
-```
-
-### Debian
 
 ```
 packer validate packer.json
-packer build -timestamp-ui packer.json
+PACKER_LOG=1 packer -timestamp-ui build packer.json
+```
 
-cat packer.json
-{
-  "min_packer_version": "1.3.3",
-  "variables": {
-    "qemu_output_dir": "qemu-images",
-    "qemu_output_name": "my-build.qcow2",
-    "qemu_source_checksum_url": "https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/SHA256SUMS",
-    "qemu_source_iso": "https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/debian-10.0.0-1.qcow2",
-    "qemu_ssh_password": "debian",
-    "qemu_ssh_username": "debian"
-  },
+## ClouInit
 
-  "builders": [
-    {
-      "type": "qemu",
-      "iso_url": "{{ user `qemu_source_iso` }}",
-      "iso_checksum_url": "{{ user `qemu_source_checksum_url` }}",
-      "iso_checksum_type": "sha256",
+* [Ubuntu Cloud Images](http://cloud-images.ubuntu.com/)
+* [CloudInit](https://help.ubuntu.com/community/CloudInit)
+* [Local KVM image](https://github.com/fabianlee/local-kvm-cloudimage)
 
-      "disk_image": true,
-      "accelerator": "kvm",
-      "boot_wait": "1s",
-      "format": "qcow2",
-      "use_backing_file": true,
+```
+# download image
+wget http://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
 
-      "disk_size": 8000,
+# original image is 2G, create snapshot and make it 10G
+qemu-img create -b bionic-server-cloudimg-amd64.img -f qcow2 snapshot-bionic-server-cloudimg.qcow2 10G
 
-      "headless": true,
-      "shutdown_command": "echo '{{ user `qemu_ssh_password` }}'  | sudo -S /sbin/shutdown -hP now",
+# show snapshot info
+qemu-img info snapshot-bionic-server-cloudimg.qcow2
 
-      "ssh_host_port_max": 2229,
-      "ssh_host_port_min": 2222,
-      "ssh_password": "{{ user `qemu_ssh_password` }}",
-      "ssh_username": "{{ user `qemu_ssh_username` }}",
-      "ssh_wait_timeout": "1000s",
+# ssh keys
+ssh-keygen -t rsa -b 4096 -f id_rsa -C test1 -N "" -q
+```
 
-      "output_directory": "{{ user `qemu_output_dir` }}",
-      "vm_name": "{{ user `qemu_output_name` }}"
-    }
-  ],
+```
+vi cloud_init.cfg
 
-  "provisioners": [
-    {
-      "type": "shell",
-      "inline": [
-        "echo '  *** Running my favorite provisioner'"
-      ]
-    }
-  ]
-}
+#cloud-config
+hostname: test1
+fqdn: test1.example.com
+manage_etc_hosts: true
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/ubuntu
+    shell: /bin/bash
+    lock_passwd: false
+    ssh-authorized-keys:
+      - ssh-rsa *** test1
+# only cert auth via ssh (console access can still login)
+ssh_pwauth: false
+disable_root: false
+chpasswd:
+  list: |
+     ubuntu:linux
+  expire: False
+packages:
+  - qemu-guest-agent
+# written to /var/log/cloud-init-output.log
+final_message: "The system is finally up, after $UPTIME seconds"
+```
+
+```
+vi network_config_static.cfg
+
+version: 2
+ethernets:
+  enp1s0:
+    dhcp4: false
+    # default libvirt network
+    addresses: [ 192.168.122.158/24 ]
+    gateway4: 192.168.122.1
+    nameservers:
+      addresses: [ 192.168.122.1,8.8.8.8 ]
+```
+
+```
+sudo apt-get install -y cloud-image-utils
+
+# insert network and cloud config into seed image
+sudo cloud-localds -v --network-config=network_config_static.cfg test1-seed.qcow2 cloud_init.cfg
+
+# show seed disk just generated
+qemu-img info test1-seed.qcow2 
+
+sudo apt install  libosinfo-bin      
+osinfo-query os| grep ubuntu
+
+sudo virt-install --name test1 \
+  --virt-type kvm --memory 2048 --vcpus 2 \
+  --boot hd,menu=on \
+  --disk path=test1-seed.qcow2,device=cdrom \
+  --disk path=snapshot-bionic-server-cloudimg.qcow2,device=disk \
+  --graphics vnc \
+  --os-type Linux --os-variant ubuntu18.04 \
+  --network network:default \
+  --console pty,target_type=serial
+
+sudo virsh console test1
+
+ssh ubuntu@192.168.122.158 -i id_rsa
+
+# final cloud-init status
+cat /run/cloud-init/result.json
+
+# cloud logs
+vi /var/log/cloud-init.log
+vi /var/log/cloud-init-output.log
+
+# flag that signals that cloud-init should not run
+sudo touch /etc/cloud/cloud-init.disabled
+
+# optional, remove cloud-init completely
+sudo apt-get purge cloud-init
+
+# shutdown VM so CDROM seed can be ejected
+sudo shutdown -h now
+
+# get name of target path
+targetDrive=$(sudo virsh domblklist test1 | grep test1-seed | awk {' print $1 '})
+
+# force ejection of CD
+sudo virsh change-media test1 --path $targetDrive --eject --force
 ```
 
 ## KVM
