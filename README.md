@@ -578,6 +578,7 @@ Besides typical playbooks there are other important topics to learn:
 * [templates](https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html)
 * [developing modules](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html)
 * [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
+* [roles](https://www.digitalocean.com/community/tutorials/how-to-use-ansible-roles-to-abstract-your-infrastructure-environment)
 
 ## Robot Framework
 
@@ -640,6 +641,119 @@ terraform apply -var-file="terraform.tfvars"
 * [How To Provision VMs on KVM with Terraform](https://computingforgeeks.com/how-to-provision-vms-on-kvm-with-terraform/)
 * [How to use Terraform to create a small-scale Cloud Infrastructure](https://medium.com/terraform-how-to-create-a-smale-scale-cloud/instructions-on-how-to-use-terraform-to-create-a-small-scale-cloud-infrastructure-8c14cb8603a3)
 
+
+```
+git clone https://github.com/dmacvicar/terraform-provider-libvirt
+cd terraform-provider-libvirt
+
+sudo apt install libvirt-dev 
+sudo apt install genisoimage
+sudo cp /usr/bin/genisoimage /usr/local/bin/mkisofs   
+
+make 
+mkdir ~/.terraform.d/plugins/
+cp terraform-provider-libvirt ~/.terraform.d/plugins/ 
+mkdir -p ~/.local/share/terraform/plugins/registry.terraform.io/dmacvicar/libvirt/0.6.2/linux_amd64
+cp terraform-provider-libvirt ~/.local/share/terraform/plugins/registry.terraform.io/dmacvicar/libvirt/0.6.2/linux_amd64/
+
+cd examples/v0.13/ubuntu
+sudo terraform init   
+sudo terraform plan
+sudo terraform apply -auto-approve
+sudo terraform destroy -auto-approve
+```
+
+```
+cat ubuntu-example.tf
+terraform {
+ required_version = ">= 0.13"
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = "0.6.2"
+    }
+  }
+}
+
+# instance the provider
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
+resource "libvirt_pool" "ubuntu" {
+  name = "ubuntu"
+  type = "dir"
+  path = "/tmp/terraform-provider-libvirt-pool-ubuntu"
+}
+
+# We fetch the latest ubuntu release image from their mirrors
+resource "libvirt_volume" "ubuntu-qcow2" {
+  name   = "ubuntu-qcow2"
+  pool   = libvirt_pool.ubuntu.name
+  source = "https://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
+  format = "qcow2"
+}
+
+data "template_file" "user_data" {
+  template = file("${path.module}/cloud_init.cfg")
+}
+
+data "template_file" "network_config" {
+  template = file("${path.module}/network_config.cfg")
+}
+
+# for more info about paramater check this out
+# https://github.com/dmacvicar/terraform-provider-libvirt/blob/master/website/docs/r/cloudinit.html.markdown
+# Use CloudInit to add our ssh-key to the instance
+# you can add also meta_data field
+resource "libvirt_cloudinit_disk" "commoninit" {
+  name           = "commoninit.iso"
+  user_data      = data.template_file.user_data.rendered
+  network_config = data.template_file.network_config.rendered
+  pool           = libvirt_pool.ubuntu.name
+}
+
+# Create the machine
+resource "libvirt_domain" "domain-ubuntu" {
+  name   = "ubuntu-terraform"
+  memory = "512"
+  vcpu   = 1
+
+  cloudinit = libvirt_cloudinit_disk.commoninit.id
+
+  network_interface {
+    network_name = "default"
+  }
+
+  # IMPORTANT: this is a known bug on cloud images, since they expect a console
+  # we need to pass it
+  # https://bugs.launchpad.net/cloud-images/+bug/1573095
+  console {
+    type        = "pty"
+    target_port = "0"
+    target_type = "serial"
+  }
+
+  console {
+    type        = "pty"
+    target_type = "virtio"
+    target_port = "1"
+  }
+
+  disk {
+    volume_id = libvirt_volume.ubuntu-qcow2.id
+  }
+
+  graphics {
+    type        = "spice"
+    listen_type = "address"
+    autoport    = true
+  }
+}
+
+# IPs: use wait_for_lease true or after creation use terraform refresh and terraform show for the ips of domain
+```
+
 ## X11 forwarding
 
 ```
@@ -666,6 +780,8 @@ PACKER_LOG=1 packer build -timestamp-ui packer.json
 ```
 
 ```
+git clone https://github.com/goffinet/packer-kvm.git
+cd packer-kvm
 vi packer.json
 
 {
