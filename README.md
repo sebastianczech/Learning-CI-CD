@@ -657,10 +657,119 @@ export DISPLAY=localhost:10.0
 
 * [Provision Infrastructure with Packer](https://learn.hashicorp.com/tutorials/terraform/packer)
 * [Packer QEMU Builder](https://www.packer.io/docs/builders/qemu)
+* [Ubuntu packer templates](https://github.com/jakobadam/packer-qemu-templates)
+* [VM templates with Packer for usage with Libvirt/KVM virtualization](https://github.com/goffinet/packer-kvm)
 
 ```
 packer validate packer.json
-PACKER_LOG=1 packer -timestamp-ui build packer.json
+PACKER_LOG=1 packer build -timestamp-ui packer.json
+```
+
+```
+vi packer.json
+
+{
+    "variables":
+    {
+      "cpu": "2",
+      "ram": "2048",
+      "name": "focal",
+      "disk_size": "40000",
+      "version": "",
+      "iso_checksum_type": "sha256",
+      "iso_urls": "http://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso",
+      "iso_checksum": "443511f6bf12402c12503733059269a2e10dec602916c0a75263e5d990f6bb93",
+      "headless": "true",
+      "config_file": "focal",
+      "ssh_username": "ubuntu",
+      "ssh_password": "ubuntu",
+      "destination_server": "download.goffinet.org"
+    },
+  "builders": [
+    {
+      "name": "{{user `name`}}{{user `version`}}",
+      "type": "qemu",
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "qemu_binary": "/usr/bin/qemu-system-x86_64",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "disk_cache": "none",
+      "qemuargs": [[ "-m", "{{user `ram`}}M" ],[ "-smp", "{{user `cpu`}}" ]],
+      "ssh_wait_timeout": "45m",
+      "ssh_timeout": "45m",
+      "http_directory": ".",
+      "http_port_min": 10082,
+      "http_port_max": 10089,
+      "ssh_host_port_min": 2222,
+      "ssh_host_port_max": 2229,
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_handshake_attempts": 500,
+      "iso_urls": "{{user `iso_urls`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "boot_wait": "3s",
+      "boot_command": [
+        "<enter><enter><f6><esc><wait>",
+        "<bs><bs><bs><bs>",
+        "autoinstall net.ifnames=0 biosdevname=0 ip=dhcp ipv6.disable=1 ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/http/{{ user `config_file` }}/ ",
+        "--- <enter>"
+      ],
+      "disk_size": "{{user `disk_size`}}",
+      "disk_discard": "ignore",
+      "disk_compression": true,
+      "headless": "{{user `headless`}}",
+      "shutdown_command": "echo '{{user `ssh_password`}}' | sudo -S shutdown -P now",
+      "output_directory": "artifacts/qemu/{{user `name`}}{{user `version`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "{{ .Vars }} sudo -E bash '{{ .Path }}'",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get -y install software-properties-common",
+        "sudo apt-add-repository --yes --update ppa:ansible/ansible",
+        "sudo apt update",
+        "sudo apt -y install ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/playbook.yml",
+      "playbook_dir": "ansible"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{ .Vars }} sudo -E bash '{{ .Path }}'",
+      "inline": [
+        "sudo apt -y remove ansible",
+        "sudo apt-get clean",
+        "sudo apt-get -y autoremove --purge"
+      ]
+    }
+  ],
+  "post-processors": [
+  ]
+}
+```
+
+```
+sudo virt-install \
+ --name ubuntu \
+ --description "Ubuntu20" \
+ --os-type=linux \
+ --os-variant=ubuntu18.04 \
+ --ram=1024 \
+ --vcpus=1 \
+ --disk path=artifacts/qemu/focal/packer-focal,device=disk,bus=virtio,size=40,format=qcow2 \
+ --graphics none \
+ --console pty,target_type=serial \
+ --network network:default \
+ --graphics spice,listen=127.0.0.1 \
+ --import \
+ --noautoconsole
 ```
 
 ## ClouInit
