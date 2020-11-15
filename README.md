@@ -1114,6 +1114,14 @@ virsh destroy debian10
 virsh undefine debian10
 ```
 
+### Delete storage pool
+
+```
+sudo virsh pool-destroy ubuntu 
+sudo virsh pool-delete ubuntu 
+sudo virsh pool-undefine ubuntu 
+```
+
 ## X forwarding
 
 ```
