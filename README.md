@@ -661,6 +661,8 @@ mkdir -p /tmp/terraform-provider-libvirt-pool-ubuntu
 sudo grep security_driver /etc/libvirt/qemu.conf
 security_driver = "none"
 
+sudo systemctl restart libvirtd.service
+
 cd examples/v0.13/ubuntu
 terraform init   
 terraform plan
