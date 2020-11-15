@@ -656,11 +656,16 @@ cp terraform-provider-libvirt ~/.terraform.d/plugins/
 mkdir -p ~/.local/share/terraform/plugins/registry.terraform.io/dmacvicar/libvirt/0.6.2/linux_amd64
 cp terraform-provider-libvirt ~/.local/share/terraform/plugins/registry.terraform.io/dmacvicar/libvirt/0.6.2/linux_amd64/
 
+mkdir -p /tmp/terraform-provider-libvirt-pool-ubuntu
+
+sudo grep security_driver /etc/libvirt/qemu.conf
+security_driver = "none"
+
 cd examples/v0.13/ubuntu
-sudo terraform init   
-sudo terraform plan
-sudo terraform apply -auto-approve
-sudo terraform destroy -auto-approve
+terraform init   
+terraform plan
+terraform apply -auto-approve
+terraform destroy -auto-approve
 ```
 
 ```
