@@ -557,6 +557,8 @@ docker logout
 
 * [GitHub Actions](https://github.com/features/actions)
 * [TeamCity](https://www.jetbrains.com/teamcity/)
+* [Drone](https://www.drone.io/)
+* [Spinnaker](https://spinnaker.io/)
 * [Circle CI](https://circleci.com/)
 * [Travis CI](https://travis-ci.org/)
 * [Buddy](https://buddy.works/)
