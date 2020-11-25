@@ -1,33 +1,52 @@
 pipeline {
-    agent {
-        node {
-            label 'test'
-        }
-    }
-
-    tools {
-        maven 'tool-apache-maven-3.6.3' 
-    }
+    agent none
 
     stages {
-        stage('Info') {
+        stage('Info about tool') {
+            agent {
+                node {
+                    label 'test'
+                }
+            }
+            tools {
+                maven 'tool-apache-maven-3.6.3' 
+            }
             steps {
                 echo 'Current node'
-
                 sh 'hostname'
 
                 echo 'Current working directory: '
-
                 sh 'pwd'
 
                 echo 'List of files: '
-
                 sh 'ls -la'
+
+                echo 'Maven version: '
+                sh 'mvn --version'
             }
         }
-        stage('Build') {
+        stage('Example Build') {
+            agent { 
+                docker { 
+                    image 'maven:3-alpine' 
+                    label 'test'
+                }
+            } 
             steps {
+                echo 'Hello, Maven'
                 sh 'mvn --version'
+            }
+        }
+        stage('Example Test') {
+            agent { 
+                docker {
+                    image 'openjdk:8-jre' 
+                    label 'test'
+                }
+            }
+            steps {
+                echo 'Hello, JDK'
+                sh 'java -version'
             }
         }
     }
