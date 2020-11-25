@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'tool-apache-maven-3.6.3' 
+    }
+
+    stages {
+        stage('Info') {
+            steps {
+                echo 'Current node'
+
+                sh 'hostname'
+
+                echo 'Current working directory: '
+
+                sh 'pwd'
+
+                echo 'List of files: '
+
+                sh 'ls -la'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
+}
