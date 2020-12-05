@@ -332,6 +332,21 @@ At the end I have created comparission between service mesh, ingress controller 
 * [Civo Command-Line Client](https://github.com/civo/cli)
 * [Civo Kubernetes Marketplace](https://github.com/civo/kubernetes-marketplace)
 
+```bash
+vi ~/.kube/config
+kubectx k3s_cicd 
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jid
+kubectl top pod --all-namespaces
+kubectl apply -f kubernetes/civo/ingress-jenkins.yaml
+kubectl get all --all-namespaces
+
+civo apikey add K3S_CICD ***
+civo quota
+civo kubernetes ls 
+civo kubernetes show k3s_cicd
+civo firewall rule ls k3s_cicd   
+```
+
 ## Jenkins
 
 There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
