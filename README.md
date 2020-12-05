@@ -325,6 +325,13 @@ At the end I have created comparission between service mesh, ingress controller 
 | Example of product | [Istio](https://istio.io/) | [Traefik](https://containo.us/traefik/), [Envoy](https://www.envoyproxy.io/) | [KrakenD](https://www.krakend.io/), [Kong](https://konghq.com/kong/) |
 | Key points | decorator, circuit breaker, traffic management, security, observability (tracing, metrics and logging ) | edge router, reverse proxy, auto service discovery, routing, load balancing, security, observability | business logic, monitoring, security, cache, throttling, aggregation, manipulation, proxy, filtering, QoS, decoding |
 
+### Civo - k3s-powered Kubernetes service
+
+* [Civo learn with our guides](civo.com/learn)
+* [#Kube100](https://github.com/civo/kube100)
+* [Civo Command-Line Client](https://github.com/civo/cli)
+* [Civo Kubernetes Marketplace](https://github.com/civo/kubernetes-marketplace)
+
 ## Jenkins
 
 There are many ways to start journey - it's very simple to do it [using Docker](https://www.jenkins.io/doc/book/installing/#downloading-and-running-jenkins-in-docker), for which we need to do following commands:
