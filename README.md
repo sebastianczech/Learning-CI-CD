@@ -339,12 +339,23 @@ kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jid
 kubectl top pod --all-namespaces
 kubectl apply -f kubernetes/civo/ingress-jenkins.yaml
 kubectl get all --all-namespaces
+export JENKINS_URL=http://jenkins.e596da70-1439-44e8-8ce9-dd0076eef9e9.k8s.civo.com
 
 civo apikey add K3S_CICD ***
 civo quota
 civo kubernetes ls 
 civo kubernetes show k3s_cicd
 civo firewall rule ls k3s_cicd   
+
+export OPENFAAS_URL=http://9a75c294-25bb-49db-91d1-ceac4b4a74cb.k8s.civo.com:31112/
+cat /tmp/passwd | faas-cli login --username admin --password-stdin
+faas-cli store list
+faas-cli list --verbose
+
+faas-cli store deploy nodeinfo
+faas-cli describe nodeinfo
+echo | faas-cli invoke nodeinfo
+echo -n "verbose" | faas-cli invoke nodeinfo
 ```
 
 ## Jenkins
