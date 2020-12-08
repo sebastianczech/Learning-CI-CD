@@ -343,8 +343,17 @@ export JENKINS_URL=http://jenkins.e596da70-1439-44e8-8ce9-dd0076eef9e9.k8s.civo.
 
 civo apikey add K3S_CICD ***
 civo quota
+
+civo kubernetes config k3s_cicd -s --merge
 civo kubernetes ls 
 civo kubernetes show k3s_cicd
+civo kubernetes applications list
+civo kubernetes scale k3s_cicd --nodes=3
+civo kubernetes create --remove-applications=traefik --nodes=2 --wait
+civo kubernetes rename k3s_cicd --name="k3s_cicd_new"
+civo kubernetes applications add Longhorn --cluster=k3s_cicd
+
+civo firewall list
 civo firewall rule ls k3s_cicd   
 
 export OPENFAAS_URL=http://9a75c294-25bb-49db-91d1-ceac4b4a74cb.k8s.civo.com:31112/
