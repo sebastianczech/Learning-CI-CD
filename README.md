@@ -335,6 +335,7 @@ At the end I have created comparission between service mesh, ingress controller 
 ```bash
 vi ~/.kube/config
 kubectx k3s_cicd 
+kubectl cluster-info
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jid
 kubectl top pod --all-namespaces
 kubectl apply -f kubernetes/civo/ingress-jenkins.yaml
@@ -352,6 +353,7 @@ civo kubernetes scale k3s_cicd --nodes=3
 civo kubernetes create --remove-applications=traefik --nodes=2 --wait
 civo kubernetes rename k3s_cicd --name="k3s_cicd_new"
 civo kubernetes applications add Longhorn --cluster=k3s_cicd
+civo kubernetes recycle k3s_cicd --node kube-node-f0de 
 
 civo firewall list
 civo firewall rule ls k3s_cicd   
