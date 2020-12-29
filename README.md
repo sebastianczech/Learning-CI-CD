@@ -368,6 +368,10 @@ faas-cli store deploy nodeinfo
 faas-cli describe nodeinfo
 echo | faas-cli invoke nodeinfo
 echo -n "verbose" | faas-cli invoke nodeinfo
+
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes"
+kubectl top node
+kubectl top pod --all-namespaces
 ```
 
 ## Jenkins
