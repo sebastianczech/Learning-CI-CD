@@ -358,7 +358,8 @@ civo kubernetes recycle k3s_cicd --node kube-node-f0de
 civo firewall list
 civo firewall rule ls k3s_cicd   
 
-export OPENFAAS_URL=http://9a75c294-25bb-49db-91d1-ceac4b4a74cb.k8s.civo.com:31112/
+export DNS="e89c398e-afac-4f2e-908b-3716147cb1c8.k8s.civo.com" # As per dashboard
+export OPENFAAS_URL=http://$DNS:31112
 cat /tmp/passwd | faas-cli login --username admin --password-stdin
 faas-cli store list
 faas-cli list --verbose
