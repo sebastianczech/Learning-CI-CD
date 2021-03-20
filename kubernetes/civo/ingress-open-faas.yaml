@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: openfaas-ingress
+  namespace: openfaas
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: openfaas.67de4b54-70c1-46a2-88d1-6676a2bd7768.k8s.civo.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: gateway
+          servicePort: 8080
