@@ -831,6 +831,13 @@ or:
 docker run --rm -it -p 4566:4566 -p 4571:4571 --env KINESIS_PROVIDER=kinesalite --name localstack localstack/localstack
 ```
 
+or:
+
+```bash
+cd terraform/localstack
+docker-compose up
+```
+
 Check status:
 
 ```bash
