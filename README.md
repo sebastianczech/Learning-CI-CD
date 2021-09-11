@@ -814,6 +814,22 @@ resource "libvirt_domain" "domain-ubuntu" {
 
 ### Terraform with Docker
 
+```
+cd terraform/docker 
+terraform init
+
+terraform fmt
+terraform validate
+
+terraform apply
+terraform show
+terraform state list
+
+curl http://localhost:8000/
+
+terraform destroy
+```
+
 ### Terraform with localstack
 
 #### Localstack
