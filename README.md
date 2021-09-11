@@ -812,6 +812,31 @@ resource "libvirt_domain" "domain-ubuntu" {
 # IPs: use wait_for_lease true or after creation use terraform refresh and terraform show for the ips of domain
 ```
 
+### Terraform with Docker
+
+### Terraform with localstack
+
+#### Localstack
+
+Start: 
+
+```bash
+pip install --upgrade localstack
+localstack start
+```
+
+or:
+
+```bash
+docker run --rm -it -p 4566:4566 -p 4571:4571 --env KINESIS_PROVIDER=kinesalite --name localstack localstack/localstack
+```
+
+Check status:
+
+```bash
+curl http://127.0.0.1:4566/health | jq
+```
+
 ## X11 forwarding
 
 ```
