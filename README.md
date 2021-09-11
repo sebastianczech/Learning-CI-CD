@@ -814,6 +814,8 @@ resource "libvirt_domain" "domain-ubuntu" {
 
 ### Terraform with Docker
 
+[Instruction step by step](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/docker-get-started):
+
 ```
 cd terraform/docker 
 terraform init
@@ -821,10 +823,15 @@ terraform init
 terraform fmt
 terraform validate
 
+terraform plan
 terraform apply
+terraform apply -var "container_name=YetAnotherName"
+
 terraform show
 terraform state list
+terraform output
 
+docker ps
 curl http://localhost:8000/
 
 terraform destroy
