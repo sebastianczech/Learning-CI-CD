@@ -846,12 +846,13 @@ Start:
 ```bash
 pip install --upgrade localstack
 localstack start
+SERVICES=s3 KINESIS_PROVIDER=kinesalite localstack --debug start
 ```
 
 or:
 
 ```bash
-docker run --rm -it -p 4566:4566 -p 4571:4571 --env KINESIS_PROVIDER=kinesalite --name localstack localstack/localstack
+docker run --rm -it -p 4566:4566 -p 4571:4571 --env SERVICES=s3 --env KINESIS_PROVIDER=kinesalite --name localstack localstack/localstack
 ```
 
 or:

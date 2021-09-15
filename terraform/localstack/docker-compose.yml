@@ -6,15 +6,14 @@ services:
     image: localstack/localstack
     network_mode: bridge
     ports:
-      - "127.0.0.1:53:53"
-      - "127.0.0.1:53:53/udp"
-      - "127.0.0.1:443:443"
-      - "127.0.0.1:4566:4566"
-      - "127.0.0.1:4571:4571"
+      - '4564:4564'
+      - '4566:4566'
+      - '4567-4584:4567-4584'
+      - '8080:8080'
     environment:
-      - SERVICES=${SERVICES- }
-      - DEBUG=${DEBUG- }
-      - DATA_DIR=${DATA_DIR- }
+      - SERVICES=s3
+      - DEBUG=true
+      - DATA_DIR=/tmp/localstack/data
       - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
       - LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY- }
       - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
