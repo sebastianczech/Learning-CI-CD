@@ -868,6 +868,53 @@ Check status:
 curl http://127.0.0.1:4566/health | jq
 ```
 
+#### Localstack problem with DynamoDB
+
+```
+docker exec -it localstack_main bash
+
+bash-5.0# cd /opt/code/localstack/localstack/infra/dynamodb
+
+bash-5.0# java -Djava.library.path=./DynamoDBLocal_lib -Xmx256m -jar DynamoDBLocal.jar -port 53703 -inMemory
+Initializing DynamoDB Local with the following configuration:
+Port:   53703
+InMemory:       true
+DbPath: null
+SharedDb:       false
+shouldDelayTransientStatuses:   false
+CorsParams:     *
+
+Exception in thread "main" java.lang.ExceptionInInitializerError
+        at org.eclipse.jetty.http.MimeTypes.<clinit>(MimeTypes.java:191)
+        at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:836)
+        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+        at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:167)
+        at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:119)
+        at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:113)
+        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+        at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:167)
+        at org.eclipse.jetty.server.Server.start(Server.java:418)
+        at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:110)
+        at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:113)
+        at org.eclipse.jetty.server.Server.doStart(Server.java:382)
+        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+        at com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer.start(DynamoDBProxyServer.java:83)
+        at com.amazonaws.services.dynamodbv2.local.main.ServerRunner.main(ServerRunner.java:76)
+Caused by: java.nio.charset.IllegalCharsetNameException: l;charset=iso-8859-1
+        at java.base/java.nio.charset.Charset.checkName(Unknown Source)
+        at java.base/java.nio.charset.Charset.lookup2(Unknown Source)
+        at java.base/java.nio.charset.Charset.lookup(Unknown Source)
+        at java.base/java.nio.charset.Charset.forName(Unknown Source)
+        at org.eclipse.jetty.http.MimeTypes$Type.<init>(MimeTypes.java:113)
+        at org.eclipse.jetty.http.MimeTypes$Type.<clinit>(MimeTypes.java:69)
+        ... 15 more
+
+bash-5.0# mkdir JAR
+bash-5.0# cd JAR/
+bash-5.0# wget https://github.com/intoolswetrust/jd-cli/releases/download/jd-cli-1.2.0/jd-cli-1.2.0-dist.tar.gz
+bash-5.0# java -jar jd-cli.jar ../com/amazonaws/services/dynamodbv2/local/main/ServerRunner.class 
+```
+
 ## X11 forwarding
 
 ```
