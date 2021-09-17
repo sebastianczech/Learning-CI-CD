@@ -1656,6 +1656,30 @@ openssl ocsp -issuer chain.pem -cert certificate.pem -text -url http://ocsp.digi
 openssl ocsp -issuer chain.pem -cert certificate.pem -text -url http://ocsp2.globalsign.com/cloudsslsha2g3 -header "HOST" "ocsp2.globalsign.com"
 ```
 
+## Security scanning tools
+
+OSS index is free catalogue of open source components. Using public REST API it's possible to [scan your dependencies](https://ossindex.sonatype.org/#integrations-tab-pane). Using Docker we can easily check our packages.
+
+### R
+
+[oysteR](https://github.com/sonatype-nexus-community/oysteR)
+
+```bash
+cd containers/security-r
+docker build --rm -t centos-r-image .
+docker run --name centos-r-container --rm -it centos-r-image
+```
+
+### Python
+
+[ossaudit](https://github.com/illikainen/ossaudit)
+
+```bash
+cd containers/security-python
+docker build --rm -t centos-python-image .
+docker run --name centos-python-container --rm -it centos-python-image
+```
+
 ## Summary
 
 After finishing work we can stop all container using command:
