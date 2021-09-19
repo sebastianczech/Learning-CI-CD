@@ -2,3 +2,7 @@ terraform/docker/.terraform
 terraform/docker/.terraform.lock.hcl
 terraform/docker/terraform.tfstate
 terraform/docker/terraform.tfstate.backup
+terraform/localstack/.terraform
+terraform/localstack/.terraform.lock.hcl
+terraform/localstack/terraform.tfstate
+terraform/localstack/terraform.tfstate.backup

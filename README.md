@@ -839,6 +839,21 @@ terraform destroy
 
 ### Terraform with localstack
 
+Following commands were prepared after reading material about [Localstack with Terraform and Docker running AWS locally](https://dev.to/mrwormhole/localstack-with-terraform-and-docker-for-running-aws-locally-3a6d).
+
+```
+cd terraform/localstack
+vi main.tf
+
+terraform init
+terraform plan
+terraform apply --auto-approve
+
+aws --endpoint-url=http://localhost:4566 dynamodb list-tables
+
+aws dynamodb scan --endpoint-url http://localhost:4566 --table-name dogs
+```
+
 #### Localstack
 
 Start: 
@@ -929,9 +944,8 @@ Default output format [None]:
 
 aws --endpoint-url=http://localhost:4566 kinesis list-streams
 aws --endpoint-url=http://localhost:4566 lambda list-functions
+aws --endpoint-url=http://localhost:4566 dynamodb list-tables
 ```
-
-####
 
 ## X11 forwarding
 
