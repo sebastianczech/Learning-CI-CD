@@ -915,6 +915,24 @@ bash-5.0# wget https://github.com/intoolswetrust/jd-cli/releases/download/jd-cli
 bash-5.0# java -jar jd-cli.jar ../com/amazonaws/services/dynamodbv2/local/main/ServerRunner.class 
 ```
 
+#### AWS CLI
+
+[AWS CLI](https://aws.amazon.com/cli/) can be used to access Localstack:
+
+```bash
+aws configure --profile default
+
+AWS Access Key ID [None]: test
+AWS Secret Access Key [None]: test
+Default region name [None]: us-east-1
+Default output format [None]:
+
+aws --endpoint-url=http://localhost:4566 kinesis list-streams
+aws --endpoint-url=http://localhost:4566 lambda list-functions
+```
+
+####
+
 ## X11 forwarding
 
 ```
